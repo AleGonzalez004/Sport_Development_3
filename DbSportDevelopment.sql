@@ -5,31 +5,33 @@ USE sport;
 
 CREATE TABLE tb_administradores (
  id_admin INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
- nombre varchar(50) NOT NULL,
- apellido varchar(50) NOT NULL,
- correo_administrador varchar(100) NOT NULL,
- alias_administrador varchar(25) NOT NULL,
- clave_administrador varchar(100) NOT NULL
+ nombre VARCHAR(50) NOT NULL,
+ apellido VARCHAR(50) NOT NULL,
+ correo_administrador VARCHAR(100) NOT NULL,
+ alias_administrador VARCHAR(25) NOT NULL,
+ clave_administrador VARCHAR(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 
 CREATE TABLE tb_clientes (
-  id_cliente int(10) auto_increment primary key NOT NULL,
-  nombre_cliente varchar(50) NOT NULL,
-  apellido_cliente varchar(50) NOT NULL,
-  dui_cliente varchar(10) NOT NULL,
-  correo_cliente varchar(100) NOT NULL,
-  telefono_cliente varchar(9) NOT NULL,
-  direccion_cliente varchar(250) NOT NULL,
-  nacimiento_cliente date NOT NULL,
-  clave_cliente varchar(100) NOT NULL,
-  estado_cliente tinyint(1) NOT NULL DEFAULT 1,
-  fecha_registro date NOT NULL DEFAULT current_timestamp()
+  id_cliente INT(10) AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  nombre_cliente VARCHAR(50) NOT NULL,
+  apellido_cliente VARCHAR(50) NOT NULL,
+  dui_cliente VARCHAR(10) NOT NULL,
+  correo_cliente VARCHAR(100) NOT NULL,
+  telefono_cliente VARCHAR(9) NOT NULL,
+  direccion_cliente VARCHAR(250) NOT NULL,
+  nacimiento_cliente DATE NOT NULL,
+  clave_cliente VARCHAR(100) NOT NULL,
+  estado_cliente TINYINT(1) NOT NULL DEFAULT 1,
+  fecha_registro DATE NOT NULL DEFAULT CURRENT_TIMESTAMP()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE tb_valoraciones (
    id_valoracion INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+   id_cliente INT NOT NULL,
+   id_producto INT NOT NULL,
    calificacion_producto ENUM ('1', '2', '3', '4', '5') NOT NULL,
    comentario_producto VARCHAR(255) NOT NULL,
    fecha_valoracion DATE NOT NULL DEFAULT (CURRENT_TIME()),
@@ -43,23 +45,23 @@ CREATE TABLE tb_tallas (
 
 
 CREATE TABLE tb_categorias (
-id_categoria int(10) auto_increment primary key NOT NULL,
-  nombre varchar(50) NOT NULL,
-  descripcion varchar(250) DEFAULT NULL,
-  imagen varchar(25) NOT NULL
+id_categoria INT(10) AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  nombre VARCHAR(50) NOT NULL,
+  descripcion VARCHAR(250) DEFAULT NULL,
+  imagen VARCHAR(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE tb_productos(
-  id_producto int(10) auto_increment primary key NOT NULL,
-  nombre_producto varchar(50) NOT NULL,
-  descripcion_producto varchar(250) NOT NULL,
-  precio_producto decimal(5,2) NOT NULL,
-  existencias_producto int(10) UNSIGNED NOT NULL,
-  imagen_producto varchar(25) NOT NULL,
-  id_categoria int(10) UNSIGNED NOT NULL,
-  estado_producto tinyint(1) NOT NULL,
-  id_administrador int(10) UNSIGNED NOT NULL,
-  fecha_registro date NOT NULL DEFAULT current_timestamp()
+  id_producto INT(10) AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  nombre_producto VARCHAR(50) NOT NULL,
+  descripcion_producto VARCHAR(250) NOT NULL,
+  precio_producto DECIMAL(5,2) NOT NULL,
+  existencias_producto INT(10) UNSIGNED NOT NULL,
+  imagen_producto VARCHAR(25) NOT NULL,
+  id_categoria INT(10) UNSIGNED NOT NULL,
+  estado_producto TINYINT(1) NOT NULL,
+  id_administrador INT(10) UNSIGNED NOT NULL,
+  fecha_registro DATE NOT NULL DEFAULT CURRENT_TIMESTAMP()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -84,29 +86,27 @@ VALUES
 (10, 'Balon de Voleyball', 'Balon oficial para partidos de voleyball.', 24.99, 200, 'img7.png', 3, 1, 1, '2024-05-30'),
 (11, 'Balon de Voleyball', 'Balon oficial para partidos de voleyball.', 24.99, 200, 'img7.png', 3, 1, 1, '2024-05-30'),
 (12, 'Balon de Voleyball', 'Balon oficial para partidos de voleyball.', 24.99, 200, 'img7.png', 3, 1, 1, '2024-05-30'),
-(13, 'Sneackers Deportivos', 'Zapatos deportivos de alta calidad.', 89.99, 50, 'img4.png', 4, 1, 1, '2024-05-30'),
-(14, 'Sneackers Deportivos', 'Zapatos deportivos de alta calidad.', 89.99, 50, 'img4.png', 4, 1, 1, '2024-05-30'),
-(15, 'Sneackers Deportivos', 'Zapatos deportivos de alta calidad.', 89.99, 50, 'img4.png', 4, 1, 1, '2024-05-30'),
+(13, 'Sneackers Deportivos', 'Zapatos deportivos de alta calidad.', 89.99, 50, 'img1.png', 4, 1, 1, '2024-05-30'),
+(14, 'Sneackers Deportivos', 'Zapatos deportivos de alta calidad.', 89.99, 50, 'img2.png', 4, 1, 1, '2024-05-30'),
+(15, 'Sneackers Deportivos', 'Zapatos deportivos de alta calidad.', 89.99, 50, 'img3.png', 4, 1, 1, '2024-05-30'),
 (16, 'Sneackers Deportivos', 'Zapatos deportivos de alta calidad.', 89.99, 50, 'img4.png', 4, 1, 1, '2024-05-30');
 
 CREATE TABLE tb_detalle_pedidos (
-  id_detalle int(10) UNSIGNED NOT NULL,
-  id_producto int(10) UNSIGNED NOT NULL,
-  cantidad_producto smallint(6) UNSIGNED NOT NULL,
-  precio_producto decimal(5,2) UNSIGNED NOT NULL,
-  id_pedido int(10) UNSIGNED NOT NULL
+  id_detalle INT(10) AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  id_producto INT(10) UNSIGNED NOT NULL,
+  cantidad_producto SMALLINT(6) UNSIGNED NOT NULL,
+  precio_producto DECIMAL(5,2) UNSIGNED NOT NULL,
+  id_pedido INT(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 CREATE TABLE tb_pedidos (
-  id_pedido int(10) auto_increment primary key NOT NULL,
-  id_cliente int(10) UNSIGNED NOT NULL,
-  direccion_pedido varchar(250) NOT NULL,
-  estado_pedido enum('Pendiente','Finalizado','Entregado','Anulado') NOT NULL,
-  fecha_registro date NOT NULL DEFAULT current_timestamp()
+  id_pedido INT(10) AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  id_cliente INT(10) UNSIGNED NOT NULL,
+  direccion_pedido VARCHAR(250) NOT NULL,
+  estado_pedido ENUM('Pendiente','Finalizado','Entregado','Anulado') NOT NULL,
+  fecha_registro DATE NOT NULL DEFAULT CURRENT_TIMESTAMP()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-SELECT * FROM tb_pedidos;
 
 CREATE TABLE tb_departamentos (
  id_departamento INT UNSIGNED AUTO_INCREMENT NOT NULL,
@@ -116,7 +116,7 @@ CREATE TABLE tb_departamentos (
 
 CREATE TABLE tb_colores (
  id_color INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
- nombre varchar(50) NOT NULL
+ nombre VARCHAR(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE tb_marcas (
@@ -139,7 +139,6 @@ CREATE TABLE tb_imagenes (
    nombre_imagen VARCHAR(25) NOT NULL,
    id_producto INT
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
 
 
 
