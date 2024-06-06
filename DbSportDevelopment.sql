@@ -15,7 +15,7 @@ CREATE TABLE tb_administradores (
 
 
 CREATE TABLE tb_clientes (
-  id_cliente int(10) UNSIGNED NOT NULL,
+  id_cliente int(10) auto_increment primary key NOT NULL,
   nombre_cliente varchar(50) NOT NULL,
   apellido_cliente varchar(50) NOT NULL,
   dui_cliente varchar(10) NOT NULL,
@@ -99,12 +99,14 @@ CREATE TABLE tb_detalle_pedidos (
 
 
 CREATE TABLE tb_pedidos (
-  id_pedido int(10) UNSIGNED NOT NULL,
+  id_pedido int(10) auto_increment primary key NOT NULL,
   id_cliente int(10) UNSIGNED NOT NULL,
   direccion_pedido varchar(250) NOT NULL,
   estado_pedido enum('Pendiente','Finalizado','Entregado','Anulado') NOT NULL,
   fecha_registro date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+SELECT * FROM tb_pedidos;
 
 CREATE TABLE tb_departamentos (
  id_departamento INT UNSIGNED AUTO_INCREMENT NOT NULL,

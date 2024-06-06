@@ -35,11 +35,11 @@ if (isset($_GET['action'])) {
             // Acción para obtener los productos agregados en el carrito de compras.
             case 'readDetail':
                 if (!$pedido->getOrder()) {
-                    $result['error'] = 'No ha agregado productos al carrito';
+                    $result['error'] = 'No ha iniciado ningun pedido';
                 } elseif ($result['dataset'] = $pedido->readDetail()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'No existen productos en el carrito';
+                    $result['error'] = 'No existen pedidos activos';
                 }
                 break;
             // Acción para actualizar la cantidad de un producto en el carrito de compras.
@@ -84,7 +84,7 @@ if (isset($_GET['action'])) {
         // Se compara la acción a realizar cuando un cliente no ha iniciado sesión.
         switch ($_GET['action']) {
             case 'createDetail':
-                $result['error'] = 'Debe iniciar sesión para agregar el producto al carrito';
+                $result['error'] = 'Debe iniciar sesión para hacer pedidos';
                 break;
             default:
                 $result['error'] = 'Acción no disponible fuera de la sesión';
