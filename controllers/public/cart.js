@@ -103,7 +103,7 @@ function openUpdate(id, quantity) {
 */
 async function finishOrder() {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction('¿Está seguro de finalizar el pedido?');
+    const RESPONSE = await confirmAction('¿Está seguro de iniciar el pedido?');
     // Se verifica la respuesta del mensaje.
     if (RESPONSE) {
         // Petición para finalizar el pedido en proceso.
