@@ -31,13 +31,13 @@ const loadTemplate = async () => {
             MAIN.insertAdjacentHTML('beforebegin', `
                 <<header>
                 <nav class="navbar fixed-top navbar-expand-lg" style="background-color: #245C9D;">
-                    <div class="container">
-                            <a class="navbar-brand text-white" href="index.html"><img class="px-2" src="../../resources/img/logo.png" height="50" alt="CoffeeShop">Sport Development</a>
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
+                    <div class="container text-white border-white">
+                            <a class="navbar-brand text-white border-white" href="index.html"><img class="px-2" src="../../resources/img/logo.png" height="50" alt="CoffeeShop">Sport Development</a>
+                            <button class="navbar-toggler text-white border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="bi bi-list"></i>
                             </button>
-                            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                                <div class="navbar-nav ms-auto">
+                            <div class="collapse navbar-collapse text-white" id="navbarNavAltMarkup">
+                                <div class="navbar-nav ms-auto text-white">
                                     <a class="nav-link text-white" href="index.html"><i class="bi bi-shop"></i> Catálogo</a>
                                     <a class="nav-link text-white" href="cart.html"><i class="bi bi-cart"></i> Carrito</a>
                                     <a class="nav-link text-white" href="order.html"><i class="bi bi-truck"></i> Pedidos</a>
@@ -57,13 +57,13 @@ const loadTemplate = async () => {
         MAIN.insertAdjacentHTML('beforebegin', `
             <header>
                 <nav class="navbar fixed-top navbar-expand-lg" style="background-color: #245C9D;">
-                    <div class="container">
-                        <a class="navbar-brand text-white" href="index.html"><img class="px-2" src="../../resources/img/logo.png" height="50" alt="CoffeeShop">Sport Development</a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
+                    <div class="container text-white">
+                        <a class="navbar-brand text-white border-white" href="index.html"><img class="px-2" src="../../resources/img/logo.png" height="50" alt="CoffeeShop">Sport Development</a>
+                        <button class="navbar-toggler text-white border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="bi bi-list"></i>
                         </button>
-                        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                            <div class="navbar-nav ms-auto">
+                        <div class="collapse navbar-collapse text-white" id="navbarNavAltMarkup">
+                            <div class="navbar-nav ms-auto text-white">
                                 <a class="nav-link text-white" href="index.html"><i class="bi bi-shop"></i> Catálogo</a>
                                 <a class="nav-link text-white" href="signup.html"><i class="bi bi-person"></i> Crear cuenta</a>
                                 <a class="nav-link text-white" href="login.html"><i class="bi bi-box-arrow-right"></i> Iniciar sesión</a>
