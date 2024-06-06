@@ -140,6 +140,35 @@ CREATE TABLE tb_imagenes (
    id_producto INT
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+SELECT * FROM tb_administradores;
+
+SELECT * FROM tb_clientes;
+
+SELECT * FROM tb_valoraciones;
+
+SELECT * FROM tb_tallas;
+
+SELECT * FROM tb_categorias;
+
+SELECT * FROM tb_productos;
+
+SELECT * FROM tb_detalle_pedidos;
+
+SELECT * FROM tb_pedidos;
+
+SELECT * FROM tb_departamentos;
+
+SELECT * FROM tb_colores;
+
+SELECT * FROM tb_marcas;
+
+SELECT * FROM tb_deportes;
+
+SELECT * FROM tb_generos;
+
+SELECT * FROM tb_imagenes;
+
+
 
 
 
