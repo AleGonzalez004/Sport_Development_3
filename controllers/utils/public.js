@@ -85,7 +85,7 @@ const loadTemplate = async () => {
                     </div>
                     <div>
                         <h4 class="text-white">Contáctanos</h4>
-                        <a class="text-white"><i class="bi bi-envelope text-white"></i> dacasoft@outlook.com</a>
+                        <a class="text-white"><i class="bi bi-envelope text-white"></i> sportdevelopment@gmail.com</a>
                     </div>
                 </div>
             </nav>
