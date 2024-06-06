@@ -30,7 +30,7 @@ class OrderHandler
     // Método para verificar si existe un pedido en proceso con el fin de iniciar o continuar una compra.
     public function getOrder()
     {
-        $this->estado = 'Pendiente';
+        $this->estado = 'Finalizado';
         $sql = 'SELECT id_pedido
                 FROM tb_pedidos
                 WHERE estado_pedido = ? AND id_cliente = ?';
@@ -50,7 +50,7 @@ class OrderHandler
             return true;
         } else {
             $sql = 'INSERT INTO tb_pedidos(direccion_pedido, id_cliente)
-                    VALUES((SELECT direccion_cliente FROM cliente WHERE id_cliente = ?), ?)';
+                    VALUES((SELECT direccion_cliente FROM tb_clientes WHERE id_cliente = ?), ?)';
             $params = array($_SESSION['idCliente'], $_SESSION['idCliente']);
             // Se obtiene el ultimo valor insertado de la llave primaria en la tabla pedido.
             if ($_SESSION['idPedido'] = Database::getLastRow($sql, $params)) {
