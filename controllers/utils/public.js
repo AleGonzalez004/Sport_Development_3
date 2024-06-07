@@ -38,7 +38,7 @@ const loadTemplate = async () => {
                             </button>
                             <div class="collapse navbar-collapse text-white" id="navbarNavAltMarkup">
                                 <div class="navbar-nav ms-auto text-white">
-                                    <a class="nav-link text-white" href="index.html"><i class="bi bi-shop"></i> Inicio</a>
+                                    <a class="nav-link text-white" href="index.html"><i class="bi bi-shop"></i> Catálogo</a>
                                     <a class="nav-link text-white" href="carrito.html"><i class="bi bi-cart"></i> Carrito</a>
                                     <a class="nav-link text-white" href="pedido.html"><i class="bi bi-truck"></i> Pedidos</a>
                                     <a class="nav-link text-white" href="perfil.html"><i class="bi bi-person"></i> Editar Perfil</a>
