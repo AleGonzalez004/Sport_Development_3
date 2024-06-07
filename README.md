@@ -6,7 +6,7 @@ STANDARES DE PROGRAMACION
 
 1-PSR-1: Estándar Básico de Codificación
 
-Etiquetas PHP: Usa solo <?php o <?=.
+Etiquetas PHP: Usa solo <?php.
 Codificación: Usa UTF-8 sin BOM.
 Nombres: Clases en PascalCase, métodos en camelCase, constantes en MAYÚSCULAS_CON_GUIONES.
 
