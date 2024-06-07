@@ -5,6 +5,10 @@ const PEDIDO_API = 'services/public/pedido.php';
 const PARAMS = new URLSearchParams(location.search);
 // Constante para establecer el formulario de agregar un producto al carrito de compras.
 const SHOPPING_FORM = document.getElementById('shoppingForm');
+// Constante para establecer el campo de cantidad del producto.
+const CANTIDAD_INPUT = document.getElementById('cantidadProducto');
+// Constante para establecer el campo de existencias del producto.
+const EXISTENCIAS_INPUT = document.getElementById('existenciasProducto');
 
 // Método del eventos para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
@@ -24,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('nombreProducto').textContent = DATA.dataset.nombre_producto;
         document.getElementById('descripcionProducto').textContent = DATA.dataset.descripcion_producto;
         document.getElementById('precioProducto').textContent = DATA.dataset.precio_producto;
-        document.getElementById('existenciasProducto').textContent = DATA.dataset.existencias_producto;
+        EXISTENCIAS_INPUT.textContent = DATA.dataset.existencias_producto;
         document.getElementById('idProducto').value = DATA.dataset.id_producto;
     } else {
         // Se presenta un mensaje de error cuando no existen datos para mostrar.
@@ -64,6 +68,15 @@ SHOPPING_FORM.addEventListener('submit', async (event) => {
     event.preventDefault();
     // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(SHOPPING_FORM);
+    // Obtiene el valor de la cantidad ingresada.
+    const CANTIDAD = parseInt(CANTIDAD_INPUT.value);
+    // Obtiene el valor de las existencias del producto.
+    const EXISTENCIAS = parseInt(EXISTENCIAS_INPUT.textContent);
+    // Verifica si la cantidad supera las existencias.
+    if (CANTIDAD > EXISTENCIAS) {
+        sweetAlert(2, 'La cantidad a comprar no puede ser mayor que las existencias', false);
+        return;
+    }
     // Petición para guardar los datos del formulario.
     const DATA = await fetchData(PEDIDO_API, 'createDetail', FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se constata si el cliente ha iniciado sesión.
