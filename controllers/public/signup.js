@@ -1,5 +1,6 @@
 // Constante para establecer el formulario de registrar cliente.
 const SIGNUP_FORM = document.getElementById('signupForm');
+
 // Llamada a la función para establecer la mascara del campo teléfono.
 vanillaTextMask.maskInput({
     inputElement: document.getElementById('telefonoCliente'),
@@ -39,17 +40,21 @@ SIGNUP_FORM.addEventListener('submit', async (event) => {
     event.preventDefault();
     // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(SIGNUP_FORM);
-    // Petición para registrar un cliente.
-    const DATA = await fetchData(USER_API, 'signUp', FORM);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-        sweetAlert(1, DATA.message, true, 'login.html');
-    } else if (DATA.recaptcha) {
-        sweetAlert(2, DATA.error, false, 'index.html');
-    } else {
-        sweetAlert(2, DATA.error, false);
-        // Se genera un nuevo token cuando ocurre un problema.
-        reCAPTCHA();
+    try {
+        // Petición para registrar un cliente.
+        const DATA = await fetchData(USER_API, 'signUp', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            sweetAlert(1, DATA.message, true, 'login.html');
+        } else {
+            sweetAlert(2, DATA.error, false);
+            // Se genera un nuevo token cuando ocurre un problema.
+            reCAPTCHA();
+        }
+    } catch (error) {
+        // Manejo del error
+        sweetAlert(2, 'Error al registrar cliente', false);
+        console.error(error);
     }
 });
 
