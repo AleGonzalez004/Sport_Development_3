@@ -64,11 +64,19 @@ class OrderHandler
     // Método para agregar un producto al carrito de compras.
     public function createDetail()
     {
-        // Se realiza una subconsulta para obtener el precio del producto.
-        $sql = 'INSERT INTO tb_detalle_pedidos(id_producto, precio_producto, cantidad_producto, id_pedido)
-                VALUES(?, (SELECT precio_producto FROM tb_productos WHERE id_producto = ?), ?, ?)';
-        $params = array($this->producto, $this->producto, $this->cantidad, $_SESSION['idPedido']);
+    // Primero, insertar el detalle del pedido con una subconsulta para obtener el precio del producto.
+    $sql = 'INSERT INTO tb_detalle_pedidos(id_producto, precio_producto, cantidad_producto, id_pedido)
+            VALUES(?, (SELECT precio_producto FROM tb_productos WHERE id_producto = ?), ?, ?)';
+    $params = array($this->producto, $this->producto, $this->cantidad, $_SESSION['idPedido']);
+
+    if (Database::executeRow($sql, $params)) {
+        // Si la inserción del detalle es exitosa, reducir las existencias del producto.
+        $sql = 'UPDATE tb_productos SET existencias_producto = existencias_producto - ? WHERE id_producto = ?';
+        $params = array($this->cantidad, $this->producto);
         return Database::executeRow($sql, $params);
+    } else {
+        return false;
+    }
     }
 
     // Método para obtener los productos que se encuentran en el carrito de compras.
@@ -87,11 +95,39 @@ class OrderHandler
     public function finishOrder()
     {
         $this->estado = 'Entregado';
-        $sql = 'UPDATE tb_pedidos
-                SET estado_pedido = ?
+    $sql = 'UPDATE tb_pedidos
+            SET estado_pedido = ?
+            WHERE id_pedido = ?';
+    $params = array($this->estado, $_SESSION['idPedido']);
+
+    if (Database::executeRow($sql, $params)) {
+        // Si la actualización del estado del pedido es exitosa, proceder a actualizar las existencias de los productos.
+        
+        // Seleccionar todos los detalles de pedidos para el pedido finalizado.
+        $sql = 'SELECT id_producto, cantidad_producto
+                FROM tb_detalle_pedidos
                 WHERE id_pedido = ?';
-        $params = array($this->estado, $_SESSION['idPedido']);
-        return Database::executeRow($sql, $params);
+        $params = array($_SESSION['idPedido']);
+
+        // Obtener todos los detalles del pedido finalizado.
+        $result = Database::getRows($sql, $params);
+
+        if ($result) {
+            // Recorrer cada detalle de pedido y actualizar las existencias del producto.
+            foreach ($result as $row) {
+                $sql = 'UPDATE tb_productos
+                        SET existencias_producto = existencias_producto - ?
+                        WHERE id_producto = ?';
+                $params = array($row['cantidad_producto'], $row['id_producto']);
+                Database::executeRow($sql, $params);
+            }
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
     }
 
     // Método para actualizar la cantidad de un producto agregado al carrito de compras.
