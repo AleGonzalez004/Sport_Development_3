@@ -39,9 +39,9 @@ const loadTemplate = async () => {
                             <div class="collapse navbar-collapse text-white" id="navbarNavAltMarkup">
                                 <div class="navbar-nav ms-auto text-white">
                                     <a class="nav-link text-white" href="index.html"><i class="bi bi-shop"></i> Inicio</a>
-                                    <a class="nav-link text-white" href="cart.html"><i class="bi bi-cart"></i> Carrito</a>
-                                    <a class="nav-link text-white" href="order.html"><i class="bi bi-truck"></i> Pedidos</a>
-                                    <a class="nav-link text-white" href="profile.html"><i class="bi bi-person"></i> Editar Perfil</a>
+                                    <a class="nav-link text-white" href="carrito.html"><i class="bi bi-cart"></i> Carrito</a>
+                                    <a class="nav-link text-white" href="pedido.html"><i class="bi bi-truck"></i> Pedidos</a>
+                                    <a class="nav-link text-white" href="perfil.html"><i class="bi bi-person"></i> Editar Perfil</a>
                                     <a class="nav-link text-white" href="#" onclick="logOut()"><i class="bi bi-box-arrow-left"></i> Cerrar sesión</a>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@ const loadTemplate = async () => {
                         <div class="collapse navbar-collapse text-white" id="navbarNavAltMarkup">
                             <div class="navbar-nav ms-auto text-white">
                                 <a class="nav-link text-white" href="index.html"><i class="bi bi-shop"></i> Catálogo</a>
-                                <a class="nav-link text-white" href="signup.html"><i class="bi bi-person"></i> Crear cuenta</a>
+                                <a class="nav-link text-white" href="registrar.html"><i class="bi bi-person"></i> Crear cuenta</a>
                                 <a class="nav-link text-white" href="login.html"><i class="bi bi-box-arrow-right"></i> Iniciar sesión</a>
                             </div>
                         </div>

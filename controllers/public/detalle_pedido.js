@@ -68,7 +68,7 @@ SHOPPING_FORM.addEventListener('submit', async (event) => {
     const DATA = await fetchData(ORDER_API, 'createDetail', FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se constata si el cliente ha iniciado sesión.
     if (DATA.status) {
-        sweetAlert(1, DATA.message, false, 'order.html');
+        sweetAlert(1, DATA.message, false, 'pedido.html');
     } else if (DATA.session) {
         sweetAlert(2, DATA.error, false);
     } else {

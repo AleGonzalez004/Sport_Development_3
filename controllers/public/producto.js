@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <li class="list-group-item">Existencias ${row.existencias_producto}</li>
                         </ul>
                         <div class="card-body text-center">
-                            <a href="detail.html?id=${row.id_producto}" class="btn btn-dark">Ver detalle</a>
+                            <a href="detalle.html?id=${row.id_producto}" class="btn btn-dark">Ver detalle</a>
                         </div>
                     </div>
                 </div>

@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Se recorre el conjunto de registros fila por fila a través del objeto row.
         DATA.dataset.forEach(row => {
             // Se establece la página web de destino con los parámetros.
-            let url = `products.html?id=${row.id_categoria}&nombre=${row.nombre}`;
+            let url = `producto.html?id=${row.id_categoria}&nombre=${row.nombre}`;
             // Se crean y concatenan las tarjetas con los datos de cada categoría.
             CATEGORIAS.innerHTML += `
                 <div class="col-sm-12 col-md-6 col-lg-3">
