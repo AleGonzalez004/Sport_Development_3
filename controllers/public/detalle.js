@@ -51,16 +51,51 @@ document.addEventListener('DOMContentLoaded', async () => {
     const commentForm = document.getElementById('commentForm');
     const commentsList = document.getElementById('commentsList');
 
-    commentForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const userComment = document.getElementById('userComment').value;
-        const commentElement = document.createElement('div');
-        commentElement.classList.add('mb-2');
-        commentElement.innerHTML = `<p>${userComment}</p>`;
-        commentsList.appendChild(commentElement);
-        commentForm.reset();
-    });
+    // Constante para manejar el envío de comentarios y calificaciones
+const COMMENT_FORM = document.getElementById('commentForm');
+
+COMMENT_FORM.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    
+    // Obtener los valores del formulario
+    const userComment = document.getElementById('userComment').value;
+    const rating = document.querySelector('#rating .bi-star-fill').length;
+    
+    // Crear el formulario con los datos
+    const FORM = new FormData();
+    FORM.append('idProducto', PARAMS.get('id'));
+    FORM.append('comentario', userComment);
+    FORM.append('calificacion', rating);
+    
+    // Enviar los datos a la API
+    const DATA = await fetchData(PRODUCTO_API, 'createComment', FORM);
+    
+    // Verificar si la respuesta es satisfactoria
+    if (DATA.status) {
+        // Mostrar un mensaje de éxito
+        sweetAlert(1, DATA.message, false);
+        
+        // Limpiar el formulario
+        COMMENT_FORM.reset();
+        
+        // Actualizar la lista de comentarios
+        updateCommentsList(DATA.dataset);
+    } else {
+        // Mostrar un mensaje de error
+        sweetAlert(2, DATA.error, false);
+    }
 });
+
+function updateCommentsList(comment) {
+    const commentElement = document.createElement('div');
+    commentElement.classList.add('mb-2');
+    commentElement.innerHTML = `
+        <p>${comment.comentario}</p>
+        <p>Calificación: ${comment.calificacion} estrellas</p>
+    `;
+    commentsList.appendChild(commentElement);
+}
+
 
 // Método del evento para cuando se envía el formulario de agregar un producto al carrito.
 SHOPPING_FORM.addEventListener('submit', async (event) => {
@@ -87,4 +122,5 @@ SHOPPING_FORM.addEventListener('submit', async (event) => {
     } else {
         sweetAlert(3, DATA.error, true, 'login.html');
     }
+})
 });
