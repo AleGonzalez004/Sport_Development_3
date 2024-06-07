@@ -12,8 +12,6 @@ CREATE TABLE tb_administradores (
  clave_administrador VARCHAR(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-
-
 CREATE TABLE tb_clientes (
   id_cliente INT(10) AUTO_INCREMENT PRIMARY KEY NOT NULL,
   nombre_cliente VARCHAR(50) NOT NULL,
@@ -27,16 +25,6 @@ CREATE TABLE tb_clientes (
   estado_cliente TINYINT(1) NOT NULL DEFAULT 1,
   fecha_registro DATE NOT NULL DEFAULT CURRENT_TIMESTAMP()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-CREATE TABLE tb_valoraciones (
-   id_valoracion INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-   id_cliente INT NOT NULL,
-   id_producto INT NOT NULL,
-   calificacion_producto ENUM ('1', '2', '3', '4', '5') NOT NULL,
-   comentario_producto VARCHAR(255) NOT NULL,
-   fecha_valoracion DATE NOT NULL DEFAULT (CURRENT_TIME()),
-   estado_comentario BOOLEAN NOT NULL
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE tb_tallas (
    id_talla INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
@@ -96,6 +84,10 @@ CREATE TABLE tb_detalle_pedidos (
   id_producto INT(10) UNSIGNED NOT NULL,
   cantidad_producto SMALLINT(6) UNSIGNED NOT NULL,
   precio_producto DECIMAL(5,2) UNSIGNED NOT NULL,
+  calificacion_producto ENUM ('1', '2', '3', '4', '5') NOT NULL,
+  comentario_producto VARCHAR(255) NOT NULL,
+  fecha_valoracion DATE NOT NULL DEFAULT (CURRENT_TIME()),
+  estado_comentario BOOLEAN NOT NULL,
   id_pedido INT(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -143,8 +135,6 @@ CREATE TABLE tb_imagenes (
 SELECT * FROM tb_administradores;
 
 SELECT * FROM tb_clientes;
-
-SELECT * FROM tb_valoraciones;
 
 SELECT * FROM tb_tallas;
 
