@@ -9,7 +9,7 @@ if (isset($_GET['action'])) {
     // Se instancia la clase correspondiente.
     $cliente = new ClienteData;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
-    $result = array('status' => 0, 'session' => 0, 'recaptcha' => 0, 'message' => null, 'error' => null, 'exception' => null, 'username' => null);
+    $result = array('status' => 0, 'session' => 0, 'recaptcha' => 0, 'message' => null, 'error' => null, 'exception' => null, 'username' => null, 'name' => null);
     // Se verifica si existe una sesión iniciada como cliente para realizar las acciones correspondientes.
     if (isset($_SESSION['idCliente'])) {
         $result['session'] = 1;
@@ -19,8 +19,11 @@ if (isset($_GET['action'])) {
                 if (isset($_SESSION['correoCliente'])) {
                     $result['status'] = 1;
                     $result['username'] = $_SESSION['correoCliente'];
-                } else {
+                    $result['name'] = $cliente->readOneCorreo($_SESSION['correoCliente']);
+                   }
+                   else {
                     $result['error'] = 'Correo de usuario indefinido';
+                    $result['name'] ='No se pudo obtener el usuario';
                 }
                 break;
             case 'logOut':
@@ -81,6 +84,28 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al registrar la cuenta';
                 }
                 break;
+                case 'signUpMovil':
+                    $_POST = Validator::validateForm($_POST);
+                if (
+                        !$cliente->setNombre($_POST['nombreCliente']) or
+                        !$cliente->setApellido($_POST['apellidoCliente']) or
+                        !$cliente->setCorreo($_POST['correoCliente']) or
+                        !$cliente->setDireccion($_POST['direccionCliente']) or
+                        !$cliente->setDUI($_POST['duiCliente']) or
+                        !$cliente->setNacimiento($_POST['nacimientoCliente']) or
+                        !$cliente->setTelefono($_POST['telefonoCliente']) or
+                        !$cliente->setClave($_POST['claveCliente'])
+                    ) {
+                        $result['error'] = $cliente->getDataError();
+                    } elseif ($_POST['claveCliente'] != $_POST['confirmarClave']) {
+                        $result['error'] = 'Contraseñas diferentes';
+                    } elseif ($cliente->createRow()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Cuenta registrada correctamente';
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al registrar la cuenta';
+                    }
+                    break;
             case 'logIn':
                 $_POST = Validator::validateForm($_POST);
                 if (!$cliente->checkUser($_POST['correo'], $_POST['clave'])) {

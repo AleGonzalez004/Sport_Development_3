@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             CATEGORIAS.innerHTML += `
                 <div class="col-sm-12 col-md-6 col-lg-3">
                     <div class="card mb-3">
-                        <img src="../../api/images/categorias/${row.imagen}" class="card-img-top" alt="${row.nombre}">
+                        <img src="${SERVER_URL}images/categorias/${row.imagen}" class="card-img-top" alt="${row.nombre}">
                         <div class="card-body text-center">
                             <h5 class="card-title">${row.nombre}</h5>
                             <p class="card-text">${row.descripcion}</p>
