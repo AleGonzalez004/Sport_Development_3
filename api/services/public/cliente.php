@@ -26,28 +26,6 @@ if (isset($_GET['action'])) {
                     $result['name'] ='No se pudo obtener el usuario';
                 }
                 break;
-            case 'signUpMovil':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$cliente->setNombre($_POST['nombreCliente']) or
-                    !$cliente->setApellido($_POST['apellidoCliente']) or
-                    !$cliente->setCorreo($_POST['correoCliente']) or
-                    !$cliente->setDireccion($_POST['direccionCliente']) or
-                    !$cliente->setDUI($_POST['duiCliente']) or
-                    !$cliente->setNacimiento($_POST['nacimientoCliente']) or
-                    !$cliente->setTelefono($_POST['telefonoCliente']) or
-                    !$cliente->setClave($_POST['claveCliente'])
-                    ) {
-                        $result['error'] = $cliente->getDataError();
-                    } elseif ($_POST['claveCliente'] != $_POST['confirmarClave']) {
-                        $result['error'] = 'Contraseñas diferentes';
-                    } elseif ($cliente->createRow()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Cuenta registrada correctamente';
-                    } else {
-                        $result['error'] = 'Ocurrió un problema al registrar la cuenta';
-                }
-                break;
             case 'logOut':
                 if (session_destroy()) {
                     $result['status'] = 1;

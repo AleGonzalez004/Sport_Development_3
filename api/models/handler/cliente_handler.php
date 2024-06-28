@@ -151,4 +151,5 @@ class ClienteHandler
         $params = array($correo);
         return Database::getRow($sql, $params);
     }
+    
 }
