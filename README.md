@@ -2,6 +2,9 @@
 Dennis Alejandro Gonzalez Carrillo 20220444  
 Fernando Antonio Molina Paniagua 20220418
 
+# Repositorio
+https://github.com/AleGonzalez004/Sport_Development_3
+
 STANDARES DE PROGRAMACION
 
 1-PSR-1: Estándar Básico de Codificación
