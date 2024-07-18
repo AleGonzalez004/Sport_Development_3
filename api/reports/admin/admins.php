@@ -1,58 +1,43 @@
 <?php
 // Se incluye la clase con las plantillas para generar reportes.
 require_once('../../helpers/report.php');
-// Se incluyen las clases para la transferencia y acceso a datos.
+// Se incluyen las clases para el manejo de datos de administradores.
 require_once('../../models/data/administrador_data.php');
 
 // Se instancia la clase para crear el reporte.
 $pdf = new Report;
 // Se inicia el reporte con el encabezado del documento.
-$pdf->startReport('Productos por categoría');
-// Se instancia el módelo Categoría para obtener los datos.
-$categoria = new CategoriaData;
-// Se verifica si existen registros para mostrar, de lo contrario se imprime un mensaje.
-if ($dataCategorias = $categoria->readAll()) {
+$pdf->startReport('Reporte de Administradores');
+
+// Se instancia el modelo AdministradorData para obtener los datos de administradores.
+$adminData = new AdministradorData;
+// Se verifica si existen administradores para mostrar.
+if ($dataAdministradores = $adminData->readAll()) {
     // Se establece un color de relleno para los encabezados.
     $pdf->setFillColor(193, 218, 243);
-    // Se establece la fuente para los encabezados.
-    $pdf->setFont('Arial', 'B', 11);
-    // Se imprimen las celdas con los encabezados.
-    $pdf->cell(126, 10, 'Nombre', 1, 0, 'C', 1);
-    $pdf->cell(30, 10, 'Precio (US$)', 1, 0, 'C', 1);
-    $pdf->cell(30, 10, 'Estado', 1, 1, 'C', 1);
+    // Encabezados del reporte
+    $pdf->setFont('Arial', 'B', 12);
+    $pdf->cell(30, 10, 'ID', 1, 0, 'C');
+    $pdf->cell(60, 10, 'Nombre', 1, 0, 'C');
+    $pdf->cell(60, 10, 'Apellido', 1, 0, 'C');
+    $pdf->cell(80, 10, 'Correo', 1, 1, 'C');
 
-    // Se establece un color de relleno para mostrar el nombre de la categoría.
+    // Se establece un color de relleno para los encabezados.
     $pdf->setFillColor(193, 218, 243);
-    // Se establece la fuente para los datos de los productos.
+    // Datos de los administradores
     $pdf->setFont('Arial', '', 11);
-
-    // Se recorren los registros fila por fila.
-    foreach ($dataCategorias as $rowCategoria) {
-        // Se imprime una celda con el nombre de la categoría.
-        $pdf->cell(0, 10, $pdf->encodeString('Categoría: ' . $rowCategoria['nombre']), 1, 1, 'C', 1);
-        // Se instancia el módelo Producto para procesar los datos.
-        $producto = new ProductoData;
-        // Se establece la categoría para obtener sus productos, de lo contrario se imprime un mensaje de error.
-        if ($producto->setCategoria($rowCategoria['id_categoria'])) {
-            // Se verifica si existen registros para mostrar, de lo contrario se imprime un mensaje.
-            if ($dataProductos = $producto->productosCategoria()) {
-                // Se recorren los registros fila por fila.
-                foreach ($dataProductos as $rowProducto) {
-                    ($rowProducto['estado_producto']) ? $estado = 'Activo' : $estado = 'Inactivo';
-                    // Se imprimen las celdas con los datos de los productos.
-                    $pdf->cell(126, 10, $pdf->encodeString($rowProducto['nombre_producto']), 1, 0);
-                    $pdf->cell(30, 10, $rowProducto['precio_producto'], 1, 0);
-                    $pdf->cell(30, 10, $estado, 1, 1);
-                }
-            } else {
-                $pdf->cell(0, 10, $pdf->encodeString('No hay productos para la categoría'), 1, 1);
-            }
-        } else {
-            $pdf->cell(0, 10, $pdf->encodeString('Categoría incorrecta o inexistente'), 1, 1);
-        }
+    foreach ($dataAdministradores as $admin) {
+        $pdf->cell(30, 10, $admin['id_admin'], 1, 0, 'C');
+        $pdf->cell(60, 10, $pdf->encodeString($admin['nombre']), 1, 0, 'C');
+        $pdf->cell(60, 10, $pdf->encodeString($admin['apellido']), 1, 0, 'C');
+        $pdf->cell(80, 10, $pdf->encodeString($admin['correo_administrador']), 1, 1, 'C');
     }
 } else {
-    $pdf->cell(0, 10, $pdf->encodeString('No hay categorías para mostrar'), 1, 1);
+    // Mensaje si no hay administradores registrados.
+    $pdf->setFont('Arial', '', 11);
+    $pdf->cell(0, 10, 'No hay administradores registrados.', 1, 1, 'C');
 }
+
 // Se llama implícitamente al método footer() y se envía el documento al navegador web.
-$pdf->output('I', 'productos.pdf');
+$pdf->output('I', 'reporte_administradores.pdf');
+?>
