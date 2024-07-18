@@ -2,8 +2,7 @@
 // Se incluye la clase con las plantillas para generar reportes.
 require_once('../../helpers/report.php');
 // Se incluyen las clases para la transferencia y acceso a datos.
-require_once('../../models/data/producto_data.php');
-require_once('../../models/data/categoria_data.php');
+require_once('../../models/data/administrador_data.php');
 
 // Se instancia la clase para crear el reporte.
 $pdf = new Report;
@@ -23,7 +22,7 @@ if ($dataCategorias = $categoria->readAll()) {
     $pdf->cell(30, 10, 'Estado', 1, 1, 'C', 1);
 
     // Se establece un color de relleno para mostrar el nombre de la categoría.
-    $pdf->setFillColor(174, 206, 239);
+    $pdf->setFillColor(193, 218, 243);
     // Se establece la fuente para los datos de los productos.
     $pdf->setFont('Arial', '', 11);
 

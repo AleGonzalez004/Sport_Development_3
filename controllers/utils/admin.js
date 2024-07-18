@@ -47,6 +47,9 @@ const loadTemplate = async () => {
                                     <li class="nav-item">
                                         <a class="nav-link text-white" href="colores.html">Colores</a>
                                     </li>
+                                     <li class="nav-item">
+                                        <a class="nav-link text-white" href="generos.html">Generos</a>
+                                    </li>
                                     <li class="nav-item">
                                         <a class="nav-link text-white" href="producto.html">Productos</a>
                                     </li>
@@ -57,7 +60,7 @@ const loadTemplate = async () => {
                                         <a class="nav-link text-white" href="administrador.html">Administradores</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-white" href="generos.html">Generos</a>
+                                        <a class="nav-link text-white" href="cliente.html">Clientes</a>
                                     </li>
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle text-white" href="#" data-bs-toggle="dropdown" aria-expanded="false">Cuenta: <b>${DATA.username}</b></a>
