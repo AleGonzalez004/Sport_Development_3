@@ -82,10 +82,10 @@ const fillTable = async (form = null) => {
                     <td>${row.nombre}</td>
                     <td>${row.descripcion}</td>
                     <td>
-                        <button type="button" class="btn btn-dark" onclick="openUpdate(${row.id_categoria})">
+                        <button type="button" class="btn btn-success" onclick="openUpdate(${row.id_categoria})">
                             <i class="bi bi-pencil-fill"></i>
                         </button>
-                        <button type="button" class="btn btn-dark" onclick="openDelete(${row.id_categoria})">
+                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_categoria})">
                             <i class="bi bi-trash-fill"></i>
                         </button>
                         <button type="button" class="btn btn-dark" onclick="openReport(${row.id_categoria})">
