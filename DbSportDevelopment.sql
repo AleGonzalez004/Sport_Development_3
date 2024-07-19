@@ -100,12 +100,6 @@ CREATE TABLE tb_pedidos (
   fecha_registro DATE NOT NULL DEFAULT CURRENT_TIMESTAMP()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE tb_departamentos (
- id_departamento INT UNSIGNED AUTO_INCREMENT NOT NULL,
- departamento VARCHAR(1000) NOT NULL,
- PRIMARY KEY (id_departamento)
-);
-
 CREATE TABLE tb_colores (
  id_color INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
  nombre VARCHAR(50) NOT NULL
