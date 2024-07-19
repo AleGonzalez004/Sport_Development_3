@@ -7,8 +7,7 @@ function getUser() {
     return isset($_SESSION['aliasAdministrador']) ? $_SESSION['aliasAdministrador'] : null;
 }
 // Se instancia la clase para crear el reporte.
-$pdf = new Report('P', 'mm', 'Letter'); // Tamaño del papel Letter (216 x 279 mm)
-
+$pdf = new Report;
 // Se inicia el reporte con el encabezado del documento.
 $pdf->startReport('Colores Registrados');
 // Título con el nombre del administrador
@@ -16,15 +15,14 @@ $nombreAdministrador = getUser() ?? 'Administrador Desconocido'; // Obtener el a
 $pdf->setFont('Arial', 'B', 14);
 $pdf->cell(0, 10, 'Reporte de Administrador - ' . $nombreAdministrador, 0, 1, 'C');
 // Se instancia el modelo Cliente para obtener los datos.
-// Movemos toda la tabla un poco a la izquierda
-$pdf->setX(10); // Ajusta el valor según tu necesidad para mover a la izquierda
 
 // Se instancia el modelo colores para obtener los datos.
 $coloresmodel = new ColoresData;
 // Se verifica si existen registros para mostrar, de lo contrario se imprime un mensaje.
 if ($datacolores = $coloresmodel->readAll()) {
     // Se establece un color de relleno para los encabezados.
-    $pdf->setFillColor(193, 218, 243);
+    $pdf->setFillColor(36, 92, 157);
+    $pdf->setTextColor(255, 255, 255);
     // Se establece la fuente para los encabezados.
     $pdf->setFont('Arial', 'B', 11);
 
@@ -34,12 +32,10 @@ if ($datacolores = $coloresmodel->readAll()) {
 
     // Se establece la fuente para los datos de los coloress.
     $pdf->setFont('Arial', '', 11);
-    // Movemos toda la tabla un poco a la izquierda
-    $pdf->setX(10); // Ajusta el valor según tu necesidad para mover a la izquierda
     // Recorremos los datos de los coloress
     foreach ($datacolores as $colores) {
-        // Movemos toda la tabla un poco a la izquierda
-        $pdf->setX(10); // Ajusta el valor según tu necesidad para mover a la izquierda
+        $pdf->setTextColor(0, 0, 0);
+
         // ID del colores
         $pdf->cell(50, 10, $colores['id_color'], 1, 0, 'C');
 

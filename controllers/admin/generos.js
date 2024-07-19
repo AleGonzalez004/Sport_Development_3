@@ -173,7 +173,7 @@ const openUpdate = async (id_genero) => {
 const openDelete = async (id_genero) => {
     
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction('¿Desea eliminar el color de forma permanente?');
+    const RESPONSE = await confirmAction('¿Desea eliminar el genero de forma permanente?');
     // Se verifica la respuesta del mensaje.
     if (RESPONSE) {
         // Se define una constante tipo objeto con los datos del registro seleccionado.

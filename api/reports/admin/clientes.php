@@ -9,11 +9,9 @@ function getUser() {
 }
 
 // Se instancia la clase para crear el reporte.
-$pdf = new Report('P', 'mm', 'Letter'); // Tamaño del papel Letter (216 x 279 mm)
-
+$pdf = new Report;
 // Se inicia el reporte con el encabezado del documento.
 $pdf->startReport('Clientes Registrados');
-
 
 // Título con el nombre del administrador
 $nombreAdministrador = getUser() ?? 'Administrador Desconocido'; // Obtener el alias del administrador desde la sesión
@@ -21,43 +19,42 @@ $pdf->setFont('Arial', 'B', 14);
 $pdf->cell(0, 10, 'Reporte de Administrador - ' . $nombreAdministrador, 0, 1, 'C');
 // Se instancia el modelo Cliente para obtener los datos.
 
-// Movemos toda la tabla un poco a la izquierda
-$pdf->setX(10); // Ajusta el valor según tu necesidad para mover a la izquierda
 $clienteModel = new ClienteData;
 // Se verifica si existen registros para mostrar, de lo contrario se imprime un mensaje.
 if ($dataClientes = $clienteModel->readAll()) {
     // Se establece un color de relleno para los encabezados.
-    $pdf->setFillColor(193, 218, 243);
+    $pdf->setFillColor(36, 92, 157);
+    $pdf->setTextColor(255, 255, 255);
     // Se establece la fuente para los encabezados.
     $pdf->setFont('Arial', 'B', 11);
 
     // Encabezados
     $pdf->cell(10, 10, 'ID', 1, 0, 'C', 1);
-    $pdf->cell(50, 10, 'Nombre', 1, 0, 'C', 1);
-    $pdf->cell(50, 10, 'Apellido', 1, 0, 'C', 1);
-    $pdf->cell(60, 10, 'Correo', 1, 0, 'C', 1);
-    $pdf->cell(30, 10, 'DUI', 1, 1, 'C', 1);
+    $pdf->cell(40, 10, 'Nombre', 1, 0, 'C', 1);
+    $pdf->cell(40, 10, 'Apellido', 1, 0, 'C', 1);
+    $pdf->cell(55, 10, 'Correo', 1, 0, 'C', 1);
+    $pdf->cell(40, 10, 'DUI', 1, 1, 'C', 1);
 
     // Se establece la fuente para los datos de los clientes.
     $pdf->setFont('Arial', '', 11);
-    $pdf->setX(10);
 
     // Recorremos los datos de los clientes
     foreach ($dataClientes as $cliente) {
+        $pdf->setTextColor(0, 0, 0);
         // ID del cliente
         $pdf->cell(10, 10, $cliente['id_cliente'], 1, 0, 'C');
 
         // Nombre
-        $pdf->cell(50, 10, $pdf->encodeString($cliente['nombre_cliente']), 1, 0, 'C');
+        $pdf->cell(40, 10, $pdf->encodeString($cliente['nombre_cliente']), 1, 0, 'C');
 
         // Apellido
-        $pdf->cell(50, 10, $pdf->encodeString($cliente['apellido_cliente']), 1, 0, 'C');
+        $pdf->cell(40, 10, $pdf->encodeString($cliente['apellido_cliente']), 1, 0, 'C');
 
         // Correo
-        $pdf->cell(60, 10, $cliente['correo_cliente'], 1, 0, 'C');
+        $pdf->cell(55, 10, $cliente['correo_cliente'], 1, 0, 'C');
 
         // DUI del cliente
-        $pdf->cell(30, 10, $cliente['dui_cliente'], 1, 1, 'C');
+        $pdf->cell(40, 10, $cliente['dui_cliente'], 1, 1, 'C');
     }
 } else {
     // Si no hay clientes registrados

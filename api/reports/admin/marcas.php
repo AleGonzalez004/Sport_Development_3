@@ -7,23 +7,21 @@ function getUser() {
     return isset($_SESSION['aliasAdministrador']) ? $_SESSION['aliasAdministrador'] : null;
 }
 // Se instancia la clase para crear el reporte.
-$pdf = new Report('P', 'mm', 'Letter'); // Tamaño del papel Letter (216 x 279 mm)
-
+$pdf = new Report;
 // Se inicia el reporte con el encabezado del documento.
 $pdf->startReport('Marcas Registradas');
 // Título con el nombre del administrador
 $nombreAdministrador = getUser() ?? 'Administrador Desconocido'; // Obtener el alias del administrador desde la sesión
 $pdf->setFont('Arial', 'B', 14);
 $pdf->cell(0, 10, 'Reporte de Administrador - ' . $nombreAdministrador, 0, 1, 'C');
-// Movemos toda la tabla un poco a la izquierda
-$pdf->setX(10); // Ajusta el valor según tu necesidad para mover a la izquierda
 
 // Se instancia el modelo marca para obtener los datos.
 $marcamodel = new MarcasData;
 // Se verifica si existen registros para mostrar, de lo contrario se imprime un mensaje.
 if ($dataMarcas = $marcamodel->readAll()) {
     // Se establece un color de relleno para los encabezados.
-    $pdf->setFillColor(193, 218, 243);
+    $pdf->setFillColor(36, 92, 157);
+    $pdf->setTextColor(255, 255, 255);
     // Se establece la fuente para los encabezados.
     $pdf->setFont('Arial', 'B', 11);
 
@@ -34,11 +32,9 @@ if ($dataMarcas = $marcamodel->readAll()) {
     // Se establece la fuente para los datos de los marcas.
     $pdf->setFont('Arial', '', 11);
     // Movemos toda la tabla un poco a la izquierda
-    $pdf->setX(10); // Ajusta el valor según tu necesidad para mover a la izquierda
-    // Recorremos los datos de los marcas
+
     foreach ($dataMarcas as $marca) {
-        // Movemos toda la tabla un poco a la izquierda
-        $pdf->setX(10); // Ajusta el valor según tu necesidad para mover a la izquierda
+        $pdf->setTextColor(0, 0, 0);
         // ID del marca
         $pdf->cell(50, 10, $marca['id_marca'], 1, 0, 'C');
 

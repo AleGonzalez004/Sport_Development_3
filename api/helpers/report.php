@@ -56,7 +56,7 @@ class Report extends FPDF
     public function header()
     {
         // Se establece el logo.
-        $this->image('../../images/logo_azul.png', 15, 15, 20);
+        $this->image('../../images/logo_letra.png', 15, 10, 40);
         // Se ubica el título.
         $this->cell(20);
         $this->setFont('Arial', 'B', 15);
@@ -67,6 +67,8 @@ class Report extends FPDF
         $this->cell(166, 10, 'Fecha/Hora: ' . date('d-m-Y H:i:s'), 0, 1, 'C');
         // Se agrega un salto de línea para mostrar el contenido principal del documento.
         $this->ln(10);
+        // Se establece el logo.
+        $this->image('../../images/logo_azul.png', -50, 245, 200);
     }
 
     /*
@@ -77,8 +79,9 @@ class Report extends FPDF
     {
         // Se establece la posición para el número de página (a 15 milímetros del final).
         $this->setY(-15);
+        $this->setX(170);
         // Se establece la fuente para el número de página.
-        $this->setFont('Arial', 'I', 8);
+        $this->setFont('Arial', 'I', 10);
         // Se imprime una celda con el número de página.
         $this->cell(0, 10, $this->encodeString('Página ') . $this->pageNo() . '/{nb}', 0, 0, 'C');
     }

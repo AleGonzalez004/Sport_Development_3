@@ -21,7 +21,8 @@ $categoria = new CategoriaData;
 // Se verifica si existen registros para mostrar, de lo contrario se imprime un mensaje.
 if ($dataCategorias = $categoria->readAll()) {
     // Se establece un color de relleno para los encabezados.
-    $pdf->setFillColor(193, 218, 243);
+    $pdf->setFillColor(36, 92, 157);
+    $pdf->setTextColor(255, 255, 255);
     // Se establece la fuente para los encabezados.
     $pdf->setFont('Arial', 'B', 11);
     // Se imprimen las celdas con los encabezados.
@@ -30,12 +31,15 @@ if ($dataCategorias = $categoria->readAll()) {
     $pdf->cell(30, 10, 'Estado', 1, 1, 'C', 1);
 
     // Se establece un color de relleno para mostrar el nombre de la categoría.
-    $pdf->setFillColor(174, 206, 239);
+    $pdf->setFillColor(36, 92, 157);
+    $pdf->setTextColor(255, 255, 255);
+    
     // Se establece la fuente para los datos de los productos.
     $pdf->setFont('Arial', '', 11);
 
     // Se recorren los registros fila por fila.
     foreach ($dataCategorias as $rowCategoria) {
+        $pdf->setTextColor(255, 255, 255);
         // Se imprime una celda con el nombre de la categoría.
         $pdf->cell(0, 10, $pdf->encodeString('Categoría: ' . $rowCategoria['nombre']), 1, 1, 'C', 1);
         // Se instancia el módelo Producto para procesar los datos.
@@ -48,6 +52,7 @@ if ($dataCategorias = $categoria->readAll()) {
                 foreach ($dataProductos as $rowProducto) {
                     ($rowProducto['estado_producto']) ? $estado = 'Activo' : $estado = 'Inactivo';
                     // Se imprimen las celdas con los datos de los productos.
+                    $pdf->setTextColor(0, 0, 0);
                     $pdf->cell(126, 10, $pdf->encodeString($rowProducto['nombre_producto']), 1, 0);
                     $pdf->cell(30, 10, $rowProducto['precio_producto'], 1, 0);
                     $pdf->cell(30, 10, $estado, 1, 1);

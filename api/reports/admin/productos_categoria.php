@@ -33,7 +33,8 @@ if (isset($_GET['idCategoria'])) {
                 $pdf->setFont('Arial', 'B', 14);
                 $pdf->cell(0, 10, 'Reporte de Administrador - ' . $nombreAdministrador, 0, 1, 'C');
                 // Se establece un color de relleno para los encabezados.
-                $pdf->setFillColor(193, 218, 243);
+                $pdf->setFillColor(36, 92, 157);
+                $pdf->setTextColor(255, 255, 255);
                 // Se establece la fuente para los encabezados.
                 $pdf->setFont('Arial', 'B', 11);
                 // Se imprimen las celdas con los encabezados.
@@ -44,6 +45,7 @@ if (isset($_GET['idCategoria'])) {
                 $pdf->setFont('Arial', '', 11);
                 // Se recorren los registros fila por fila.
                 foreach ($dataProductos as $rowProducto) {
+                    $pdf->setTextColor(0, 0, 0);
                     ($rowProducto['estado_producto']) ? $estado = 'Activo' : $estado = 'Inactivo';
                     // Se imprimen las celdas con los datos de los productos.
                     $pdf->cell(126, 10, $pdf->encodeString($rowProducto['nombre_producto']), 1, 0);
