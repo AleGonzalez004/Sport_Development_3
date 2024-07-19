@@ -3,13 +3,19 @@
 require_once('../../helpers/report.php');
 // Se incluyen las clases para el acceso a datos de coloress.
 require_once('../../models/data/colores_data.php');
-
+function getUser() {
+    return isset($_SESSION['aliasAdministrador']) ? $_SESSION['aliasAdministrador'] : null;
+}
 // Se instancia la clase para crear el reporte.
 $pdf = new Report('P', 'mm', 'Letter'); // Tamaño del papel Letter (216 x 279 mm)
 
 // Se inicia el reporte con el encabezado del documento.
 $pdf->startReport('Colores Registrados');
-
+// Título con el nombre del administrador
+$nombreAdministrador = getUser() ?? 'Administrador Desconocido'; // Obtener el alias del administrador desde la sesión
+$pdf->setFont('Arial', 'B', 14);
+$pdf->cell(0, 10, 'Reporte de Administrador - ' . $nombreAdministrador, 0, 1, 'C');
+// Se instancia el modelo Cliente para obtener los datos.
 // Movemos toda la tabla un poco a la izquierda
 $pdf->setX(10); // Ajusta el valor según tu necesidad para mover a la izquierda
 
@@ -35,7 +41,7 @@ if ($datacolores = $coloresmodel->readAll()) {
         // Movemos toda la tabla un poco a la izquierda
         $pdf->setX(10); // Ajusta el valor según tu necesidad para mover a la izquierda
         // ID del colores
-        $pdf->cell(50, 10, $colores['id_colores'], 1, 0, 'C');
+        $pdf->cell(50, 10, $colores['id_color'], 1, 0, 'C');
 
         // Nombre
         $pdf->cell(140, 10, $pdf->encodeString($colores['nombre']), 1, 1, 'L'); // Cambiado a 140 y con salto de línea

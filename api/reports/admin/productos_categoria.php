@@ -1,6 +1,10 @@
 <?php
 // Se incluye la clase con las plantillas para generar reportes.
 require_once('../../helpers/report.php');
+function getUser() {
+    return isset($_SESSION['aliasAdministrador']) ? $_SESSION['aliasAdministrador'] : null;
+}
+
 
 // Se instancia la clase para crear el reporte.
 $pdf = new Report;
@@ -10,8 +14,12 @@ if (isset($_GET['idCategoria'])) {
     require_once('../../models/data/categoria_data.php');
     require_once('../../models/data/producto_data.php');
     // Se instancian las entidades correspondientes.
+
+    
     $categoria = new CategoriaData;
     $producto = new ProductoData;
+
+    
     // Se establece el valor de la categoría, de lo contrario se muestra un mensaje.
     if ($categoria->setId($_GET['idCategoria']) && $producto->setCategoria($_GET['idCategoria'])) {
         // Se verifica si la categoría existe, de lo contrario se muestra un mensaje.
@@ -20,6 +28,10 @@ if (isset($_GET['idCategoria'])) {
             $pdf->startReport('Productos de la categoría ' . $rowCategoria['nombre']);
             // Se verifica si existen registros para mostrar, de lo contrario se imprime un mensaje.
             if ($dataProductos = $producto->productosCategoria()) {
+                // Título con el nombre del administrador
+                $nombreAdministrador = getUser() ?? 'Administrador Desconocido'; // Obtener el alias del administrador desde la sesión
+                $pdf->setFont('Arial', 'B', 14);
+                $pdf->cell(0, 10, 'Reporte de Administrador - ' . $nombreAdministrador, 0, 1, 'C');
                 // Se establece un color de relleno para los encabezados.
                 $pdf->setFillColor(193, 218, 243);
                 // Se establece la fuente para los encabezados.

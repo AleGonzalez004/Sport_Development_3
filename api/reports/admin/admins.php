@@ -21,7 +21,7 @@ $pdf->setX(15); // Ajusta el valor según tu necesidad para mover a la izquierda
 // Título con el nombre del administrador
 $nombreAdministrador = getUser() ?? 'Administrador Desconocido'; // Obtener el alias del administrador desde la sesión
 $pdf->setFont('Arial', 'B', 14);
-$pdf->cell(0, 10, 'Reporte de Administradores - ' . $nombreAdministrador, 0, 1, 'C');
+$pdf->cell(0, 10, 'Reporte de Administrador - ' . $nombreAdministrador, 0, 1, 'C');
 
 // Se instancia el modelo AdministradorData para obtener los datos de administradores.
 $adminData = new AdministradorData;

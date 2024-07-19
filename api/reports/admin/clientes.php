@@ -14,10 +14,15 @@ $pdf = new Report('P', 'mm', 'Letter'); // Tamaño del papel Letter (216 x 279 m
 // Se inicia el reporte con el encabezado del documento.
 $pdf->startReport('Clientes Registrados');
 
+
+// Título con el nombre del administrador
+$nombreAdministrador = getUser() ?? 'Administrador Desconocido'; // Obtener el alias del administrador desde la sesión
+$pdf->setFont('Arial', 'B', 14);
+$pdf->cell(0, 10, 'Reporte de Administrador - ' . $nombreAdministrador, 0, 1, 'C');
+// Se instancia el modelo Cliente para obtener los datos.
+
 // Movemos toda la tabla un poco a la izquierda
 $pdf->setX(10); // Ajusta el valor según tu necesidad para mover a la izquierda
-
-// Se instancia el modelo Cliente para obtener los datos.
 $clienteModel = new ClienteData;
 // Se verifica si existen registros para mostrar, de lo contrario se imprime un mensaje.
 if ($dataClientes = $clienteModel->readAll()) {

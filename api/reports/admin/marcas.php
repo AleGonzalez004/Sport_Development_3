@@ -3,13 +3,18 @@
 require_once('../../helpers/report.php');
 // Se incluyen las clases para el acceso a datos de marcas.
 require_once('../../models/data/marcas_data.php');
-
+function getUser() {
+    return isset($_SESSION['aliasAdministrador']) ? $_SESSION['aliasAdministrador'] : null;
+}
 // Se instancia la clase para crear el reporte.
 $pdf = new Report('P', 'mm', 'Letter'); // Tamaño del papel Letter (216 x 279 mm)
 
 // Se inicia el reporte con el encabezado del documento.
 $pdf->startReport('Marcas Registradas');
-
+// Título con el nombre del administrador
+$nombreAdministrador = getUser() ?? 'Administrador Desconocido'; // Obtener el alias del administrador desde la sesión
+$pdf->setFont('Arial', 'B', 14);
+$pdf->cell(0, 10, 'Reporte de Administrador - ' . $nombreAdministrador, 0, 1, 'C');
 // Movemos toda la tabla un poco a la izquierda
 $pdf->setX(10); // Ajusta el valor según tu necesidad para mover a la izquierda
 
