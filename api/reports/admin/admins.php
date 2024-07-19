@@ -42,5 +42,5 @@ if ($dataAdministradores = $adminData->readAll()) {
 }
 
 // Se llama implícitamente al método footer() y se envía el documento al navegador web.
-$pdf->output('I', 'reporte_administradores.pdf');
+$pdf->output('I', 'Administradores.pdf');
 ?>

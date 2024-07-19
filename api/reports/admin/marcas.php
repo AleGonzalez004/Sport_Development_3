@@ -32,7 +32,7 @@ if ($dataMarcas = $marcamodel->readAll()) {
         $pdf->cell(50, 10, $marca['id_marca'], 1, 0, 'C');
 
         // Nombre
-        $pdf->cell(140, 10, $pdf->encodeString($marca['nombre']), 1, 1, 'L'); // Cambiado a 140 y con salto de línea
+        $pdf->cell(140, 10, $pdf->encodeString($marca['nombre']), 1, 1, 'C'); // Cambiado a 140 y con salto de línea
     }
 } else {
     // Si no hay marcas registrados
@@ -40,5 +40,5 @@ if ($dataMarcas = $marcamodel->readAll()) {
 }
 
 // Se llama implícitamente al método footer() y se envía el documento al navegador web.
-$pdf->output('I', 'marcas.pdf');
+$pdf->output('I', 'Marcas.pdf');
 ?>

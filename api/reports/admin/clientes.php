@@ -54,5 +54,5 @@ if ($dataClientes = $clienteModel->readAll()) {
 }
 
 // Se llama implícitamente al método footer() y se envía el documento al navegador web.
-$pdf->output('I', 'clientes.pdf');
+$pdf->output('I', 'Clientes.pdf');
 ?>
