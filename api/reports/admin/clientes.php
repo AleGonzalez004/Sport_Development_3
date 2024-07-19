@@ -4,21 +4,13 @@ require_once('../../helpers/report.php');
 // Se incluyen las clases para el acceso a datos de clientes.
 require_once('../../models/data/cliente_data.php');
 
-function getUser() {
-    return isset($_SESSION['aliasAdministrador']) ? $_SESSION['aliasAdministrador'] : null;
-}
-
 // Se instancia la clase para crear el reporte.
 $pdf = new Report;
 // Se inicia el reporte con el encabezado del documento.
 $pdf->startReport('Clientes Registrados');
 
-// Título con el nombre del administrador
-$nombreAdministrador = getUser() ?? 'Administrador Desconocido'; // Obtener el alias del administrador desde la sesión
-$pdf->setFont('Arial', 'B', 14);
-$pdf->cell(0, 10, 'Reporte de Administrador - ' . $nombreAdministrador, 0, 1, 'C');
-// Se instancia el modelo Cliente para obtener los datos.
 
+// Se instancia el modelo Cliente para obtener los datos.
 $clienteModel = new ClienteData;
 // Se verifica si existen registros para mostrar, de lo contrario se imprime un mensaje.
 if ($dataClientes = $clienteModel->readAll()) {

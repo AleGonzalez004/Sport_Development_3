@@ -4,18 +4,11 @@ require_once('../../helpers/report.php');
 // Se incluyen las clases para la transferencia y acceso a datos.
 require_once('../../models/data/producto_data.php');
 require_once('../../models/data/categoria_data.php');
-function getUser() {
-    return isset($_SESSION['aliasAdministrador']) ? $_SESSION['aliasAdministrador'] : null;
-}
 // Se instancia la clase para crear el reporte.
 $pdf = new Report;
 // Se inicia el reporte con el encabezado del documento.
 $pdf->startReport('Productos por categoría');
 
-// Título con el nombre del administrador
-$nombreAdministrador = getUser() ?? 'Administrador Desconocido'; // Obtener el alias del administrador desde la sesión
-$pdf->setFont('Arial', 'B', 14);
-$pdf->cell(0, 10, 'Reporte de Administrador - ' . $nombreAdministrador, 0, 1, 'C');
 // Se instancia el módelo Categoría para obtener los datos.
 $categoria = new CategoriaData;
 // Se verifica si existen registros para mostrar, de lo contrario se imprime un mensaje.

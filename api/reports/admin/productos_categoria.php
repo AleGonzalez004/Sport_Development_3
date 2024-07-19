@@ -1,10 +1,6 @@
 <?php
 // Se incluye la clase con las plantillas para generar reportes.
 require_once('../../helpers/report.php');
-function getUser() {
-    return isset($_SESSION['aliasAdministrador']) ? $_SESSION['aliasAdministrador'] : null;
-}
-
 
 // Se instancia la clase para crear el reporte.
 $pdf = new Report;
@@ -15,7 +11,6 @@ if (isset($_GET['idCategoria'])) {
     require_once('../../models/data/producto_data.php');
     // Se instancian las entidades correspondientes.
 
-    
     $categoria = new CategoriaData;
     $producto = new ProductoData;
 

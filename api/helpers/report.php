@@ -1,11 +1,16 @@
 <?php
 // Se incluye la clase para generar archivos PDF.
 require_once('../../libraries/fpdf185/fpdf.php');
+// Se incluyen las clases para el manejo de datos de administradores.
+require_once('../../models/data/administrador_data.php');
 
 /*
 *   Clase para definir las plantillas de los reportes del sitio privado.
 *   Para más información http://www.fpdf.org/
 */
+function getUser() {
+    return isset($_SESSION['aliasAdministrador']) ? $_SESSION['aliasAdministrador'] : null;
+}
 class Report extends FPDF
 {
     // Constante para definir la ruta de las vistas del sitio privado.
@@ -34,6 +39,12 @@ class Report extends FPDF
             $this->addPage('p', 'letter');
             // Se define un alias para el número total de páginas que se muestra en el pie del documento.
             $this->aliasNbPages();
+
+            // Título con el nombre del administrador
+            $nombreAdministrador = getUser() ?? 'Administrador Desconocido'; // Obtener el alias del administrador desde la sesión
+            $this->setFont('Arial', 'B', 14);
+            $this->SetXY(-305, 45); // Posición X e Y (0, 15 mm desde la parte superior)
+            $this->cell(0, 10, 'Reporte de Administrador - ' . $nombreAdministrador, 0, 1, 'C');
         } else {
             header('location:' . self::CLIENT_URL);
         }
@@ -56,7 +67,7 @@ class Report extends FPDF
     public function header()
     {
         // Se establece el logo.
-        $this->image('../../images/logo_letra.png', 15, 10, 40);
+        $this->image('../../images/logo_letra.png', 15, 8, 40);
         // Se ubica el título.
         $this->cell(20);
         $this->setFont('Arial', 'B', 15);
