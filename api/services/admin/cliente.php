@@ -11,18 +11,81 @@ if (isset($_GET['action'])) {
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'session' => 0, 'recaptcha' => 0, 'message' => null, 'error' => null, 'exception' => null, 'username' => null, 'name' => null);
     // Se verifica si existe una sesión iniciada como cliente para realizar las acciones correspondientes.
-    if (isset($_SESSION['idCliente'])) {
+    if (isset($_SESSION['idAdministrador'])) {
         $result['session'] = 1;
         // Se compara la acción a realizar cuando un cliente ha iniciado sesión.
         switch ($_GET['action']) {
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
-                } elseif ($result['dataset'] = $administrador->searchRows()) {
+                } elseif ($result['dataset'] = $cliente->searchRows()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
                 } else {
                     $result['error'] = 'No hay coincidencias';
+                }
+                break;
+            case 'createRow':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$cliente->setNombre($_POST['nombreCliente']) or
+                    !$cliente->setApellido($_POST['apellidoCliente']) or
+                    !$cliente->setCorreo($_POST['correoCliente']) or
+                    !$cliente->setDui($_POST['duiCliente'])
+                ) {
+                    $result['error'] = $cliente->getDataError();
+                } elseif ($_POST['claveCliente'] != $_POST['confirmarClave']) {
+                    $result['error'] = 'Contraseñas diferentes';
+                } elseif ($cliente->createRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'cliente creado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al crear el cliente';
+                }
+                break;
+            case 'readAll':
+                if ($result['dataset'] = $cliente->readAll()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                } else {
+                    $result['error'] = 'No existen clientes registrados';
+                }
+                break;
+            case 'readOne':
+                if (!$cliente->setId($_POST['idCliente'])) {
+                    $result['error'] = 'cliente incorrecto';
+                } elseif ($result['dataset'] = $cliente->readOne()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'cliente inexistente';
+                }
+                break;
+            case 'updateRow':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$cliente->setId($_POST['idCliente']) or
+                    !$cliente->setNombre($_POST['nombreCliente']) or
+                    !$cliente->setApellido($_POST['apellidoCliente']) or
+                    !$cliente->setCorreo($_POST['correoCliente'])
+                ) {
+                    $result['error'] = $cliente->getDataError();
+                } elseif ($cliente->updateRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'cliente modificado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al modificar el cliente';
+                }
+                break;
+            case 'deleteRow':
+                if ($_POST['idCliente'] == $_SESSION['idCliente']) {
+                    $result['error'] = 'No se puede eliminar a sí mismo';
+                } elseif (!$cliente->setId($_POST['idCliente'])) {
+                    $result['error'] = $cliente->getDataError();
+                } elseif ($cliente->deleteRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Cliente eliminado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al eliminar el cliente';
                 }
                 break;
             case 'getUser':
