@@ -15,6 +15,14 @@ $pdf->setX(15); // Ajusta el valor según tu necesidad para mover a la izquierda
 
 // Se instancia el modelo AdministradorData para obtener los datos de administradores.
 $adminData = new AdministradorData;
+
+// Obtener el nombre del administrador desde la sesión si está iniciada
+$nombreAdministrador = isset($_SESSION['nombreAdministrador']) ? $_SESSION['nombreAdministrador'] : '';
+
+// Título con el nombre del administrador
+$pdf->setFont('Arial', 'B', 14);
+$pdf->cell(0, 10, 'Reporte de Administradores - ' . $nombreAdministrador, 0, 1, 'C');
+
 // Se verifica si existen administradores para mostrar.
 if ($dataAdministradores = $adminData->readAll()) {
     // Se establece un color de relleno para los encabezados.
@@ -26,9 +34,9 @@ if ($dataAdministradores = $adminData->readAll()) {
     $pdf->cell(50, 10, 'Nombre', 1, 0, 'C', 1);
     $pdf->cell(50, 10, 'Apellido', 1, 0, 'C', 1);
     $pdf->cell(70, 10, 'Correo', 1, 1, 'C', 1);
-  
+
     $pdf->setFont('Arial', '', 11);
-    $pdf->setX(15); 
+    $pdf->setX(15);
 
     foreach ($dataAdministradores as $admin) {
         $pdf->cell(20, 10, $admin['id_admin'], 1, 0, 'C');
