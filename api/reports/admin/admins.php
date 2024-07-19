@@ -4,6 +4,11 @@ require_once('../../helpers/report.php');
 // Se incluyen las clases para el manejo de datos de administradores.
 require_once('../../models/data/administrador_data.php');
 
+// Función para obtener el alias del administrador desde la sesión
+function getUser() {
+    return isset($_SESSION['aliasAdministrador']) ? $_SESSION['aliasAdministrador'] : null;
+}
+
 // Se instancia la clase para crear el reporte.
 $pdf = new Report('P', 'mm', 'Letter'); // Tamaño del papel Letter (216 x 279 mm)
 
@@ -13,15 +18,13 @@ $pdf->startReport('Administradores Registrados');
 // Movemos toda la tabla un poco a la izquierda
 $pdf->setX(15); // Ajusta el valor según tu necesidad para mover a la izquierda
 
-// Se instancia el modelo AdministradorData para obtener los datos de administradores.
-$adminData = new AdministradorData;
-
-// Obtener el nombre del administrador desde la sesión si está iniciada
-$nombreAdministrador = isset($_SESSION['nombreAdministrador']) ? $_SESSION['nombreAdministrador'] : '';
-
 // Título con el nombre del administrador
+$nombreAdministrador = getUser() ?? 'Administrador Desconocido'; // Obtener el alias del administrador desde la sesión
 $pdf->setFont('Arial', 'B', 14);
 $pdf->cell(0, 10, 'Reporte de Administradores - ' . $nombreAdministrador, 0, 1, 'C');
+
+// Se instancia el modelo AdministradorData para obtener los datos de administradores.
+$adminData = new AdministradorData;
 
 // Se verifica si existen administradores para mostrar.
 if ($dataAdministradores = $adminData->readAll()) {

@@ -4,6 +4,10 @@ require_once('../../helpers/report.php');
 // Se incluyen las clases para el acceso a datos de clientes.
 require_once('../../models/data/cliente_data.php');
 
+function getUser() {
+    return isset($_SESSION['aliasAdministrador']) ? $_SESSION['aliasAdministrador'] : null;
+}
+
 // Se instancia la clase para crear el reporte.
 $pdf = new Report('P', 'mm', 'Letter'); // Tamaño del papel Letter (216 x 279 mm)
 
