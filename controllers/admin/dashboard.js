@@ -1,7 +1,6 @@
+
 // Constante para completar la ruta de la API.
-const PRODUCTO_API = 'services/admin/producto.php';
-// Constante para completar la ruta de la API.
-const CLIENTE_API = 'services/admin/cliente.php';
+const GRAFICO_API = 'services/admin/grafico.php';
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
@@ -24,9 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Llamada a la funciones que generan los gráficos en la página web.
     graficoBarrasCategorias();
     graficoPastelCategorias();
-    graficoDonaClientes();
-    grafico1();
-    grafico2();
+    graficoCrecimientoClientes();
+    graficoEstadoPedidos();
+    grafico5();
 });
 
 
@@ -36,155 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
 *   Retorno: ninguno.
 */
 
-const grafico2 = async () => {
-    // Petición para obtener los datos del gráfico.
-    const DATA = await fetchData(CLIENTE_API, 'cantidadClientes');
-    
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
-    if (DATA.status) {
-        // Se declaran los arreglos para guardar los datos a graficar.
-        let categorias = ['Total de clientes'];
-        let cantidadesClientes = [DATA.dataset[0].cantidad];
-        
-        // Generar una paleta de colores dentro del mismo tono base (#1a4373)
-        const palette = generatePieColors('#1a4373', 1);
-
-        // Llamada a la función para generar y mostrar un gráfico de dona.
-        new Chart(document.getElementById('chart4'), {
-            type: 'doughnut', // Tipo de gráfico de dona
-            data: {
-                labels: categorias,
-                datasets: [{
-                    label: 'Número total de clientes',
-                    data: cantidadesClientes,
-                    backgroundColor: palette, // Color de las secciones del gráfico
-                    borderColor: '#ffffff', // Color del borde de las secciones del gráfico
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top',
-                        align: 'center'
-                    },
-                    title: {
-                        display: true,
-                        text: 'Número total de clientes'
-                    }
-                }
-            }
-        });
-    } else {
-        document.getElementById('chart4').remove();
-        console.log(DATA.error);
-    }
-};
-const grafico1 = async () => {
-    // Petición para obtener los datos del gráfico.
-    const DATA = await fetchData(CLIENTE_API, 'cantidadClientes');
-    
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
-    if (DATA.status) {
-        // Se declaran los arreglos para guardar los datos a graficar.
-        let categorias = ['Total de clientes'];
-        let cantidadesClientes = [DATA.dataset[0].cantidad];
-        
-        // Generar una paleta de colores dentro del mismo tono base (#1a4373)
-        const palette = generatePieColors('#1a4373', 1);
-
-        // Llamada a la función para generar y mostrar un gráfico de dona.
-        new Chart(document.getElementById('chart5'), {
-            type: 'doughnut', // Tipo de gráfico de dona
-            data: {
-                labels: categorias,
-                datasets: [{
-                    label: 'Número total de clientes',
-                    data: cantidadesClientes,
-                    backgroundColor: palette, // Color de las secciones del gráfico
-                    borderColor: '#ffffff', // Color del borde de las secciones del gráfico
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top',
-                        align: 'center'
-                    },
-                    title: {
-                        display: true,
-                        text: 'Número total de clientes'
-                    }
-                }
-            }
-        });
-    } else {
-        document.getElementById('chart5').remove();
-        console.log(DATA.error);
-    }
-};
-
-const graficoDonaClientes = async () => {
-    // Petición para obtener los datos del gráfico.
-    const DATA = await fetchData(CLIENTE_API, 'cantidadClientes');
-    
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
-    if (DATA.status) {
-        // Se declaran los arreglos para guardar los datos a graficar.
-        let categorias = ['Total de clientes'];
-        let cantidadesClientes = [DATA.dataset[0].cantidad];
-        
-        // Generar una paleta de colores dentro del mismo tono base (#1a4373)
-        const palette = generatePieColors('#1a4373', 1);
-
-        // Llamada a la función para generar y mostrar un gráfico de dona.
-        new Chart(document.getElementById('chart3'), {
-            type: 'doughnut', // Tipo de gráfico de dona
-            data: {
-                labels: categorias,
-                datasets: [{
-                    label: 'Número total de clientes',
-                    data: cantidadesClientes,
-                    backgroundColor: palette, // Color de las secciones del gráfico
-                    borderColor: '#ffffff', // Color del borde de las secciones del gráfico
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top',
-                        align: 'center'
-                    },
-                    title: {
-                        display: true,
-                        text: 'Número total de clientes'
-                    }
-                }
-            }
-        });
-    } else {
-        document.getElementById('chart3').remove();
-        console.log(DATA.error);
-    }
-};
-
-
-
-
 const graficoBarrasCategorias = async () => {
     // Petición para obtener los datos del gráfico.
-    const DATA = await fetchData(PRODUCTO_API, 'cantidadProductosCategoria');
+    const DATA = await fetchData(GRAFICO_API, 'cantidadProductosCategoria');
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
     if (DATA.status) {
         // Se declaran los arreglos para guardar los datos a graficar.
@@ -242,7 +95,7 @@ const graficoBarrasCategorias = async () => {
 
 const graficoPastelCategorias = async () => {
     // Petición para obtener los datos del gráfico.
-    const DATA = await fetchData(PRODUCTO_API, 'porcentajeProductosCategoria');
+    const DATA = await fetchData(GRAFICO_API, 'porcentajeProductosCategoria');
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
     if (DATA.status) {
         // Se declaran los arreglos para guardar los datos a gráficar.
@@ -303,6 +156,128 @@ const graficoPastelCategorias = async () => {
         console.log(DATA.error);
     }
 }
+
+
+const graficoCrecimientoClientes = async () => {
+    const DATA = await fetchData(GRAFICO_API, 'cantidadClientePorFecha');
+
+    if (DATA.status) {
+        let fechas = [];
+        let cantidades = [];
+
+        DATA.dataset.forEach(row => {
+            fechas.push(row.fecha);
+            cantidades.push(row.cantidad);
+        });
+
+        new Chart(document.getElementById('graficoCrecimientoClientes'), {
+            type: 'line',
+            data: {
+                labels: fechas,
+                datasets: [{
+                    label: 'Crecimiento de Clientes',
+                    data: cantidades,
+                    borderColor: '#1a4373',
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        align: 'center'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Crecimiento de Clientes'
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Fecha'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Cantidad'
+                        }
+                    }
+                }
+            }
+        });
+    } else {
+        document.getElementById('graficoCrecimientoClientes').remove();
+        console.log(DATA.error);
+    }
+};
+
+
+
+
+const graficoEstadoPedidos = async () => {
+    const DATA = await fetchData(GRAFICO_API, 'graficoPedido');
+
+    if (DATA.status) {
+        let estados = [];
+        let cantidades = [];
+
+        DATA.dataset.forEach(row => {
+            estados.push(row.estado_pedido);
+            cantidades.push(row.cantidad);
+        });
+
+        new Chart(document.getElementById('graficoEstadoPedidos'), {
+            type: 'pie',
+            data: {
+                labels: estados,
+                datasets: [{
+                    label: 'Estado de Pedidos',
+                    data: cantidades,
+                    backgroundColor: generatePieColors('#1a4373', estados.length),
+                    borderColor: '#ffffff',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        align: 'center'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Estado de Pedidos'
+                    }
+                }
+            }
+        });
+    } else {
+        document.getElementById('graficoEstadoPedidos').remove();
+        console.log(DATA.error);
+    }
+};
+
+
+
+
+
+
+
+
+
+
+//Diseño de los graficos
+
 
 // Función para generar una paleta de colores para el gráfico de pastel a partir de un color base en formato hexadecimal.
 function generatePieColors(baseColor, count) {
