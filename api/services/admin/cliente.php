@@ -106,7 +106,20 @@ if (isset($_GET['action'])) {
                 } else {
                     $result['error'] = 'Ocurrió un problema al cerrar la sesión';
                 }
+            case 'cantidadClientes':
+                if ($result['dataset'] = $cliente->cantidadCliente()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No hay datos disponibles';
+                }
                 break;
+                case 'cantidadClientesPorFecha':
+                    if ($result['dataset'] = $cliente->cantidadCliente()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'No hay datos disponibles';
+                    }
+                    break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }

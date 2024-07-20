@@ -82,12 +82,12 @@ const loadTemplate = async () => {
                     <nav class="navbar fixed-bottom bg-dark">
                         <div class="container">
                             <div>
-                                <p><a class="nav-link text-white" href="https://github.com/dacasoft/coffeeshop" target="_blank"><i class="bi bi-github"></i>Sport Development</a></p>
+                                <p><a class="nav-link text-white" href="https://github.com/AleGonzalez004/Sport_Development_3" target="_blank"><i class="bi bi-github"></i>Sport Development</a></p>
                                 <p><a class="bi bi-c-square-fill text-white"></i> 2018-2024 Todos los derechos reservados</a>
                             </div>
                             <div>
                                 <p><a class="nav-link text-white" href="../public/" target="_blank"><i class="bi bi-cart-fill"></i> Sitio público</a></p>
-                                <p><a class="bi bi-envelope-fill text-white"></i> dacasoft@outlook.com</a>
+                                <p><a class="bi bi-envelope-fill text-white"></i> Sport_Development3@gmail.com</a>
                             </div>
                         </div>
                     </nav>
@@ -117,8 +117,8 @@ const loadTemplate = async () => {
                 <footer>
                     <nav class="navbar fixed-bottom bg-dark">
                         <div class="container">
-                            <p><a class="nav-link text-white" href="https://github.com/dacasoft/coffeeshop" target="_blank"><i class="bi bi-github"></i> Sport Development</a></p>
-                            <a class="text-white"><i class="bi bi-envelope-fill text-white"></i> dacasoft@outlook.com</a>
+                            <p><a class="nav-link text-white" href="https://github.com/AleGonzalez004/Sport_Development_3" target="_blank"><i class="bi bi-github"></i> Sport Development</a></p>
+                            <a class="text-white"><i class="bi bi-envelope-fill text-white"></i> Sport_Development3@gmail.com</a>
                         </div>
                     </nav>
                 </footer>

@@ -26,6 +26,14 @@ CREATE TABLE tb_clientes (
   fecha_registro DATE NOT NULL DEFAULT CURRENT_TIMESTAMP()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+INSERT INTO tb_clientes (nombre_cliente, apellido_cliente, dui_cliente, correo_cliente, telefono_cliente, direccion_cliente, nacimiento_cliente, clave_cliente, estado_cliente, fecha_registro) VALUES
+('Juan', 'Pérez', '12345678-9', 'juan.perez@example.com', '123456789', 'Av. Siempre Viva 742', '1980-01-01', 'clave123', 1, '2024-07-20'),
+('Ana', 'García', '98765432-1', 'ana.garcia@example.com', '987654321', 'Calle Falsa 123', '1990-05-15', 'clave456', 1, '2024-07-20'),
+('Luis', 'Martínez', '23456789-0', 'luis.martinez@example.com', '234567890', 'Boulevard de los Sueños 456', '1985-09-10', 'clave789', 1, '2024-07-20'),
+('María', 'Rodríguez', '87654321-0', 'maria.rodriguez@example.com', '876543210', 'Avenida de la Libertad 789', '1992-12-25', 'clave321', 1, '2024-07-20'),
+('Carlos', 'Hernández', '34567890-1', 'carlos.hernandez@example.com', '345678901', 'Plaza Central 101', '1988-07-22', 'clave654', 1, '2024-07-20');
+
+
 CREATE TABLE tb_tallas (
    id_talla INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
    nombre VARCHAR(5) NOT NULL

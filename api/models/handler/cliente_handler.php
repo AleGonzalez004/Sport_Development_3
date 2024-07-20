@@ -151,5 +151,24 @@ class ClienteHandler
         $params = array($correo);
         return Database::getRow($sql, $params);
     }
-    
+
+      /*
+    *   Métodos para generar gráficos.
+    */
+    public function cantidadCliente()
+    {
+        $sql = 'SELECT COUNT(id_cliente) AS cantidad
+                FROM tb_clientes';
+        return Database::getRows($sql);
+    }
+
+    public function cantidadClientePorFecha()
+    {
+        $sql = 'SELECT DATE(fecha_registro) AS fecha, COUNT(id_cliente) AS cantidad
+        FROM tb_clientes
+        GROUP BY DATE(fecha_registro)
+        ORDER BY fecha ASC;
+        ';
+        return Database::getRows($sql);
+            }
 }
