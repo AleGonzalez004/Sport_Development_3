@@ -23,10 +23,6 @@ if (isset($_GET['idCategoria'])) {
             $pdf->startReport('Productos de la categoría ' . $rowCategoria['nombre']);
             // Se verifica si existen registros para mostrar, de lo contrario se imprime un mensaje.
             if ($dataProductos = $producto->productosCategoria()) {
-                // Título con el nombre del administrador
-                $nombreAdministrador = getUser() ?? 'Administrador Desconocido'; // Obtener el alias del administrador desde la sesión
-                $pdf->setFont('Arial', 'B', 14);
-                $pdf->cell(0, 10, 'Reporte de Administrador - ' . $nombreAdministrador, 0, 1, 'C');
                 // Se establece un color de relleno para los encabezados.
                 $pdf->setFillColor(36, 92, 157);
                 $pdf->setTextColor(255, 255, 255);
