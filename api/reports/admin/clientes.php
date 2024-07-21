@@ -22,9 +22,9 @@ if ($dataClientes = $clienteModel->readAll()) {
 
     // Encabezados
     $pdf->cell(10, 10, 'ID', 1, 0, 'C', 1);
-    $pdf->cell(40, 10, 'Nombre', 1, 0, 'C', 1);
-    $pdf->cell(40, 10, 'Apellido', 1, 0, 'C', 1);
-    $pdf->cell(55, 10, 'Correo', 1, 0, 'C', 1);
+    $pdf->cell(35, 10, 'Nombre', 1, 0, 'C', 1);
+    $pdf->cell(35, 10, 'Apellido', 1, 0, 'C', 1);
+    $pdf->cell(60, 10, 'Correo', 1, 0, 'C', 1);
     $pdf->cell(40, 10, 'DUI', 1, 1, 'C', 1);
 
     // Se establece la fuente para los datos de los clientes.
@@ -37,13 +37,13 @@ if ($dataClientes = $clienteModel->readAll()) {
         $pdf->cell(10, 10, $cliente['id_cliente'], 1, 0, 'C');
 
         // Nombre
-        $pdf->cell(40, 10, $pdf->encodeString($cliente['nombre_cliente']), 1, 0, 'C');
+        $pdf->cell(35, 10, $pdf->encodeString($cliente['nombre_cliente']), 1, 0, 'C');
 
         // Apellido
-        $pdf->cell(40, 10, $pdf->encodeString($cliente['apellido_cliente']), 1, 0, 'C');
+        $pdf->cell(35, 10, $pdf->encodeString($cliente['apellido_cliente']), 1, 0, 'C');
 
         // Correo
-        $pdf->cell(55, 10, $cliente['correo_cliente'], 1, 0, 'C');
+        $pdf->cell(60, 10, $cliente['correo_cliente'], 1, 0, 'C');
 
         // DUI del cliente
         $pdf->cell(40, 10, $cliente['dui_cliente'], 1, 1, 'C');
