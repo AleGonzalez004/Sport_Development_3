@@ -11,11 +11,6 @@ class GraficoData extends GraficoHandler
     // Atributo genérico para manejo de errores.
     private $data_error = null;
 
-    /*
-     *  Métodos para graficos y asignar valores de los atributos.
-     */
-    
-
     // Método para obtener el error de los datos.
     public function getDataError()
     {

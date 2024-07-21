@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     graficoPastelCategorias();
     graficoCrecimientoClientes();
     graficoEstadoPedidos();
-    grafico5();
+    graficoVentas();
 });
 
 
@@ -170,7 +170,7 @@ const graficoCrecimientoClientes = async () => {
             cantidades.push(row.cantidad);
         });
 
-        new Chart(document.getElementById('graficoCrecimientoClientes'), {
+        new Chart(document.getElementById('chart3'), {
             type: 'line',
             data: {
                 labels: fechas,
@@ -213,7 +213,7 @@ const graficoCrecimientoClientes = async () => {
             }
         });
     } else {
-        document.getElementById('graficoCrecimientoClientes').remove();
+        document.getElementById('chart3').remove();
         console.log(DATA.error);
     }
 };
@@ -233,7 +233,7 @@ const graficoEstadoPedidos = async () => {
             cantidades.push(row.cantidad);
         });
 
-        new Chart(document.getElementById('graficoEstadoPedidos'), {
+        new Chart(document.getElementById('chart4'), {
             type: 'pie',
             data: {
                 labels: estados,
@@ -262,10 +262,79 @@ const graficoEstadoPedidos = async () => {
             }
         });
     } else {
-        document.getElementById('graficoEstadoPedidos').remove();
+        document.getElementById('chart5').remove();
         console.log(DATA.error);
     }
 };
+
+const graficoVentas = async () => {
+    // Petición para obtener los datos del gráfico.
+    const DATA = await fetchData(GRAFICO_API, 'graficoVenta');
+
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
+    if (DATA.status) {
+        // Se declaran los arreglos para guardar los datos a graficar.
+        let fechas = [];
+        let ventas = [];
+
+        // Se recorren los datos obtenidos para llenar los arreglos.
+        DATA.dataset.forEach(row => {
+            fechas.push(row.fecha);
+            ventas.push(row.ventas);
+        });
+
+        // Llamada a la función para generar y mostrar un gráfico de líneas.
+        new Chart(document.getElementById('chart5'), {
+            type: 'line', // Tipo de gráfico de líneas
+            data: {
+                labels: fechas,
+                datasets: [{
+                    label: 'Ventas de Productos',
+                    data: ventas,
+                    borderColor: '#1a4373', // Color del borde
+                    backgroundColor: '#1a4373', // Color de fondo
+                    fill: false, // No rellenar el área bajo la línea
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        align: 'center'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Ventas de Productos a lo largo del tiempo'
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Fecha'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Ventas'
+                        }
+                    }
+                }
+            }
+        });
+    } else {
+        document.getElementById('chart5').remove();
+        console.log(DATA.error);
+    }
+};
+
+
 
 
 
