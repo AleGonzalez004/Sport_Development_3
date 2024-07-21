@@ -190,10 +190,6 @@ const graficoCrecimientoClientes = async () => {
                         position: 'top',
                         align: 'center'
                     },
-                    title: {
-                        display: true,
-                        text: 'Crecimiento de Clientes'
-                    }
                 },
                 scales: {
                     x: {
@@ -254,10 +250,6 @@ const graficoEstadoPedidos = async () => {
                         position: 'top',
                         align: 'center'
                     },
-                    title: {
-                        display: true,
-                        text: 'Estado de Pedidos'
-                    }
                 }
             }
         });
@@ -306,10 +298,6 @@ const graficoVentas = async () => {
                         position: 'top',
                         align: 'center'
                     },
-                    title: {
-                        display: true,
-                        text: 'Ventas de Productos a lo largo del tiempo'
-                    }
                 },
                 scales: {
                     x: {
