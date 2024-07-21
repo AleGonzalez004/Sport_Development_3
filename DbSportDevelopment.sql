@@ -140,15 +140,6 @@ VALUES
 (15, 'Sneackers Deportivos', 'Zapatos deportivos de alta calidad.', 89.99, 50, 'img3.png', 4, 1, 1, '2024-05-30'),
 (16, 'Sneackers Deportivos', 'Zapatos deportivos de alta calidad.', 89.99, 50, 'img4.png', 4, 1, 1, '2024-05-30');
 
-
-INSERT INTO tb_administradores (nombre, apellido, correo_administrador, alias_administrador, clave_administrador) VALUES
-('Admin1', 'Uno', 'admin1@example.com', 'admin1', 'password1'),
-('Admin2', 'Dos', 'admin2@example.com', 'admin2', 'password2'),
-('Admin3', 'Tres', 'admin3@example.com', 'admin3', 'password3'),
-('Admin4', 'Cuatro', 'admin4@example.com', 'admin4', 'password4'),
-('Admin5', 'Cinco', 'cinco@example.com', 'admin5', 'password5');
-
-
 INSERT INTO tb_tallas (nombre) VALUES
 ('XS'),
 ('S'),
@@ -210,8 +201,6 @@ SELECT * FROM tb_productos;
 SELECT * FROM tb_detalle_pedidos;
 
 SELECT * FROM tb_pedidos;
-
-SELECT * FROM tb_departamentos;
 
 SELECT * FROM tb_colores;
 
