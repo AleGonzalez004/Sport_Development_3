@@ -99,24 +99,36 @@ CREATE TABLE tb_imagenes (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO tb_clientes (nombre_cliente, apellido_cliente, dui_cliente, correo_cliente, telefono_cliente, direccion_cliente, nacimiento_cliente, clave_cliente, estado_cliente, fecha_registro) VALUES
-('Juan', 'Pérez', '12345678-9', 'juan.perez@example.com', '123456789', 'Av. Siempre Viva 742', '1980-01-01', 'clave123', 1, '2014-1-20'),
+('Juan', 'Pérez', '12345678-9', 'juan.perez@example.com', '123456789', 'Av. Siempre Viva 742', '1980-01-01', 'clave123', 1, '2014-01-20'),
 ('Ana', 'García', '98765432-1', 'ana.garcia@example.com', '987654321', 'Calle Falsa 123', '1990-05-15', 'clave456', 1, '2024-07-20'),
-('Luis', 'Martínez', '23456789-0', 'luis.martinez@example.com', '234567890', 'Boulevard de los Sueños 456', '1985-09-10', 'clave789', 1, '2024-07-20'),
-('María', 'Rodríguez', '87654321-0', 'maria.rodriguez@example.com', '876543210', 'Avenida de la Libertad 789', '1992-12-25', 'clave321', 1, '2024-08-20'),
-('Carlos', 'Hernández', '34567890-1', 'carlos.hernandez@example.com', '345678901', 'Plaza Central 101', '1988-07-22', 'clave654', 1, '2028-12-20');
+('Luis', 'Martínez', '23456789-0', 'luis.martinez@example.com', '234567890', 'Boulevard de los Sueños 456', '1985-09-10', 'clave789', 1, '2024-04-20'),
+('María', 'Rodríguez', '87654321-0', 'maria.rodriguez@example.com', '876543210', 'Avenida de la Libertad 789', '1992-12-25', 'clave321', 1, '2024-08-10'),
+('Carlos', 'Hernández', '34567890-1', 'carlos.hernandez@example.com', '345678901', 'Plaza Central 101', '1988-07-22', 'clave654', 1, '2028-12-15'),
+('Juan', 'Pérez', '12345678-9', 'juan.perez@example.com', '123456789', 'Av. Siempre Viva 742', '1980-01-01', 'clave123', 1, '2014-1-20'),
+('Ana', 'García', '98765432-1', 'ana.garcia@example.com', '987654321', 'Calle Falsa 123', '1990-05-15', 'clave456', 1, '2024-04-20'),
+('Luis', 'Martínez', '23456789-0', 'luis.martinez@example.com', '234567890', 'Boulevard de los Sueños 456', '1985-09-10', 'clave789', 1, '2024-03-20'),
+('María', 'Rodríguez', '87654321-0', 'maria.rodriguez@example.com', '876543210', 'Avenida de la Libertad 789', '1992-12-25', 'clave321', 1, '2024-002-20'),
+('Carlos', 'Hernández', '34567890-1', 'carlos.hernandez@example.com', '345678901', 'Plaza Central 101', '1988-07-22', 'clave654', 1, '2028-01-20');
 
 
 INSERT INTO tb_pedidos (id_cliente, direccion_pedido, estado_pedido, fecha_registro) VALUES
 (1, 'Av. Siempre Viva 742', 'Finalizado', '2024-07-06'),
-(2, 'Calle Falsa 123', 'Finalizado', '2024-07-07'),
-(3, 'Boulevard de los Sueños 456', 'Finalizado', '2024-07-08'),
-(4, 'Avenida de la Libertad 789', 'Finalizado', '2024-07-09'),
+(1, 'Av. Siempre Viva 742', 'Finalizado', '2024-07-06'),
+(1, 'Av. Siempre Viva 742', 'Finalizado', '2024-07-06'),
+(2, 'Calle Falsa 123', 'Entregado', '2024-07-07'),
+(3, 'Boulevard de los Sueños 456', 'Pendiente', '2024-07-08'),
+(4, 'Avenida de la Libertad 789', 'Anulado', '2024-07-09'),
+(4, 'Avenida de la Libertad 789', 'Anulado', '2024-07-09'),
+(4, 'Avenida de la Libertad 789', 'Anulado', '2024-07-09'),
 (5, 'Plaza Central 101', 'Finalizado', '2024-07-10');
 
 INSERT INTO tb_detalle_pedidos (id_producto, cantidad_producto, precio_producto, calificacion_producto, comentario_producto, fecha_valoracion, estado_comentario, id_pedido) VALUES
 (1, 2, 29.99, '5', 'Buen producto', '2024-07-06', 1, 6),
+(1, 2, 29.99, '5', 'Buen producto', '2024-07-06', 1, 6),
 (2, 1, 34.99, '4', 'Muy útil', '2024-07-07', 1, 7),
 (3, 3, 24.99, '5', 'Excelente', '2024-07-08', 1, 8),
+(4, 2, 89.99, '3', 'Satisfactorio', '2024-07-09', 1, 9),
+(4, 2, 89.99, '3', 'Satisfactorio', '2024-07-09', 1, 9),
 (4, 2, 89.99, '3', 'Satisfactorio', '2024-07-09', 1, 9),
 (5, 1, 89.99, '5', 'Recomendado', '2024-07-10', 1, 10);
 
