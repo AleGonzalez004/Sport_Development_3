@@ -7,7 +7,7 @@ if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
     // Se instancia la clase correspondiente.
-    $pedido = new HistorialData;
+    $historial = new HistorialData;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'session' => 0, 'message' => null, 'error' => null, 'exception' => null, 'dataset' => null);
     // Se verifica si existe una sesión iniciada como cliente para realizar las acciones correspondientes.
@@ -18,14 +18,14 @@ if (isset($_GET['action'])) {
             // Acción para agregar un producto al carrito de compras.
             case 'createDetail':
                 $_POST = Validator::validateForm($_POST);
-                if (!$pedido->startOrder()) {
-                    $result['error'] = 'Ocurrió un problema al iniciar el pedido';
+                if (!$historial->startOrder()) {
+                    $result['error'] = 'Ocurrió un problema al iniciar el historial';
                 } elseif (
-                    !$pedido->setProducto($_POST['idProducto']) or
-                    !$pedido->setCantidad($_POST['cantidadProducto'])
+                    !$historial->setProducto($_POST['idProducto']) or
+                    !$historial->setCantidad($_POST['cantidadProducto'])
                 ) {
-                    $result['error'] = $pedido->getDataError();
-                } elseif ($pedido->createDetail()) {
+                    $result['error'] = $historial->getDataError();
+                } elseif ($historial->createDetail()) {
                     $result['status'] = 1;
                     $result['message'] = 'Producto agregado correctamente';
                 } else {
@@ -34,23 +34,23 @@ if (isset($_GET['action'])) {
                 break;
             // Acción para obtener los productos agregados en el carrito de compras.
             case 'readDetail':
-                if (!$pedido->getOrder()) {
-                    $result['error'] = 'No ha agregado productos al carrito';
-                } elseif ($result['dataset'] = $pedido->readDetail()) {
+                if (!$historial->getOrder()) {
+                    $result['error'] = 'No hay nada en el historial';
+                } elseif ($result['dataset'] = $historial->readDetail()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'No existen productos en el carrito';
+                    $result['error'] = 'No existen datos en el historial';
                 }
                 break;
             // Acción para actualizar la cantidad de un producto en el carrito de compras.
             case 'updateDetail':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$pedido->setIdDetalle($_POST['idDetalle']) or
-                    !$pedido->setCantidad($_POST['cantidadProducto'])
+                    !$historial->setIdDetalle($_POST['idDetalle']) or
+                    !$historial->setCantidad($_POST['cantidadProducto'])
                 ) {
-                    $result['error'] = $pedido->getDataError();
-                } elseif ($pedido->updateDetail()) {
+                    $result['error'] = $historial->getDataError();
+                } elseif ($historial->updateDetail()) {
                     $result['status'] = 1;
                     $result['message'] = 'Cantidad modificada correctamente';
                 } else {
@@ -59,22 +59,22 @@ if (isset($_GET['action'])) {
                 break;
             // Acción para remover un producto del carrito de compras.
             case 'deleteDetail':
-                if (!$pedido->setIdDetalle($_POST['idDetalle'])) {
-                    $result['error'] = $pedido->getDataError();
-                } elseif ($pedido->deleteDetail()) {
+                if (!$historial->setIdDetalle($_POST['idDetalle'])) {
+                    $result['error'] = $historial->getDataError();
+                } elseif ($historial->deleteDetail()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Producto removido correctamente';
+                    $result['message'] = 'Historial removido correctamente';
                 } else {
                     $result['error'] = 'Ocurrió un problema al remover el producto';
                 }
                 break;
             // Acción para finalizar el carrito de compras.
             case 'finishOrder':
-                if ($pedido->finishOrder()) {
+                if ($historial->finishOrder()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Pedido iniciado correctamente';
+                    $result['message'] = 'Historial borrado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al iniciar el pedido';
+                    $result['error'] = 'Ocurrió un problema al borrar el historial';
                 }
                 break;
             default:

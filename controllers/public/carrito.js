@@ -110,7 +110,7 @@ async function finishOrder() {
         const DATA = await fetchData(PEDIDO_API, 'finishOrder');
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
-            sweetAlert(1, DATA.message, true, 'index.html');
+            sweetAlert(1, DATA.message, false, 'pedido.html');
         } else {
             sweetAlert(2, DATA.error, false);
         }

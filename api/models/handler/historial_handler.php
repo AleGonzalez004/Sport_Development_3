@@ -83,16 +83,16 @@ class HistorialHandler
         return Database::getRows($sql, $params);
     }
 
-    // Método para finalizar un pedido por parte del cliente.
+
+    // Método para eliminar todos los pedidos en estado 'Entregado'.
     public function finishOrder()
     {
-        $this->estado = 'EnCamino';
-        $sql = 'UPDATE tb_pedidos
-                SET estado_pedido = ?
-                WHERE id_pedido = ?';
-        $params = array($this->estado, $_SESSION['idPedido']);
-        return Database::executeRow($sql, $params);
+    $sql = 'DELETE FROM tb_pedidos
+            WHERE estado_pedido = ?';
+    $params = array('Entregado');
+    return Database::executeRow($sql, $params);
     }
+
 
     // Método para actualizar la cantidad de un producto agregado al carrito de compras.
     public function updateDetail()
