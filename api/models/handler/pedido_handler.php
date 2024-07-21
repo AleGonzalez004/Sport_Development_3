@@ -86,7 +86,7 @@ class PedidoHandler
     // Método para finalizar un pedido por parte del cliente.
     public function finishOrder()
     {
-        $this->estado = 'Finalizado';
+        $this->estado = 'EnCamino';
         $sql = 'UPDATE tb_pedidos
                 SET estado_pedido = ?
                 WHERE id_pedido = ?';

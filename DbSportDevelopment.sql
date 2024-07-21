@@ -68,7 +68,7 @@ CREATE TABLE tb_pedidos (
   id_pedido INT(10) AUTO_INCREMENT PRIMARY KEY NOT NULL,
   id_cliente INT(10) UNSIGNED NOT NULL,
   direccion_pedido VARCHAR(250) NOT NULL,
-  estado_pedido ENUM('Pendiente','Finalizado','Entregado','Anulado') NOT NULL,
+  estado_pedido ENUM('Pendiente','EnCamino','Entregado','Cancelado') NOT NULL,
   fecha_registro DATE NOT NULL DEFAULT CURRENT_TIMESTAMP()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
