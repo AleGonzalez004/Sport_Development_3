@@ -120,7 +120,7 @@ const graficoPastelCategorias = async () => {
                     label: 'Porcentaje de productos por categoría',
                     data: porcentajes,
                     backgroundColor: palette,
-                    borderColor: '#ffffff', // Color del borde de las secciones del pastel
+                    borderColor: '#ffffff', 
                     borderWidth: 1
                 }]
             },
@@ -177,7 +177,7 @@ const graficoCrecimientoClientes = async () => {
                 datasets: [{
                     label: 'Crecimiento de Clientes',
                     data: cantidades,
-                    borderColor: '#1a4373',
+                    backgroundColor: '#1a4373',
                     fill: false
                 }]
             },
@@ -217,7 +217,6 @@ const graficoCrecimientoClientes = async () => {
 const graficoEstadoPedidos = async () => {
     const DATA = await fetchData(GRAFICO_API, 'graficoPedido');
     
-    // Verifica los datos recibidos
     console.log(DATA.dataset);
 
     if (DATA.status) {
@@ -261,17 +260,14 @@ const graficoEstadoPedidos = async () => {
 
 const graficoVentas = async () => {
     const DATA = await fetchData(GRAFICO_API, 'graficoVenta');
-    
-    // Verifica los datos recibidos
-    console.log(DATA.dataset);
 
     if (DATA.status) {
         let fechas = [];
-        let ventas = [];
+        let cantidades = [];
 
         DATA.dataset.forEach(row => {
             fechas.push(row.fecha);
-            ventas.push(row.ventas);
+            cantidades.push(row.ventas);  
         });
 
         new Chart(document.getElementById('chart5'), {
@@ -279,12 +275,10 @@ const graficoVentas = async () => {
             data: {
                 labels: fechas,
                 datasets: [{
-                    label: 'Ventas de Productos',
-                    data: ventas,
-                    borderColor: '#1a4373',
+                    label: 'Cantidad de Ventas',
+                    data: cantidades,
                     backgroundColor: '#1a4373',
-                    fill: false,
-                    borderWidth: 2
+                    fill: false
                 }]
             },
             options: {
@@ -308,7 +302,7 @@ const graficoVentas = async () => {
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Ventas'
+                            text: 'Cantidad de Ventas'
                         }
                     }
                 }
@@ -319,6 +313,7 @@ const graficoVentas = async () => {
         console.log(DATA.error);
     }
 };
+
 
 
 

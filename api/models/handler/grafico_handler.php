@@ -49,7 +49,7 @@ class GraficoHandler
     $sql = 'SELECT DATE(p.fecha_registro) AS fecha, COUNT(dp.id_producto) AS ventas
             FROM tb_pedidos p
             JOIN tb_detalle_pedidos dp ON p.id_pedido = dp.id_pedido
-            WHERE p.estado_pedido = "Finalizado"
+            WHERE p.estado_pedido = "Entregado"
             GROUP BY DATE(p.fecha_registro)
             ORDER BY fecha ASC;';
     return Database::getRows($sql);
