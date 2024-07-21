@@ -214,11 +214,11 @@ const graficoCrecimientoClientes = async () => {
     }
 };
 
-
-
-
 const graficoEstadoPedidos = async () => {
     const DATA = await fetchData(GRAFICO_API, 'graficoPedido');
+    
+    // Verifica los datos recibidos
+    console.log(DATA.dataset);
 
     if (DATA.status) {
         let estados = [];
@@ -254,38 +254,36 @@ const graficoEstadoPedidos = async () => {
             }
         });
     } else {
-        document.getElementById('chart5').remove();
+        document.getElementById('chart4').remove();
         console.log(DATA.error);
     }
 };
 
 const graficoVentas = async () => {
-    // Petición para obtener los datos del gráfico.
     const DATA = await fetchData(GRAFICO_API, 'graficoVenta');
+    
+    // Verifica los datos recibidos
+    console.log(DATA.dataset);
 
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
     if (DATA.status) {
-        // Se declaran los arreglos para guardar los datos a graficar.
         let fechas = [];
         let ventas = [];
 
-        // Se recorren los datos obtenidos para llenar los arreglos.
         DATA.dataset.forEach(row => {
             fechas.push(row.fecha);
             ventas.push(row.ventas);
         });
 
-        // Llamada a la función para generar y mostrar un gráfico de líneas.
         new Chart(document.getElementById('chart5'), {
-            type: 'line', // Tipo de gráfico de líneas
+            type: 'line',
             data: {
                 labels: fechas,
                 datasets: [{
                     label: 'Ventas de Productos',
                     data: ventas,
-                    borderColor: '#1a4373', // Color del borde
-                    backgroundColor: '#1a4373', // Color de fondo
-                    fill: false, // No rellenar el área bajo la línea
+                    borderColor: '#1a4373',
+                    backgroundColor: '#1a4373',
+                    fill: false,
                     borderWidth: 2
                 }]
             },
@@ -321,6 +319,7 @@ const graficoVentas = async () => {
         console.log(DATA.error);
     }
 };
+
 
 
 
