@@ -149,11 +149,64 @@ class OrderHandler
         return Database::executeRow($sql, $params);
     }
 
+    
+
     public function deleteOrder()
     {
     $sql = 'DELETE FROM tb_pedidos
             WHERE estado_pedido = ?';
     $params = array('EnCamino');
     return Database::executeRow($sql, $params);
+    }
+
+    
+}
+class PedidoData {
+    private $pdo;
+
+    public function __construct($host, $db, $user, $pass) {
+        try {
+            $this->pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            die("Error al conectar a la base de datos: " . $e->getMessage());
+        }
+    }
+
+    public function readByClientAndStatus($id_cliente, $estado_pedido) {
+        $sql = "SELECT p.id_pedido, p.direccion_pedido, p.fecha_registro, c.nombre_cliente, c.apellido_cliente, c.telefono_cliente, c.direccion_cliente, c.dui_cliente
+                FROM tb_pedidos p
+                INNER JOIN tb_clientes c ON p.id_cliente = c.id_cliente
+                WHERE p.estado_pedido = :estado_pedido AND p.id_cliente = :id_cliente";
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':estado_pedido', $estado_pedido);
+            $stmt->bindParam(':id_cliente', $id_cliente);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            die("Error al ejecutar la consulta: " . $e->getMessage());
+        }
+    }
+}
+
+
+class DetallePedidoData {
+    private $idPedido;
+
+    // Método para establecer el pedido
+    public function setPedido($idPedido) {
+        $this->idPedido = $idPedido;
+        return true;
+    }
+
+    // Método para obtener los detalles de un pedido
+    public function readByPedido() {
+        $sql = 'SELECT dp.*, p.nombre_producto 
+                FROM tb_detalle_pedidos dp 
+                JOIN tb_productos p ON dp.id_producto = p.id_producto 
+                WHERE dp.id_pedido = ?';
+        $params = array($this->idPedido);
+        return Database::getRows($sql, $params);
     }
 }

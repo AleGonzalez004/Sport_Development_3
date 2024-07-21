@@ -40,6 +40,11 @@
         <p class="text-end">TOTAL A PAGAR (US$) <b id="pago"></b></p>
         <!-- Párrafo para mostrar un botón que finaliza el pedido -->
         <p class="text-end">
+            <button type="button" class="btn btn-dark" onclick="openReport()">
+                <i class="bi bi-file-earmark-check-fill"></i> Obtener recibo
+            </button>
+        </p>
+        <p class="text-end">
             <button type="button" class="btn btn-dark" onclick="finishOrder()">
                 <i class="bi bi-credit-card-fill"></i> Finalizar pedido
             </button>
@@ -48,12 +53,6 @@
             <button type="button" class="btn btn-dark" onclick="deleteOrder()">
                 <i class="bi bi-cart-x-fill"></i> Cancelar pedido
             </button>
-        </p>
-        <!-- Párrafo para mostrar un enlace a la página web principal -->
-        <p class="text-end">
-            <a href="index.html" class="btn btn-dark">
-                <i class="bi bi-cart-fill"></i> Seguir comprando
-            </a>
         </p>
         <!-- Componente Modal para mostrar una caja de diálogo -->
         <div class="modal fade" id="itemModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"

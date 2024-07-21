@@ -84,6 +84,14 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al registrar la cuenta';
                 }
                 break;
+                case 'getUser':
+                    if (isset($_SESSION['nombreCliente'])) {
+                        $result['status'] = 1;
+                        $result['username'] = $_SESSION['nombreCliente'];
+                    } else {
+                        $result['error'] = 'Alias de cliente indefinido';
+                    }
+                    break;
                 case 'signUpMovil':
                     $_POST = Validator::validateForm($_POST);
                 if (
