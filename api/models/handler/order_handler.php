@@ -148,4 +148,12 @@ class OrderHandler
         $params = array($this->id_detalle, $_SESSION['idPedido']);
         return Database::executeRow($sql, $params);
     }
+
+    public function deleteOrder()
+    {
+    $sql = 'DELETE FROM tb_pedidos
+            WHERE estado_pedido = ?';
+    $params = array('EnCamino');
+    return Database::executeRow($sql, $params);
+    }
 }

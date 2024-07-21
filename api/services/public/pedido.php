@@ -77,6 +77,14 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al iniciar el pedido';
                 }
                 break;
+                case 'deleteOrder':
+                    if ($pedido->deleteOrder()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Carrito borrado correctamente';
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al borrar el Carrito';
+                    }
+                    break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }

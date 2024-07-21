@@ -77,6 +77,14 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al finalizar el pedido';
                 }
                 break;
+                case 'deleteOrder':
+                    if ($pedido->deleteOrder()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Pedido Cancelado Correctamente';
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al cancelar el pedido';
+                    }
+                    break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
