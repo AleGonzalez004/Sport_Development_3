@@ -109,11 +109,14 @@ async function finishOrder() {
         // Petición para finalizar el pedido en proceso.
         const DATA = await fetchData(PEDIDO_API, 'finishOrder');
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-        if (DATA.status) {
-            sweetAlert(1, DATA.message, false, 'pedido.html');
-        } else {
-            sweetAlert(2, DATA.error, false);
-        }
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se constata si el cliente ha iniciado sesión.
+    if (DATA.status) {
+        sweetAlert(1, DATA.message, false, 'pedido.html');
+    } else if (DATA.session) {
+        sweetAlert(2, DATA.error, false);
+    } else {
+        sweetAlert(3, DATA.error, true, 'login.html');
+    }
     }
 }
 
