@@ -59,12 +59,18 @@ if ($dataPedidos = $pedido->readByClientAndStatus($_SESSION['idCliente'], 'EnCam
                 $pdf->setFillColor(240, 240, 240);
                 $pdf->setTextColor(0, 0, 0);
                 $fill = false;
+                $total = 0; // Inicializamos el total
                 foreach ($dataDetalles as $rowDetalle) {
                     $pdf->cell(126, 10, $pdf->encodeString($rowDetalle['nombre_producto']), 0, 0, '', $fill);
                     $pdf->cell(30, 10, $rowDetalle['cantidad_producto'], 0, 0, 'C', $fill);
                     $pdf->cell(30, 10, number_format($rowDetalle['precio_producto'], 2, '.', ''), 0, 1, 'R', $fill);
+                    $total += $rowDetalle['cantidad_producto'] * $rowDetalle['precio_producto']; // Calculamos el total
                     $fill = !$fill;
                 }
+                // Mostrar el total
+                $pdf->setFont('Arial', 'B', 11);
+                $pdf->cell(156, 10, 'Total', 0, 0, 'R');
+                $pdf->cell(30, 10, number_format($total, 2, '.', ''), 0, 1, 'R');
             } else {
                 $pdf->cell(0, 10, $pdf->encodeString('No hay productos para el pedido'), 1, 1);
             }
