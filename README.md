@@ -1,11 +1,12 @@
 # Sport_Development_3
 Dennis Alejandro Gonzalez Carrillo 20220444  
 Fernando Antonio Molina Paniagua 20220418
+Edgar Enrique Sarco Garcia 20220082
 
 # Repositorio
 https://github.com/AleGonzalez004/Sport_Development_3
 
-STANDARES DE PROGRAMACION
+# Estándares de Programación
 
 1-PSR-1: Estándar Básico de Codificación
 
@@ -37,9 +38,7 @@ Frameworks: Usa PHPUnit.
 Cobertura: Asegura pruebas adecuadas.
 Nombres de Pruebas: Descriptivos y en camelCase.
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-Estándares de Programación en Java
+# Estándares de Programación en Java
 
 1-Convenciones de Código Java
 
@@ -68,3 +67,5 @@ Pruebas Unitarias
 Frameworks: Usa JUnit.
 Cobertura: Asegura pruebas adecuadas.
 Nombres de Pruebas: Descriptivos y en camelCase.
+
+# Libreria PhpMailer para enviar correos
