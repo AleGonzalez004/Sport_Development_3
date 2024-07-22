@@ -1,30 +1,20 @@
 <!DOCTYPE html>
-<!-- Declaración del idioma para el documento -->
 <html lang="es">
 
 <head>
-    <!-- Título del documento -->
     <title></title>
-    <!-- Metadatos de la página web -->
     <meta charset="utf-8">
     <meta name="author" content="Dennis Gonzalez">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- IMPORTACIÓN DE RECURSOS EXTERNOS -->
-    <!-- Llamada al icono de la página web -->
     <link type="image/png" rel="icon" href="../../resources/img/icon.png">
-    <!-- Llamada a las hojas de estilos del framework e iconos -->
     <link type="text/css" rel="stylesheet" href="../../resources/css/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
 </head>
 
 <body>
-    <!-- Contenido principal del documento -->
     <main>
-        <!-- Título del contenido principal -->
         <h4 id="mainTitle"></h4>
-        <!-- Tabla para mostrar el detalle de los productos agregados al carrito de compras -->
         <table class="table table-striped">
-            <!-- Cabeza de la tabla para mostrar los títulos de las columnas -->
             <thead>
                 <tr>
                     <th>PRODUCTO</th>
@@ -34,34 +24,27 @@
                     <th>ACCIONES</th>
                 </tr>
             </thead>
-            <!-- Cuerpo de la tabla para mostrar un registro por fila -->
             <tbody id="tableBody"></tbody>
         </table>
-        <!-- Párrafo para mostrar el monto total a pagar -->
         <p class="text-end">TOTAL A PAGAR (US$) <b id="pago"></b></p>
-        <!-- Párrafo para mostrar un botón que finaliza el pedido -->
         <p class="text-end">
-            <button type="button" class="btn btn-dark" onclick="finishOrder()">
+            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#paymentModal">
                 <i class="bi bi-credit-card-fill"></i> Iniciar pedido
             </button>
         </p>
-        <!-- Párrafo para mostrar un enlace a la página web principal -->
         <p class="text-end">
             <a href="index.html" class="btn btn-dark">
                 <i class="bi bi-cart-fill"></i> Seguir comprando
             </a>
         </p>
-        <!-- Componente Modal para mostrar una caja de diálogo -->
         <div class="modal fade" id="itemModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="modalTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
-                <!-- Contenido del componente Modal -->
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="modalTitle">Cambiar cantidad</h1>
-                        <button type="button" class="btn-dark" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-square-fill"></i></button>
                     </div>
-                    <!-- Formulario para actualizar cantidad -->
                     <form id="itemForm">
                         <div class="modal-body row">
                             <input type="number" class="d-none" id="idDetalle" name="idDetalle">
@@ -78,16 +61,65 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal para añadir tarjeta de pago -->
+        <div class="modal fade" id="paymentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paymentModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="paymentModalTitle">Añadir tarjeta de pago</h1>
+                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-square-fill"></i></button>
+                    </div>
+                    <form id="paymentForm" onsubmit="handlePayment(event)">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="cardType" class="form-label">Tipo de tarjeta</label>
+                                <select id="cardType" name="cardType" class="form-select" required>
+                                    <option value="" disabled selected>Seleccionar tipo de tarjeta</option>
+                                    <option value="visa">Visa</option>
+                                    <option value="mastercard">MasterCard</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cardUsage" class="form-label">Tipo de uso</label>
+                                <select id="cardUsage" name="cardUsage" class="form-select" required>
+                                    <option value="" disabled selected>Seleccionar tipo de uso</option>
+                                    <option value="credit">Crédito</option>
+                                    <option value="debit">Débito</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cardNumber" class="form-label">Número de tarjeta</label>
+                                <input type="text" id="cardNumber" name="cardNumber" class="form-control" placeholder="XXXX XXXX XXXX XXXX" required oninput="formatCardNumber(this)">
+                            </div>
+                            <div class="mb-3">
+                                <label for="cardName" class="form-label">Nombre en la tarjeta</label>
+                                <input type="text" id="cardName" name="cardName" class="form-control" placeholder="Nombre completo" required>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label for="expiryDate" class="form-label">Fecha de expiración</label>
+                                    <input type="text" id="expiryDate" name="expiryDate" class="form-control" placeholder="MM/AA" required oninput="formatExpiryDate(this)">
+                                </div>
+                                <div class="col">
+                                    <label for="cvv" class="form-label">CVV</label>
+                                    <input type="text" id="cvv" name="cvv" class="form-control" placeholder="XXX" required oninput="formatCVV(this)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-dark">Añadir tarjeta</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </main>
-    <!-- IMPORTACIÓN DE ARCHIVOS JAVASCRIPT -->
-    <!-- Llamada al framework y librería de mensajes -->
     <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
-    <!-- Llamada al controlador general de la aplicación -->
     <script type="text/javascript" src="../../controllers/utils/components.js"></script>
-    <!-- Llamada al controlador del sitio público -->
     <script type="text/javascript" src="../../controllers/utils/public.js"></script>
-    <!-- Llamada al controlador de la página web -->
     <script type="text/javascript" src="../../controllers/public/carrito.js"></script>
 </body>
 

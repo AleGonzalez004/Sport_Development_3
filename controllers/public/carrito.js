@@ -96,6 +96,14 @@ function openUpdate(id, quantity) {
     document.getElementById('cantidadProducto').value = quantity;
 }
 
+function handlePayment(event) {
+    event.preventDefault();
+    var modal = new bootstrap.Modal(document.getElementById('paymentModal'));
+    modal.hide();
+    
+    finishOrder();
+}
+
 /*
 *   Función asíncrona para mostrar un mensaje de confirmación al momento de finalizar el pedido.
 *   Parámetros: ninguno.
@@ -146,10 +154,39 @@ async function openDelete(id) {
     }
 }
 
+
 const openReport = () => {
     // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
     const PATH = new URL(`${SERVER_URL}reports/admin/productos.php`);
     // Se abre el reporte en una nueva pestaña.
     window.open(PATH.href);
 }
+
+ // Formatea el número de la tarjeta de crédito con espacios cada 4 dígitos y limita a 16 dígitos
+ function formatCardNumber(input) {
+    let value = input.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
+    if (value.length > 16) {
+        value = value.slice(0, 16); // Limita a 16 dígitos
+    }
+    const formatted = value.match(/.{1,4}/g)?.join(' ') || '';
+    input.value = formatted;
+}
+
+// Formatea la fecha de expiración en el formato MM/AA
+function formatExpiryDate(input) {
+    const value = input.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
+    if (value.length <= 2) {
+        input.value = value;
+    } else {
+        input.value = value.slice(0, 2) + '/' + value.slice(2, 4);
+    }
+}
+
+// Formatea el CVV a 3 dígitos
+function formatCVV(input) {
+    const value = input.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
+    input.value = value.slice(0, 3);
+}
+
+
 
