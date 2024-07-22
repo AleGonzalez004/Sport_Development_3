@@ -29,37 +29,24 @@ class HistorialHandler
     */
     // Método para verificar si existe un pedido en proceso con el fin de iniciar o continuar una compra.
     public function getOrder()
-    {
-        $this->estado = 'Entregado';
-        $sql = 'SELECT id_pedido
-                FROM tb_pedidos
-                WHERE estado_pedido = ? AND id_cliente = ?';
-        $params = array($this->estado, $_SESSION['idCliente']);
-        if ($data = Database::getRow($sql, $params)) {
-            $_SESSION['idPedido'] = $data['id_pedido'];
-            return true;
-        } else {
-            return false;
-        }
+{
+    $sql = 'SELECT * FROM tb_pedidos WHERE id_cliente = ?'; // Selecciona todos los pedidos del cliente
+    $params = array($_SESSION['idCliente']);
+    
+    // Ejecuta la consulta y obtiene todos los registros
+    $data = Database::getRows($sql, $params);
+    
+    // Comprobar si se encontraron datos
+    if ($data) {
+        // Almacena los IDs de todos los pedidos en la sesión
+        $_SESSION['idPedidos'] = array_column($data, 'id_pedido');
+        return $data; // Retorna todos los datos obtenidos
+    } else {
+        return false; // Retorna false si no se encontraron pedidos
     }
+}
 
-    // Método para iniciar un pedido en proceso.
-    public function startOrder()
-    {
-        if ($this->getOrder()) {
-            return true;
-        } else {
-            $sql = 'INSERT INTO tb_pedidos(direccion_pedido, id_cliente)
-                    VALUES((SELECT direccion_cliente FROM tb_clientes WHERE id_cliente = ?), ?)';
-            $params = array($_SESSION['idCliente'], $_SESSION['idCliente']);
-            // Se obtiene el ultimo valor insertado de la llave primaria en la tabla pedido.
-            if ($_SESSION['idPedido'] = Database::getLastRow($sql, $params)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
+   
 
     // Método para agregar un producto al carrito de compras.
     public function createDetail()
@@ -73,15 +60,19 @@ class HistorialHandler
 
     // Método para obtener los productos que se encuentran en el carrito de compras.
     public function readDetail()
-    {
-        $sql = 'SELECT id_detalle, nombre_producto, tb_detalle_pedidos.precio_producto, tb_detalle_pedidos.cantidad_producto
-                FROM tb_detalle_pedidos
-                INNER JOIN tb_pedidos USING(id_pedido)
-                INNER JOIN tb_productos USING(id_producto)
-                WHERE id_pedido = ?';
-        $params = array($_SESSION['idPedido']);
-        return Database::getRows($sql, $params);
-    }
+{
+    // Crea una lista de parámetros con todos los IDs de pedidos
+    $ids = implode(',', $_SESSION['idPedidos']);
+    
+    // Modifica la consulta para manejar múltiples IDs
+    $sql = 'SELECT id_detalle, nombre_producto, tb_detalle_pedidos.precio_producto, tb_detalle_pedidos.cantidad_producto
+            FROM tb_detalle_pedidos
+            INNER JOIN tb_pedidos USING(id_pedido)
+            INNER JOIN tb_productos USING(id_producto)
+            WHERE id_pedido IN (' . $ids . ')';
+    return Database::getRows($sql);
+}
+
 
 
     // Método para eliminar todos los pedidos en estado 'Entregado'.

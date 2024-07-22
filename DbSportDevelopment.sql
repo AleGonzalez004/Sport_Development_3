@@ -250,3 +250,4 @@ SELECT * FROM tb_generos;
 -- Ver todo el contenido de la tabla tb_imagenes
 SELECT * FROM tb_imagenes;
 
+
