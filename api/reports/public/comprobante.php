@@ -87,7 +87,10 @@ if ($dataPedidos = $pedido->readByClientAndStatus($_SESSION['idCliente'], 'EnCam
 }
 
 $filePath = 'C:/xampp/htdocs/Sport_Development_3/api/pdfs/Comprobante_' . time() . '.pdf';
-$pdf->output('I', $filePath);
+$pdf->output('F', $filePath);
+
+// Mostrar el archivo en el navegador
+$pdf->output('I', 'Comprobante.pdf');
 
 echo "Archivo guardado en: " . $filePath;
 
