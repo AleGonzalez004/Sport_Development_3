@@ -40,17 +40,20 @@ if ($dataPedidos = $pedido->readByClientAndStatus($_SESSION['idCliente'], 'EnCam
         $pdf->cell(70, 8, $pdf->encodeString($rowPedido['dui_cliente']), 0, 1);
         
         // Tercera fila de datos
+        $pdf->cell(90, 8, $pdf->encodeString('Correo Electrónico:'), 0, 0);
+        $pdf->cell(70, 8, $pdf->encodeString($clienteEmail), 0, 0);
+        $pdf->ln(10);
         $pdf->cell(90, 8, $pdf->encodeString('Fecha de Registro:'), 0, 0);
-        $pdf->cell(60, 8, $pdf->encodeString($rowPedido['fecha_registro']), 0, 1);
-        $pdf->ln(5);
+        $pdf->cell(50, 8, $pdf->encodeString($rowPedido['fecha_registro']), 0, 1);
+        $pdf->ln(10);
 
         // Encabezados de productos
         $pdf->setFont('Arial', 'B', 11);
         $pdf->setFillColor(36, 92, 157);
         $pdf->setTextColor(255, 255, 255);
-        $pdf->cell(126, 10, 'Producto', 0, 0, 'C', 1);
-        $pdf->cell(30, 10, 'Cantidad', 0, 0, 'C', 1);
-        $pdf->cell(30, 10, 'Precio (US$)', 0, 1, 'C', 1);
+        $pdf->cell(126, 12, 'Producto', 0, 0, 'C', 1);
+        $pdf->cell(30, 12, 'Cantidad', 0, 0, 'C', 1);
+        $pdf->cell(30, 12, 'Precio (US$)', 0, 1, 'C', 1);
         
         $detallePedido = new DetallePedidoData('localhost', 'sport', 'root', '');
         if ($detallePedido->setPedido($rowPedido['id_pedido'])) {
@@ -61,15 +64,15 @@ if ($dataPedidos = $pedido->readByClientAndStatus($_SESSION['idCliente'], 'EnCam
                 $fill = false;
                 $total = 0;
                 foreach ($dataDetalles as $rowDetalle) {
-                    $pdf->cell(126, 10, $pdf->encodeString($rowDetalle['nombre_producto']), 0, 0, '', $fill);
-                    $pdf->cell(30, 10, $rowDetalle['cantidad_producto'], 0, 0, 'C', $fill);
-                    $pdf->cell(30, 10, number_format($rowDetalle['precio_producto'], 2, '.', ''), 0, 1, 'R', $fill);
+                    $pdf->cell(126, 12, $pdf->encodeString($rowDetalle['nombre_producto']), 0, 0, '', $fill);
+                    $pdf->cell(30, 12, $rowDetalle['cantidad_producto'], 0, 0, 'C', $fill);
+                    $pdf->cell(30, 12, number_format($rowDetalle['precio_producto'], 2, '.', ''), 0, 1, 'R', $fill);
                     $total += $rowDetalle['cantidad_producto'] * $rowDetalle['precio_producto'];
                     $fill = !$fill;
                 }
                 $pdf->setFont('Arial', 'B', 11);
-                $pdf->cell(156, 10, 'Total', 0, 0, 'R');
-                $pdf->cell(30, 10, number_format($total, 2, '.', ''), 0, 1, 'R');
+                $pdf->cell(150, 15, 'Total', 0, 0, 'R');
+                $pdf->cell(30, 15, number_format($total, 2, '.', ''), 0, 1, 'R');
             } else {
                 $pdf->cell(0, 10, $pdf->encodeString('No hay productos para el pedido'), 1, 1);
             }
@@ -84,7 +87,7 @@ if ($dataPedidos = $pedido->readByClientAndStatus($_SESSION['idCliente'], 'EnCam
 }
 
 $filePath = 'C:/xampp/htdocs/Sport_Development_3/api/pdfs/Comprobante_' . time() . '.pdf';
-$pdf->output('F', $filePath);
+$pdf->output('I', $filePath);
 
 echo "Archivo guardado en: " . $filePath;
 
