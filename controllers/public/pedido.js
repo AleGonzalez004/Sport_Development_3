@@ -90,27 +90,6 @@ function openUpdate(id, quantity) {
     document.getElementById('cantidadProducto').value = quantity;
 }
 
-/*
-*   Función asíncrona para mostrar un mensaje de confirmación al momento de finalizar el pedido.
-*   Parámetros: ninguno.
-*   Retorno: ninguno.
-*/
-async function finishOrder() {
-    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction('¿Está seguro de finalizar el pedido?');
-    // Se verifica la respuesta del mensaje.
-    if (RESPONSE) {
-        // Petición para finalizar el pedido en proceso.
-        const DATA = await fetchData(ORDER_API, 'finishOrder');
-        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-        if (DATA.status) {
-            sweetAlert(1, DATA.message, true, 'index.html');
-        } else {
-            sweetAlert(2, DATA.error, false);
-        }
-    }
-}
-
 async function deleteOrder() {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const RESPONSE = await confirmAction('¿Está seguro de eliminar el pedido?');
@@ -153,10 +132,43 @@ async function openDelete(id) {
     }
 }
 
-const openReport = () => {
-    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
-    const PATH = new URL(`${SERVER_URL}reports/public/comprobante.php`);
-    // Se abre el reporte en una nueva pestaña.
-    window.open(PATH.href);
+
+async function finishOrder() {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('¿Está seguro de finalizar el pedido?');
+    
+    // Se verifica la respuesta del mensaje.
+    if (RESPONSE) {
+        // Primero, generamos el reporte.
+        await openReport();
+        
+        // Esperamos 5 segundos para asegurar que el reporte se haya abierto.
+        await new Promise(resolve => setTimeout(resolve, 5000)); // Esperar 5 segundos
+        
+        // Luego, petición para finalizar el pedido en proceso.
+        const DATA = await fetchData(ORDER_API, 'finishOrder');
+        
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            sweetAlert(1, DATA.message, true, 'index.html');
+            // Recargar la página y redirigir al índice.
+            setTimeout(() => {
+                window.location.href = 'index.html'; // Redirige al índice después de recargar
+            }, 1000); // Esperar 1 segundo para la recarga
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    }
 }
 
+const openReport = async () => {
+    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+    const PATH = new URL(`${SERVER_URL}reports/public/comprobante.php`);
+    
+    // Abre la URL en una nueva pestaña para descargar el archivo.
+    window.open(PATH.href, '_blank');
+}
+
+function handleClick() {
+    finishOrder();
+}

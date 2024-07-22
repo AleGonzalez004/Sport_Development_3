@@ -85,5 +85,5 @@ if ($dataPedidos = $pedido->readByClientAndStatus($_SESSION['idCliente'], 'EnCam
     $pdf->cell(0, 10, $pdf->encodeString('No hay pedidos en camino para mostrar'), 1, 1);
 }
 // Se llama implícitamente al método footer() y se envía el documento al navegador web.
-$pdf->output('I', 'Comprobante.pdf');
+$pdf->output('D', 'Comprobante.pdf');
 ?>

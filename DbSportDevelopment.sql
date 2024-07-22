@@ -31,7 +31,7 @@ CREATE TABLE tb_tallas (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE tb_categorias (
-id_categoria INT(10) AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  id_categoria INT(10) AUTO_INCREMENT PRIMARY KEY NOT NULL,
   nombre VARCHAR(50) NOT NULL,
   descripcion VARCHAR(250) DEFAULT NULL,
   imagen VARCHAR(25) NOT NULL
@@ -96,7 +96,6 @@ CREATE TABLE tb_imagenes (
    id_producto INT
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Datos de clientes con fechas diversas
 INSERT INTO tb_clientes (nombre_cliente, apellido_cliente, dui_cliente, correo_cliente, telefono_cliente, direccion_cliente, nacimiento_cliente, clave_cliente, estado_cliente, fecha_registro) VALUES
 ('Juan', 'Pérez', '12345678-9', 'juan.perez@example.com', '123456789', 'Av. Siempre Viva 742', '1980-01-01', 'clave123', 1, '2014-01-20'),
 ('Ana', 'García', '98765432-1', 'ana.garcia@example.com', '987654321', 'Calle Falsa 123', '1990-05-15', 'clave456', 1, '2024-07-11'),
@@ -109,7 +108,7 @@ INSERT INTO tb_clientes (nombre_cliente, apellido_cliente, dui_cliente, correo_c
 ('Pedro', 'Morales', '78932145-6', 'pedro.morales@example.com', '789321456', 'Calle el Sol 444', '1989-08-30', 'clave159', 1, '2024-07-18'),
 ('Clara', 'Ríos', '45698732-1', 'clara.rios@example.com', '456987321', 'Boulevard Estrella 555', '1991-12-14', 'clave357', 1, '2024-07-19');
 
--- Datos para tb_pedidos con más fechas diversas
+
 INSERT INTO tb_pedidos (id_cliente, direccion_pedido, estado_pedido, fecha_registro) VALUES
 (1, 'Av. Siempre Viva 742', 'Cancelado', '2024-07-01'),
 (1, 'Av. Siempre Viva 742', 'EnCamino', '2024-07-02'),
@@ -136,7 +135,6 @@ INSERT INTO tb_pedidos (id_cliente, direccion_pedido, estado_pedido, fecha_regis
 (9, 'Calle el Sol 444', 'EnCamino', '2024-07-23'),
 (10, 'Boulevard Estrella 555', 'EnCamino', '2024-07-24');
 
--- Insertar datos en la tabla tb_detalle_pedidos
 INSERT INTO tb_detalle_pedidos (id_producto, cantidad_producto, precio_producto, calificacion_producto, comentario_producto, fecha_valoracion, estado_comentario, id_pedido) VALUES
 (1, 2, 29.99, '5', 'Excelente calidad', '2024-07-01', 1, 1),
 (2, 1, 29.99, '4', 'Buen producto', '2024-07-02', 1, 2),
@@ -214,10 +212,3 @@ INSERT INTO tb_generos (nombre) VALUES
 ('Unisex'),
 ('Niños'),
 ('Niñas');
-
-INSERT INTO tb_imagenes (nombre_imagen, id_producto) VALUES
-('producto1.png', 1),
-('producto2.png', 2),
-('producto3.png', 3),
-('producto4.png', 4),
-('producto5.png', 5);
