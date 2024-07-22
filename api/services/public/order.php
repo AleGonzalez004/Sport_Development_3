@@ -72,7 +72,7 @@ if (isset($_GET['action'])) {
             case 'finishOrder':
                 if ($pedido->finishOrder()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Pedido finlizado correctamente';
+                    $result['message'] = 'Pedido finlizado correctamente te enviamos un correo con el comprobante';
                 } else {
                     $result['error'] = 'Ocurrió un problema al finalizar el pedido';
                 }

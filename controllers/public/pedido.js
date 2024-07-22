@@ -154,7 +154,7 @@ async function finishOrder() {
             // Recargar la página y redirigir al índice.
             setTimeout(() => {
                 window.location.href = 'index.html'; // Redirige al índice después de recargar
-            }, 1000); // Esperar 1 segundo para la recarga
+            }, 50000); // Esperar 50 segundo para la recarga
         } else {
             sweetAlert(2, DATA.error, false);
         }

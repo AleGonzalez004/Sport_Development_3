@@ -174,10 +174,12 @@ class PedidoData {
     }
 
     public function readByClientAndStatus($id_cliente, $estado_pedido) {
-        $sql = "SELECT p.id_pedido, p.direccion_pedido, p.fecha_registro, c.nombre_cliente, c.apellido_cliente, c.telefono_cliente, c.direccion_cliente, c.dui_cliente
+        // Actualiza la consulta SQL para incluir el campo correo_cliente
+        $sql = "SELECT p.id_pedido, p.direccion_pedido, p.fecha_registro, c.nombre_cliente, c.apellido_cliente, c.telefono_cliente, c.direccion_cliente, c.dui_cliente, c.correo_cliente
                 FROM tb_pedidos p
                 INNER JOIN tb_clientes c ON p.id_cliente = c.id_cliente
                 WHERE p.estado_pedido = :estado_pedido AND p.id_cliente = :id_cliente";
+    
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':estado_pedido', $estado_pedido);
@@ -189,6 +191,7 @@ class PedidoData {
         }
     }
 }
+  
 
 
 class DetallePedidoData {
