@@ -72,7 +72,7 @@ if ($dataPedidos = $pedido->readByClientAndStatus($_SESSION['idCliente'], 'EnCam
                 }
                 $pdf->setFont('Arial', 'B', 11);
                 $pdf->cell(150, 15, 'Total', 0, 0, 'R');
-                $pdf->cell(30, 15, number_format($total, 2, '.', ''), 0, 1, 'R');
+                $pdf->cell(35, 15, number_format($total, 2, '.', ''), 0, 1, 'R');
             } else {
                 $pdf->cell(0, 10, $pdf->encodeString('No hay productos para el pedido'), 1, 1);
             }
