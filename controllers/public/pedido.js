@@ -65,10 +65,11 @@ async function readDetail() {
                     <td>${row.precio_producto}</td>
                     <td>${row.cantidad_producto}</td>
                     <td>${subtotal.toFixed(2)}</td>
+                    <td>${row.fecha_registro}</td>
                     <td>
-                    <button type="button" class="btn btn-dark" onclick="handleClick()">
-                    <i class="bi bi-credit-card-fill"></i> Finalizar pedido
-                    </button>
+                        <button type="button" class="btn btn-dark" onclick="handleClick()">
+                            <i class="bi bi-credit-card-fill"></i> Finalizar pedido
+                        </button>
                     </td>
                 </tr>
             `;
@@ -135,7 +136,6 @@ async function openDelete(id) {
     }
 }
 
-
 async function finishOrder() {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const RESPONSE = await confirmAction('¿Está seguro de finalizar el pedido?');
@@ -157,7 +157,7 @@ async function finishOrder() {
             // Recargar la página y redirigir al índice.
             setTimeout(() => {
                 window.location.href = 'index.html'; // Redirige al índice después de recargar
-            }, 50000); // Esperar 50 segundo para la recarga
+            }, 50000); // Esperar 50 segundos para la recarga
         } else {
             sweetAlert(2, DATA.error, false);
         }
