@@ -173,21 +173,17 @@ class PedidoData {
         }
     }
 
-    public function readByClientAndStatus($id_cliente, $estado_pedido) {
-        // Actualiza la consulta SQL para incluir el campo correo_cliente
-        $sql = "SELECT p.id_pedido, p.direccion_pedido, p.fecha_registro, c.nombre_cliente, c.apellido_cliente, c.telefono_cliente, c.direccion_cliente, c.dui_cliente, c.correo_cliente
-                FROM tb_pedidos p
-                INNER JOIN tb_clientes c ON p.id_cliente = c.id_cliente
-                WHERE p.estado_pedido = :estado_pedido AND p.id_cliente = :id_cliente";
-    
+    public function readById($idPedido) {
+        $query = "SELECT * FROM tb_pedidos WHERE id_pedido = :idPedido";
         try {
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->bindParam(':estado_pedido', $estado_pedido);
-            $stmt->bindParam(':id_cliente', $id_cliente);
+            $stmt = $this->pdo->prepare($query);
+            $stmt->bindParam(':idPedido', $idPedido, PDO::PARAM_INT);
             $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result;
         } catch (PDOException $e) {
-            die("Error al ejecutar la consulta: " . $e->getMessage());
+            echo 'Error: ' . $e->getMessage();
+            return false;
         }
     }
 }
@@ -195,7 +191,17 @@ class PedidoData {
 
 
 class DetallePedidoData {
+    private $pdo;
     private $idPedido;
+
+    public function __construct($host, $db, $user, $pass) {
+        try {
+            $this->pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            die("Error al conectar a la base de datos: " . $e->getMessage());
+        }
+    }
 
     // Método para establecer el pedido
     public function setPedido($idPedido) {
