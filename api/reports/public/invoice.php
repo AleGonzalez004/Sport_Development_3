@@ -38,20 +38,21 @@ try {
     $mail->isSMTP();
     $mail->Host       = 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
-    $mail->Username   = 'denisalejandro2006@gmail.com'; // Tu correo electrónico de Gmail
-    $mail->Password   = 'xllo wncf baub yqbs'; // Tu contraseña o contraseña de aplicación
+    $mail->Username   = 'sportdevelopment7@gmail.com'; // Tu correo electrónico de Gmail
+    $mail->Password   = 'oatk qcui omre ihbn'; // Tu contraseña o contraseña de aplicación
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port       = 587;
+    //12345678_@
 
     // Remitente y destinatario
-    $mail->setFrom('denisalejandro2006@gmail.com', 'Sport Development Corp');
+    $mail->setFrom('sportdevelopment7@gmail.com', 'Sport Development Corp');
     $mail->addAddress($clientEmail); // Utilizar el correo electrónico del cliente
 
     // Asunto y cuerpo del correo
     $mail->isHTML(true);
     $mail->Subject = 'Comprobante de Compra';
     $mail->Body    = 'Adjunto encontrarás tu comprobante de compra.';
-    $mail->AltBody = 'Adjunto encontrarás tu comprobante de compra.';
+    $mail->AltBody = 'Gracias por comprar en nuestra tienda.';
 
     // Adjuntar el archivo PDF
     $mail->addAttachment($pdfFilePath, 'Comprobante.pdf');
