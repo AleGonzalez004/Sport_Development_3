@@ -66,9 +66,6 @@ async function readDetail() {
                     <td>${row.cantidad_producto}</td>
                     <td>${subtotal.toFixed(2)}</td>
                     <td>
-                        <!-- Aquí puedes agregar botones para editar o eliminar productos -->
-                        <button type="button" class="btn btn-warning btn-sm" onclick="openUpdate(${row.id_detalle}, ${row.cantidad_producto})">Editar</button>
-                        <button type="button" class="btn btn-danger btn-sm" onclick="openDelete(${row.id_detalle})">Eliminar</button>
                     </td>
                 </tr>
             `;

@@ -67,9 +67,6 @@ async function readDetail() {
                     <td>${subtotal.toFixed(2)}</td>
                     <td>${row.fecha_registro}</td>
                     <td>
-                        <button type="button" class="btn btn-dark" onclick="handleClick()">
-                            <i class="bi bi-credit-card-fill"></i> Finalizar pedido
-                        </button>
                     </td>
                 </tr>
             `;

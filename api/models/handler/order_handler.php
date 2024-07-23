@@ -30,7 +30,7 @@ class OrderHandler
     // Método para verificar si existe un pedido en proceso con el fin de iniciar o continuar una compra.
     public function getOrder()
     {
-        $this->estado = 'EnCamino';
+        $this->estado = 'Entregado';
         $sql = 'SELECT id_pedido
                 FROM tb_pedidos
                 WHERE estado_pedido = ? AND id_cliente = ?';
