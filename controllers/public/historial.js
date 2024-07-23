@@ -46,7 +46,7 @@ ITEM_FORM.addEventListener('submit', async (event) => {
 async function readDetail() {
     // Petición para obtener los datos del pedido en proceso.
     const DATA = await fetchData(HISTORIAL_API, 'readDetail');
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    console.log(DATA); // Agrega esta línea para depuración
     if (DATA.status) {
         // Se inicializa el cuerpo de la tabla.
         TABLE_BODY.innerHTML = '';
@@ -66,6 +66,9 @@ async function readDetail() {
                     <td>${row.cantidad_producto}</td>
                     <td>${subtotal.toFixed(2)}</td>
                     <td>
+                        <!-- Aquí puedes agregar botones para editar o eliminar productos -->
+                        <button type="button" class="btn btn-warning btn-sm" onclick="openUpdate(${row.id_detalle}, ${row.cantidad_producto})">Editar</button>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="openDelete(${row.id_detalle})">Eliminar</button>
                     </td>
                 </tr>
             `;
@@ -97,12 +100,12 @@ function openUpdate(id, quantity) {
 */
 async function finishOrder() {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction('¿Está seguro de borrar el historial');
-    // Se verifica la respuesta del mensaje.
+    const RESPONSE = await confirmAction('¿Está seguro de borrar el historial?');
+    console.log(RESPONSE); // Agrega esta línea para depuración
     if (RESPONSE) {
         // Petición para finalizar el pedido en proceso.
         const DATA = await fetchData(HISTORIAL_API, 'finishOrder');
-        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        console.log(DATA); // Agrega esta línea para depuración
         if (DATA.status) {
             sweetAlert(1, DATA.message, true, 'index.html');
         } else {
@@ -119,13 +122,14 @@ async function finishOrder() {
 async function openDelete(id) {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const RESPONSE = await confirmAction('¿Está seguro de remover el producto?');
-    // Se verifica la respuesta del mensaje.
+    console.log(RESPONSE); // Agrega esta línea para depuración
     if (RESPONSE) {
         // Se define un objeto con los datos del producto seleccionado.
         const FORM = new FormData();
         FORM.append('idDetalle', id);
         // Petición para eliminar un producto del carrito de compras.
         const DATA = await fetchData(HISTORIAL_API, 'deleteDetail', FORM);
+        console.log(DATA); // Agrega esta línea para depuración
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
             await sweetAlert(1, DATA.message, true);
@@ -136,4 +140,3 @@ async function openDelete(id) {
         }
     }
 }
-

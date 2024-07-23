@@ -1,14 +1,14 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once('../../helpers/database.php');
+require_once ('../../helpers/database.php');
 /*
-*	Clase para manejar el comportamiento de los datos de las tablas PEDIDO y DETALLE_PEDIDO.
-*/
+ *	Clase para manejar el comportamiento de los datos de las tablas PEDIDO y DETALLE_PEDIDO.
+ */
 class HistorialHandler
 {
     /*
-    *   Declaración de atributos para el manejo de datos.
-    */
+     *   Declaración de atributos para el manejo de datos.
+     */
     protected $id_pedido = null;
     protected $id_detalle = null;
     protected $cliente = null;
@@ -16,26 +16,15 @@ class HistorialHandler
     protected $cantidad = null;
     protected $estado = null;
 
-    /*
-    *   ESTADOS DEL PEDIDO
-    *   Pendiente (valor por defecto en la base de datos). Pedido en proceso y se puede modificar el detalle.
-    *   Finalizado. Pedido terminado por el cliente y ya no es posible modificar el detalle.
-    *   Entregado. Pedido enviado al cliente.
-    *   Anulado. Pedido cancelado por el cliente después de ser finalizado.
-    */
-
-    /*
-    *   Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
-    */
-    // Método para verificar si existe un pedido en proceso con el fin de iniciar o continuar una compra.
     public function getOrder()
 {
-    $sql = 'SELECT * FROM tb_pedidos WHERE id_cliente = ?'; // Selecciona todos los pedidos del cliente
-    $params = array($_SESSION['idCliente']);
-    
+    // Selecciona todos los pedidos del cliente que estén en estado 'entregado'
+    $sql = 'SELECT * FROM tb_pedidos WHERE id_cliente = ? AND estado = ?';
+    $params = array($_SESSION['idCliente'], 'entregado');
+
     // Ejecuta la consulta y obtiene todos los registros
     $data = Database::getRows($sql, $params);
-    
+
     // Comprobar si se encontraron datos
     if ($data) {
         // Almacena los IDs de todos los pedidos en la sesión
@@ -46,61 +35,27 @@ class HistorialHandler
     }
 }
 
-   
-
-    // Método para agregar un producto al carrito de compras.
-    public function createDetail()
-    {
-        // Se realiza una subconsulta para obtener el precio del producto.
-        $sql = 'INSERT INTO tb_detalle_pedidos(id_producto, precio_producto, cantidad_producto, id_pedido)
-                VALUES(?, (SELECT precio_producto FROM tb_productos WHERE id_producto = ?), ?, ?)';
-        $params = array($this->producto, $this->producto, $this->cantidad, $_SESSION['idPedido']);
-        return Database::executeRow($sql, $params);
-    }
 
     // Método para obtener los productos que se encuentran en el carrito de compras.
     public function readDetail()
 {
-    // Crea una lista de parámetros con todos los IDs de pedidos
-    $ids = implode(',', $_SESSION['idPedidos']);
+    // Asegúrate de que $_SESSION['idPedidos'] sea un array de enteros y que esté definido
+    if (!isset($_SESSION['idPedidos']) || !is_array($_SESSION['idPedidos'])) {
+        return []; // O maneja el caso de error como corresponda
+    }
+    
+    // Crea una lista de parámetros con todos los IDs de pedidos, asegurándote de que sean números enteros para evitar SQL Injection
+    $ids = implode(',', array_map('intval', $_SESSION['idPedidos']));
     
     // Modifica la consulta para manejar múltiples IDs
     $sql = 'SELECT id_detalle, nombre_producto, tb_detalle_pedidos.precio_producto, tb_detalle_pedidos.cantidad_producto
             FROM tb_detalle_pedidos
-            INNER JOIN tb_pedidos USING(id_pedido)
-            INNER JOIN tb_productos USING(id_producto)
-            WHERE id_pedido IN (' . $ids . ')';
+            INNER JOIN tb_pedidos ON tb_detalle_pedidos.id_pedido = tb_pedidos.id_pedido
+            INNER JOIN tb_productos ON tb_detalle_pedidos.id_producto = tb_productos.id_producto
+            WHERE tb_detalle_pedidos.id_pedido IN (' . $ids . ')';
+    
     return Database::getRows($sql);
 }
 
 
-
-    // Método para eliminar todos los pedidos en estado 'Entregado'.
-    public function finishOrder()
-    {
-    $sql = 'DELETE FROM tb_pedidos
-            WHERE estado_pedido = ?';
-    $params = array('Entregado');
-    return Database::executeRow($sql, $params);
-    }
-
-
-    // Método para actualizar la cantidad de un producto agregado al carrito de compras.
-    public function updateDetail()
-    {
-        $sql = 'UPDATE tb_detalle_pedidos
-                SET cantidad_producto = ?
-                WHERE id_detalle = ? AND id_pedido = ?';
-        $params = array($this->cantidad, $this->id_detalle, $_SESSION['idPedido']);
-        return Database::executeRow($sql, $params);
-    }
-
-    // Método para eliminar un producto que se encuentra en el carrito de compras.
-    public function deleteDetail()
-    {
-        $sql = 'DELETE FROM tb_detalle_pedidos
-                WHERE id_detalle = ? AND id_pedido = ?';
-        $params = array($this->id_detalle, $_SESSION['idPedido']);
-        return Database::executeRow($sql, $params);
-    }
 }
