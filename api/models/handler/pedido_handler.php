@@ -86,12 +86,40 @@ class PedidoHandler
     // Método para finalizar un pedido por parte del cliente.
     public function finishOrder()
     {
-        $this->estado = 'EnCamino';
-        $sql = 'UPDATE tb_pedidos
-                SET estado_pedido = ?
+        $this->estado = 'Entregado';
+    $sql = 'UPDATE tb_pedidos
+            SET estado_pedido = ?
+            WHERE id_pedido = ?';
+    $params = array($this->estado, $_SESSION['idPedido']);
+
+    if (Database::executeRow($sql, $params)) {
+        // Si la actualización del estado del pedido es exitosa, proceder a actualizar las existencias de los productos.
+        
+        // Seleccionar todos los detalles de pedidos para el pedido finalizado.
+        $sql = 'SELECT id_producto, cantidad_producto
+                FROM tb_detalle_pedidos
                 WHERE id_pedido = ?';
-        $params = array($this->estado, $_SESSION['idPedido']);
-        return Database::executeRow($sql, $params);
+        $params = array($_SESSION['idPedido']);
+
+        // Obtener todos los detalles del pedido finalizado.
+        $result = Database::getRows($sql, $params);
+
+        if ($result) {
+            // Recorrer cada detalle de pedido y actualizar las existencias del producto.
+            foreach ($result as $row) {
+                $sql = 'UPDATE tb_productos
+                        SET existencias_producto = existencias_producto - ?
+                        WHERE id_producto = ?';
+                $params = array($row['cantidad_producto'], $row['id_producto']);
+                Database::executeRow($sql, $params);
+            }
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
     }
 
     // Método para actualizar la cantidad de un producto agregado al carrito de compras.

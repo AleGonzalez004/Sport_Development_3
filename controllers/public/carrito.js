@@ -109,23 +109,45 @@ function handlePayment(event) {
 *   Parámetros: ninguno.
 *   Retorno: ninguno.
 */
+
 async function finishOrder() {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction('¿Está seguro de iniciar el pedido?');
+    const RESPONSE = await confirmAction('¿Está seguro de finalizar el pedido?');
+    
     // Se verifica la respuesta del mensaje.
     if (RESPONSE) {
-        // Petición para finalizar el pedido en proceso.
+        // Primero, generamos el reporte.
+        await openReport();
+        
+        // Esperamos 5 segundos para asegurar que el reporte se haya abierto.
+        await new Promise(resolve => setTimeout(resolve, 5000)); // Esperar 5 segundos
+        
+        // Luego, petición para finalizar el pedido en proceso.
         const DATA = await fetchData(PEDIDO_API, 'finishOrder');
+        
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-        // Se comprueba si la respuesta es satisfactoria, de lo contrario se constata si el cliente ha iniciado sesión.
-    if (DATA.status) {
-        sweetAlert(1, DATA.message, false, 'pedido.html');
-    } else if (DATA.session) {
-        sweetAlert(2, DATA.error, false);
-    } else {
-        sweetAlert(3, DATA.error, true, 'login.html');
+        if (DATA.status) {
+            sweetAlert(1, DATA.message, true, 'index.html');
+            // Recargar la página y redirigir al índice.
+            setTimeout(() => {
+                window.location.href = 'index.html'; // Redirige al índice después de recargar
+            }, 50000); // Esperar 50 segundos para la recarga
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
     }
-    }
+}
+
+const openReport = async () => {
+    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+    const PATH = new URL(`${SERVER_URL}reports/public/comprobante.php`);
+    
+    // Abre la URL en una nueva pestaña para descargar el archivo.
+    window.open(PATH.href, '_blank');
+}
+
+function handleClick() {
+    finishOrder();
 }
 
 /*
@@ -152,14 +174,6 @@ async function openDelete(id) {
             sweetAlert(2, DATA.error, false);
         }
     }
-}
-
-
-const openReport = () => {
-    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
-    const PATH = new URL(`${SERVER_URL}reports/admin/productos.php`);
-    // Se abre el reporte en una nueva pestaña.
-    window.open(PATH.href);
 }
 
  // Formatea el número de la tarjeta de crédito con espacios cada 4 dígitos y limita a 16 dígitos

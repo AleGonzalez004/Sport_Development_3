@@ -14,7 +14,7 @@ $pdf->startReport('Comprobante de compra');
 $pedido = new PedidoData('localhost', 'sport', 'root', '');
 $clienteEmail = null; // Variable para almacenar el correo electrónico del cliente
 
-if ($dataPedidos = $pedido->readByClientAndStatus($_SESSION['idCliente'], 'EnCamino')) {
+if ($dataPedidos = $pedido->readByClientAndStatus($_SESSION['idCliente'], 'Pendiente')) {
     foreach ($dataPedidos as $rowPedido) {
         if ($clienteEmail === null) {
             // Obtener el correo electrónico del cliente una sola vez
