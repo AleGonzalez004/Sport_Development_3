@@ -147,4 +147,12 @@ class PedidoHandler
         $params = array('Pendiente');
         return Database::executeRow($sql, $params);
     }
+    public function createTarget()
+    {
+        $sql = 'INSERT INTO tb_targetas(id_targeta, tipo_targeta, tipo_uso, numero_targeta, nombre_targeta, fecha_expiracion, codigo_verificacion, id_cliente 
+        VALUES(?, (SELECT id_cliente FROM tb_clientes WHERE id_cliente = ?), ?, ?)';
+        $params = array('Pendiente');
+        return Database::executeRow($sql, $params);
+    }
 }
+

@@ -96,6 +96,17 @@ CREATE TABLE tb_imagenes (
    id_producto INT
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE tb_targetas (
+   id_targeta INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+   tipo_targeta ENUM('Visa','MasterCard') NOT NULL,
+   tipo_uso ENUM('Credito','Debito') NOT NULL,
+   numero_targeta INT(16) UNSIGNED NOT NULL,
+   nombre_targeta VARCHAR(50) NOT NULL,
+   fecha_expiracion INT(5) UNSIGNED NOT NULL,
+   cvv INT(5) UNSIGNED NOT NULL,
+   id_cliente INT(10) UNSIGNED NOT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 INSERT INTO tb_clientes (nombre_cliente, apellido_cliente, dui_cliente, correo_cliente, telefono_cliente, direccion_cliente, nacimiento_cliente, clave_cliente, estado_cliente, fecha_registro) VALUES
 ('Juan', 'Pérez', '12345678-9', 'juan.perez@example.com', '123456789', 'Av. Siempre Viva 742', '1980-01-01', 'clave123', 1, '2014-01-20'),
 ('Ana', 'García', '98765432-1', 'ana.garcia@example.com', '987654321', 'Calle Falsa 123', '1990-05-15', 'clave456', 1, '2024-07-11'),

@@ -31,6 +31,21 @@ if (isset($_GET['action'])) {
                 } else {
                     $result['error'] = 'Ocurrió un problema al agregar el producto';
                 }
+                case 'createTarget':
+                    $_POST = Validator::validateForm($_POST);
+                    if (!$pedido->createTarget()) {
+                        $result['error'] = 'Ocurrió un problema al iniciar el pedido';
+                    } elseif (
+                        !$pedido->setProducto($_POST['idProducto']) or
+                        !$pedido->setCantidad($_POST['cantidadProducto'])
+                    ) {
+                        $result['error'] = $pedido->getDataError();
+                    } elseif ($pedido->createDetail()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Producto agregado correctamente';
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al agregar el producto';
+                    }
                 break;
             // Acción para obtener los productos agregados en el carrito de compras.
             case 'readDetail':

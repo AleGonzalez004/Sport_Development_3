@@ -120,7 +120,7 @@ async function finishOrder() {
         await openReport();
         
         // Esperamos 5 segundos para asegurar que el reporte se haya abierto.
-        await new Promise(resolve => setTimeout(resolve, 5000)); // Esperar 5 segundos
+        await new Promise(resolve => setTimeout(resolve, 3000)); // Esperar 5 segundos
         
         // Luego, petición para finalizar el pedido en proceso.
         const DATA = await fetchData(PEDIDO_API, 'finishOrder');
