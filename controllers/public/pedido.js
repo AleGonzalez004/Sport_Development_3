@@ -67,11 +67,6 @@ async function readDetail() {
                     <td>${subtotal.toFixed(2)}</td>
                     <td>${row.fecha_registro}</td>
                     <td>
-                     <p class="text-end">
-                    <button type="button" class="btn btn-dark" onclick="deleteOrder()">
-                        <i class="bi bi-cart-x-fill"></i> Cancelar pedido
-                    </button>
-                    </p>
                     </td>
                 </tr>
             `;
