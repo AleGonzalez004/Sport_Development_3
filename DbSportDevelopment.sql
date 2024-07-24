@@ -213,41 +213,28 @@ INSERT INTO tb_generos (nombre) VALUES
 ('Niños'),
 ('Niñas');
 
-
--- Ver todo el contenido de la tabla tb_administradores
 SELECT * FROM tb_administradores;
 
--- Ver todo el contenido de la tabla tb_clientes
 SELECT * FROM tb_clientes;
 
--- Ver todo el contenido de la tabla tb_tallas
 SELECT * FROM tb_tallas;
 
--- Ver todo el contenido de la tabla tb_categorias
 SELECT * FROM tb_categorias;
 
--- Ver todo el contenido de la tabla tb_productos
 SELECT * FROM tb_productos;
 
--- Ver todo el contenido de la tabla tb_detalle_pedidos
 SELECT * FROM tb_detalle_pedidos;
 
--- Ver todo el contenido de la tabla tb_pedidos
 SELECT * FROM tb_pedidos;
 
--- Ver todo el contenido de la tabla tb_colores
 SELECT * FROM tb_colores;
 
--- Ver todo el contenido de la tabla tb_marcas
 SELECT * FROM tb_marcas;
 
--- Ver todo el contenido de la tabla tb_deportes
 SELECT * FROM tb_deportes;
 
--- Ver todo el contenido de la tabla tb_generos
 SELECT * FROM tb_generos;
 
--- Ver todo el contenido de la tabla tb_imagenes
 SELECT * FROM tb_imagenes;
 
 
