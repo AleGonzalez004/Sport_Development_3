@@ -86,7 +86,7 @@ if ($dataPedidos = $pedido->readByClientAndStatus($_SESSION['idCliente'], 'Pendi
     $pdf->cell(0, 10, $pdf->encodeString('No hay pedidos en camino para mostrar'), 1, 1);
 }
 
-$filePath = 'C:/xampp/htdocs/Sport_Development_3/api/pdfs/Comprobante_' . time() . '.pdf';
+$filePath = '../../pdfs/Comprobante_' . time() . '.pdf';
 $pdf->output('F', $filePath);
 
 // Mostrar el archivo en el navegador

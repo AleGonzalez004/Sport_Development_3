@@ -2,10 +2,9 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// Define rutas absolutas
-$exceptionPath = 'C:/xampp/htdocs/Sport_Development_3/resources/libs/PHPMailer/src/Exception.php';
-$phpMailerPath = 'C:/xampp/htdocs/Sport_Development_3/resources/libs/PHPMailer/src/PHPMailer.php';
-$smtpPath = 'C:/xampp/htdocs/Sport_Development_3/resources/libs/PHPMailer/src/SMTP.php';
+$exceptionPath = '../../../resources/libs/PHPMailer/src/Exception.php';
+$phpMailerPath = '../../../resources/libs/PHPMailer/src/PHPMailer.php';
+$smtpPath = '../../../resources/libs/PHPMailer/src/SMTP.php';
 
 // Verifica que los archivos existen
 if (!file_exists($exceptionPath) || !file_exists($phpMailerPath) || !file_exists($smtpPath)) {
