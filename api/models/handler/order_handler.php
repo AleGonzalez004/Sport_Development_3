@@ -86,10 +86,12 @@ class OrderHandler
             FROM tb_detalle_pedidos
             INNER JOIN tb_pedidos USING(id_pedido)
             INNER JOIN tb_productos USING(id_producto)
-            WHERE id_pedido = ?';
-    $params = array($_SESSION['idPedido']);
+            WHERE tb_pedidos.id_cliente = ?
+            ORDER BY tb_pedidos.fecha_registro DESC';
+    $params = array($_SESSION['idCliente']); // Cambia esto según la lógica de tu sesión
     return Database::getRows($sql, $params);
 }
+
 
 
     // Método para finalizar un pedido por parte del cliente.
@@ -150,13 +152,11 @@ class OrderHandler
         return Database::executeRow($sql, $params);
     }
 
-    
-
     public function deleteOrder()
     {
     $sql = 'DELETE FROM tb_pedidos
             WHERE estado_pedido = ?';
-    $params = array('EnCamino');
+    $params = array('Entregado');
     return Database::executeRow($sql, $params);
     }
 

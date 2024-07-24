@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Llamada a la función para mostrar el encabezado y pie del documento.
     loadTemplate();
     // Se establece el título del contenido principal.
-    MAIN_TITLE.textContent = 'Pedidos Realizados';
+    MAIN_TITLE.textContent = 'Seguimiento de pedidos';
     // Llamada a la función para mostrar los productos del carrito de compras.
     readDetail();
 });
@@ -77,6 +77,7 @@ async function readDetail() {
         sweetAlert(4, DATA.error, false, 'index.html');
     }
 }
+
 
 /*
 *   Función para abrir la caja de diálogo con el formulario de cambiar cantidad de producto.

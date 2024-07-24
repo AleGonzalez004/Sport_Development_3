@@ -18,11 +18,11 @@ if (isset($_GET['action'])) {
         // Se compara la acción a realizar cuando un cliente ha iniciado sesión.
         switch ($_GET['action']) {
             case 'readDetail':
-                // Verifica si hay pedidos en el historial
+                // Verifica si hay historials en el historial
                 if (!$historial->getOrder()) {
-                    $result['error'] = 'No hay pedidos en el historial';
+                    $result['error'] = 'No hay historials en el historial';
                 } else {
-                    // Obtiene y verifica los detalles de los pedidos
+                    // Obtiene y verifica los detalles de los historials
                     $dataset = $historial->readDetail();
                     if ($dataset) {
                         $result['status'] = 1;
@@ -32,6 +32,14 @@ if (isset($_GET['action'])) {
                     }
                 }
                 break;
+                case 'deleteOrder':
+                    if ($historial->deleteOrder()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'historial Cancelado Correctamente';
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al cancelar el historial';
+                    }
+                    break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }

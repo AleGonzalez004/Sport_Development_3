@@ -45,8 +45,8 @@ ITEM_FORM.addEventListener('submit', async (event) => {
 */
 async function readDetail() {
     // Petición para obtener los datos del pedido en proceso.
-    const DATA = await fetchData(HISTORIAL_API, 'readDetail');
-    console.log(DATA); // Agrega esta línea para depuración
+    const DATA = await fetchData(ORDER_API, 'readDetail');
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se inicializa el cuerpo de la tabla.
         TABLE_BODY.innerHTML = '';
@@ -65,6 +65,7 @@ async function readDetail() {
                     <td>${row.precio_producto}</td>
                     <td>${row.cantidad_producto}</td>
                     <td>${subtotal.toFixed(2)}</td>
+                    <td>${row.fecha_registro}</td>
                     <td>
                     </td>
                 </tr>
