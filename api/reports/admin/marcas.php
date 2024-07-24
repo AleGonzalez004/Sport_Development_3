@@ -1,8 +1,8 @@
 <?php
 // Se incluye la clase con las plantillas para generar reportes.
-require_once('../../helpers/report.php');
+require_once ('../../helpers/report.php');
 // Se incluyen las clases para el acceso a datos de marcas.
-require_once('../../models/data/marcas_data.php');
+require_once ('../../models/data/marcas_data.php');
 // Se instancia la clase para crear el reporte.
 $pdf = new Report;
 // Se inicia el reporte con el encabezado del documento.

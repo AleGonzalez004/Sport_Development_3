@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo de datos.
-require_once('../../models/data/comentario_data.php');
+require_once ('../../models/data/comentario_data.php');
 
 class ComentarioHandler
 {

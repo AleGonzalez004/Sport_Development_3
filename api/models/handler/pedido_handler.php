@@ -1,14 +1,14 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once('../../helpers/database.php');
+require_once ('../../helpers/database.php');
 /*
-*	Clase para manejar el comportamiento de los datos de las tablas PEDIDO y DETALLE_PEDIDO.
-*/
+ *	Clase para manejar el comportamiento de los datos de las tablas PEDIDO y DETALLE_PEDIDO.
+ */
 class PedidoHandler
 {
     /*
-    *   Declaración de atributos para el manejo de datos.
-    */
+     *   Declaración de atributos para el manejo de datos.
+     */
     protected $id_pedido = null;
     protected $id_detalle = null;
     protected $cliente = null;
@@ -17,16 +17,16 @@ class PedidoHandler
     protected $estado = null;
 
     /*
-    *   ESTADOS DEL PEDIDO
-    *   Pendiente (valor por defecto en la base de datos). Pedido en proceso y se puede modificar el detalle.
-    *   Finalizado. Pedido terminado por el cliente y ya no es posible modificar el detalle.
-    *   Entregado. Pedido enviado al cliente.
-    *   Anulado. Pedido cancelado por el cliente después de ser finalizado.
-    */
+     *   ESTADOS DEL PEDIDO
+     *   Pendiente (valor por defecto en la base de datos). Pedido en proceso y se puede modificar el detalle.
+     *   Finalizado. Pedido terminado por el cliente y ya no es posible modificar el detalle.
+     *   Entregado. Pedido enviado al cliente.
+     *   Anulado. Pedido cancelado por el cliente después de ser finalizado.
+     */
 
     /*
-    *   Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
-    */
+     *   Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
+     */
     // Método para verificar si existe un pedido en proceso con el fin de iniciar o continuar una compra.
     public function getOrder()
     {
@@ -87,39 +87,39 @@ class PedidoHandler
     public function finishOrder()
     {
         $this->estado = 'Entregado';
-    $sql = 'UPDATE tb_pedidos
+        $sql = 'UPDATE tb_pedidos
             SET estado_pedido = ?
             WHERE id_pedido = ?';
-    $params = array($this->estado, $_SESSION['idPedido']);
+        $params = array($this->estado, $_SESSION['idPedido']);
 
-    if (Database::executeRow($sql, $params)) {
-        // Si la actualización del estado del pedido es exitosa, proceder a actualizar las existencias de los productos.
-        
-        // Seleccionar todos los detalles de pedidos para el pedido finalizado.
-        $sql = 'SELECT id_producto, cantidad_producto
+        if (Database::executeRow($sql, $params)) {
+            // Si la actualización del estado del pedido es exitosa, proceder a actualizar las existencias de los productos.
+
+            // Seleccionar todos los detalles de pedidos para el pedido finalizado.
+            $sql = 'SELECT id_producto, cantidad_producto
                 FROM tb_detalle_pedidos
                 WHERE id_pedido = ?';
-        $params = array($_SESSION['idPedido']);
+            $params = array($_SESSION['idPedido']);
 
-        // Obtener todos los detalles del pedido finalizado.
-        $result = Database::getRows($sql, $params);
+            // Obtener todos los detalles del pedido finalizado.
+            $result = Database::getRows($sql, $params);
 
-        if ($result) {
-            // Recorrer cada detalle de pedido y actualizar las existencias del producto.
-            foreach ($result as $row) {
-                $sql = 'UPDATE tb_productos
+            if ($result) {
+                // Recorrer cada detalle de pedido y actualizar las existencias del producto.
+                foreach ($result as $row) {
+                    $sql = 'UPDATE tb_productos
                         SET existencias_producto = existencias_producto - ?
                         WHERE id_producto = ?';
-                $params = array($row['cantidad_producto'], $row['id_producto']);
-                Database::executeRow($sql, $params);
+                    $params = array($row['cantidad_producto'], $row['id_producto']);
+                    Database::executeRow($sql, $params);
+                }
+                return true;
+            } else {
+                return false;
             }
-            return true;
         } else {
             return false;
         }
-    } else {
-        return false;
-    }
     }
 
     // Método para actualizar la cantidad de un producto agregado al carrito de compras.
@@ -142,9 +142,9 @@ class PedidoHandler
     }
     public function deleteOrder()
     {
-    $sql = 'DELETE FROM tb_pedidos
+        $sql = 'DELETE FROM tb_pedidos
             WHERE estado_pedido = ?';
-    $params = array('Pendiente');
-    return Database::executeRow($sql, $params);
+        $params = array('Pendiente');
+        return Database::executeRow($sql, $params);
     }
 }
