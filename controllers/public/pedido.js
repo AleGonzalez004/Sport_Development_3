@@ -67,6 +67,11 @@ async function readDetail() {
                     <td>${subtotal.toFixed(2)}</td>
                     <td>${row.fecha_registro}</td>
                     <td>
+                     <p class="text-end">
+                    <button type="button" class="btn btn-dark" onclick="deleteOrder()">
+                        <i class="bi bi-cart-x-fill"></i> Cancelar pedido
+                    </button>
+                    </p>
                     </td>
                 </tr>
             `;
@@ -92,13 +97,13 @@ function openUpdate(id, quantity) {
     document.getElementById('cantidadProducto').value = quantity;
 }
 
-async function deleteOrder() {
+async function deleteOrder(idPedido) {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const RESPONSE = await confirmAction('¿Está seguro de eliminar el pedido?');
     // Se verifica la respuesta del mensaje.
     if (RESPONSE) {
         // Petición para finalizar el pedido en proceso.
-        const DATA = await fetchData(ORDER_API, 'deleteOrder');
+        const DATA = await fetchData(ORDER_API, 'deleteOrder', { id_pedido: idPedido });
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
             sweetAlert(1, DATA.message, true, 'index.html');
@@ -107,6 +112,7 @@ async function deleteOrder() {
         }
     }
 }
+
 
 /*
 *   Función asíncrona para mostrar un mensaje de confirmación al momento de eliminar un producto del carrito.
