@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo de datos.
-require_once('../../models/data/calificacion_data.php');
+require_once ('../../models/data/calificacion_data.php');
 
 class CalificacionHandler
 {

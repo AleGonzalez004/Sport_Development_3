@@ -1,8 +1,8 @@
 <?php
 // Se incluye la clase para validar los datos de entrada.
-require_once('../../helpers/validator.php');
+require_once ('../../helpers/validator.php');
 // Se incluye la clase padre.
-require_once('../../models/handler/colores_handler.php');
+require_once ('../../models/handler/colores_handler.php');
 /*
  *  Clase para manejar el encapsulamiento de los datos de la tabla USUARIO.
  */
@@ -35,7 +35,7 @@ class ColoresData extends ColoresHandler
             $this->data_error = 'El color ya existe';
             return false;
         }
-    
+
         // Validar el valor y la longitud del nombre
         if (!Validator::validateAlphabetic($value)) {
             $this->data_error = 'El nombre del color debe ser un valor alfabético';
@@ -48,9 +48,9 @@ class ColoresData extends ColoresHandler
             return false;
         }
     }
-    
 
-    
+
+
 
     // Método para obtener el error de los datos.
     public function getDataError()
