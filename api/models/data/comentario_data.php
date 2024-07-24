@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase principal.
-require_once('../../models/data/database.php');
+require_once ('../../models/data/database.php');
 
 class ComentarioData extends Database
 {
