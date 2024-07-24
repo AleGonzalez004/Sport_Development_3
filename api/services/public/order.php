@@ -80,7 +80,7 @@ if (isset($_GET['action'])) {
                 case 'deleteOrder':
                     if ($pedido->deleteOrder()) {
                         $result['status'] = 1;
-                        $result['message'] = 'Pedido Cancelado Correctamente';
+                        $result['message'] = 'Pedido Finalizado Correctamente';
                     } else {
                         $result['error'] = 'Ocurrió un problema al cancelar el pedido';
                     }
