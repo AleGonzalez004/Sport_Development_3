@@ -229,7 +229,7 @@ const graficoEstadoPedidos = async () => {
         });
 
         new Chart(document.getElementById('chart4'), {
-            type: 'pie',
+            type: 'radar',
             data: {
                 labels: estados,
                 datasets: [{
