@@ -1,5 +1,5 @@
 // Constante para completar la ruta de la API.
-const HISTORIAL_API = 'services/public/historial.php';
+const ORDER_API = 'services/public/historial.php';
 // Constante para establecer el cuerpo de la tabla.
 const TABLE_BODY = document.getElementById('tableBody');
 // Constante para establecer la caja de diálogo de cambiar producto.
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Llamada a la función para mostrar el encabezado y pie del documento.
     loadTemplate();
     // Se establece el título del contenido principal.
-    MAIN_TITLE.textContent = 'Historial de Compras';
+    MAIN_TITLE.textContent = 'Historial de compras';
     // Llamada a la función para mostrar los productos del carrito de compras.
     readDetail();
 });
@@ -24,7 +24,7 @@ ITEM_FORM.addEventListener('submit', async (event) => {
     // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(ITEM_FORM);
     // Petición para actualizar la cantidad de producto.
-    const DATA = await fetchData(HISTORIAL_API, 'updateDetail', FORM);
+    const DATA = await fetchData(ORDER_API, 'updateDetail', FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se actualiza la tabla para visualizar los cambios.
@@ -78,6 +78,7 @@ async function readDetail() {
     }
 }
 
+
 /*
 *   Función para abrir la caja de diálogo con el formulario de cambiar cantidad de producto.
 *   Parámetros: id (identificador del producto) y quantity (cantidad actual del producto).
@@ -91,19 +92,14 @@ function openUpdate(id, quantity) {
     document.getElementById('cantidadProducto').value = quantity;
 }
 
-/*
-*   Función asíncrona para mostrar un mensaje de confirmación al momento de finalizar el pedido.
-*   Parámetros: ninguno.
-*   Retorno: ninguno.
-*/
-async function finishOrder() {
+async function deleteOrder(idPedido) {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction('¿Está seguro de borrar el historial?');
-    console.log(RESPONSE); // Agrega esta línea para depuración
+    const RESPONSE = await confirmAction('¿Está seguro de eliminar el pedido?');
+    // Se verifica la respuesta del mensaje.
     if (RESPONSE) {
         // Petición para finalizar el pedido en proceso.
-        const DATA = await fetchData(HISTORIAL_API, 'finishOrder');
-        console.log(DATA); // Agrega esta línea para depuración
+        const DATA = await fetchData(ORDER_API, 'deleteOrder', { id_pedido: idPedido });
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
             sweetAlert(1, DATA.message, true, 'index.html');
         } else {
@@ -111,6 +107,7 @@ async function finishOrder() {
         }
     }
 }
+
 
 /*
 *   Función asíncrona para mostrar un mensaje de confirmación al momento de eliminar un producto del carrito.
@@ -120,14 +117,13 @@ async function finishOrder() {
 async function openDelete(id) {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const RESPONSE = await confirmAction('¿Está seguro de remover el producto?');
-    console.log(RESPONSE); // Agrega esta línea para depuración
+    // Se verifica la respuesta del mensaje.
     if (RESPONSE) {
         // Se define un objeto con los datos del producto seleccionado.
         const FORM = new FormData();
         FORM.append('idDetalle', id);
         // Petición para eliminar un producto del carrito de compras.
-        const DATA = await fetchData(HISTORIAL_API, 'deleteDetail', FORM);
-        console.log(DATA); // Agrega esta línea para depuración
+        const DATA = await fetchData(ORDER_API, 'deleteDetail', FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
             await sweetAlert(1, DATA.message, true);
@@ -137,4 +133,44 @@ async function openDelete(id) {
             sweetAlert(2, DATA.error, false);
         }
     }
+}
+
+async function finishOrder() {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('¿Está seguro de finalizar el pedido?');
+    
+    // Se verifica la respuesta del mensaje.
+    if (RESPONSE) {
+        // Primero, generamos el reporte.
+        await openReport();
+        
+        // Esperamos 5 segundos para asegurar que el reporte se haya abierto.
+        await new Promise(resolve => setTimeout(resolve, 5000)); // Esperar 5 segundos
+        
+        // Luego, petición para finalizar el pedido en proceso.
+        const DATA = await fetchData(ORDER_API, 'finishOrder');
+        
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            sweetAlert(1, DATA.message, true, 'index.html');
+            // Recargar la página y redirigir al índice.
+            setTimeout(() => {
+                window.location.href = 'index.html'; // Redirige al índice después de recargar
+            }, 50000); // Esperar 50 segundos para la recarga
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    }
+}
+
+const openReport = async () => {
+    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+    const PATH = new URL(`${SERVER_URL}reports/public/comprobante.php`);
+    
+    // Abre la URL en una nueva pestaña para descargar el archivo.
+    window.open(PATH.href, '_blank');
+}
+
+function handleClick() {
+    finishOrder();
 }
