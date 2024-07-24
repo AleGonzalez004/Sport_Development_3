@@ -153,12 +153,13 @@ class OrderHandler
     }
 
     public function deleteOrder()
-    {
-    $sql = 'DELETE FROM tb_pedidos
+{
+    $sql = 'UPDATE tb_pedidos
+            SET estado_pedido = ?
             WHERE estado_pedido = ?';
-    $params = array('Entregado');
+    $params = array('Historial', 'Entregado');
     return Database::executeRow($sql, $params);
-    }
+}
 
     
 }

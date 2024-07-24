@@ -66,7 +66,7 @@ CREATE TABLE tb_pedidos (
   id_pedido INT(10) AUTO_INCREMENT PRIMARY KEY NOT NULL,
   id_cliente INT(10) UNSIGNED NOT NULL,
   direccion_pedido VARCHAR(250) NOT NULL,
-  estado_pedido ENUM('Pendiente','EnCamino','Entregado','Cancelado') NOT NULL,
+  estado_pedido ENUM('Pendiente','EnCamino','Entregado','Cancelado','Historial') NOT NULL,
   fecha_registro DATE NOT NULL DEFAULT CURRENT_TIMESTAMP()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -107,7 +107,6 @@ INSERT INTO tb_clientes (nombre_cliente, apellido_cliente, dui_cliente, correo_c
 ('Lucía', 'Méndez', '32165498-7', 'lucia.mendez@example.com', '321654987', 'Av. de las Rosas 333', '1994-06-18', 'clave753', 1, '2024-07-15'),
 ('Pedro', 'Morales', '78932145-6', 'pedro.morales@example.com', '789321456', 'Calle el Sol 444', '1989-08-30', 'clave159', 1, '2024-07-18'),
 ('Clara', 'Ríos', '45698732-1', 'clara.rios@example.com', '456987321', 'Boulevard Estrella 555', '1991-12-14', 'clave357', 1, '2024-07-19');
-
 
 INSERT INTO tb_pedidos (id_cliente, direccion_pedido, estado_pedido, fecha_registro) VALUES
 (1, 'Av. Siempre Viva 742', 'Cancelado', '2024-07-01'),
@@ -152,6 +151,7 @@ INSERT INTO tb_detalle_pedidos (id_producto, cantidad_producto, precio_producto,
 (14, 1, 89.99, '1', 'Terrible', '2024-07-15', 1, 14),
 (15, 1, 89.99, '5', 'Magnífico', '2024-07-15', 1, 15),
 (16, 1, 89.99, '4', 'Genial', '2024-07-16', 1, 16);
+
 
 INSERT INTO tb_categorias (id_categoria, nombre, imagen, descripcion) VALUES 
 (1, 'Futbol', 'CategoriaFutbol.png', 'Todos los productos relacionados con el fútbol'),
