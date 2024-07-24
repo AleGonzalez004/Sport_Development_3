@@ -1,20 +1,20 @@
 <?php
 // Se incluye la clase con las plantillas para generar reportes.
-require_once('../../helpers/report.php');
+require_once ('../../helpers/report.php');
 
 // Se instancia la clase para crear el reporte.
 $pdf = new Report;
 // Se verifica si existe un valor para la categoría, de lo contrario se muestra un mensaje.
 if (isset($_GET['idCategoria'])) {
     // Se incluyen las clases para la transferencia y acceso a datos.
-    require_once('../../models/data/categoria_data.php');
-    require_once('../../models/data/producto_data.php');
+    require_once ('../../models/data/categoria_data.php');
+    require_once ('../../models/data/producto_data.php');
     // Se instancian las entidades correspondientes.
 
     $categoria = new CategoriaData;
     $producto = new ProductoData;
 
-    
+
     // Se establece el valor de la categoría, de lo contrario se muestra un mensaje.
     if ($categoria->setId($_GET['idCategoria']) && $producto->setCategoria($_GET['idCategoria'])) {
         // Se verifica si la categoría existe, de lo contrario se muestra un mensaje.
@@ -49,11 +49,11 @@ if (isset($_GET['idCategoria'])) {
             // Se llama implícitamente al método footer() y se envía el documento al navegador web.
             $pdf->output('I', 'Categoria.pdf');
         } else {
-            print('Categoría inexistente');
+            print ('Categoría inexistente');
         }
     } else {
-        print('Categoría incorrecta');
+        print ('Categoría incorrecta');
     }
 } else {
-    print('Debe seleccionar una categoría');
+    print ('Debe seleccionar una categoría');
 }

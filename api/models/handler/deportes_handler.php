@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once('../../helpers/database.php');
+require_once ('../../helpers/database.php');
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla administrador.
  */
@@ -15,8 +15,8 @@ class DeportesHandler
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
 
-     //Este sirve para buscar los registros por medio del buscador que se encuentra en la parte de arriba de la tabla
-     public function searchRows()
+    //Este sirve para buscar los registros por medio del buscador que se encuentra en la parte de arriba de la tabla
+    public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
         $sql = 'SELECT id_deporte, nombre
@@ -26,7 +26,7 @@ class DeportesHandler
         $params = array($value);
         return Database::getRows($sql, $params);
     }
-    
+
 
     // Este CreateRow funciona para crear nuevos registros dentro de la base de datos y web
     public function createRow()
@@ -36,23 +36,23 @@ class DeportesHandler
         $params = array($this->nombre);
         return Database::executeRow($sql, $params);
     }
-//Llamar los datos de la base de datos 
-public function readAll()
-{
-    $sql = 'SELECT id_deporte, nombre
+    //Llamar los datos de la base de datos 
+    public function readAll()
+    {
+        $sql = 'SELECT id_deporte, nombre
             FROM tb_deportes';
-    return Database::getRows($sql);
-}
+        return Database::getRows($sql);
+    }
 
-//Este ReadOne funcióna para cargar los datos dentro de los campos del modal
-public function readOne()
-{
-    $sql = 'SELECT id_deporte, nombre
+    //Este ReadOne funcióna para cargar los datos dentro de los campos del modal
+    public function readOne()
+    {
+        $sql = 'SELECT id_deporte, nombre
             FROM tb_deportes
             WHERE id_deporte = ?';
-    $params = array($this->id);
-    return Database::getRow($sql, $params);
-}
+        $params = array($this->id);
+        return Database::getRow($sql, $params);
+    }
 
     // Este UpdateRow funciona para actualizar el los campos o el campo dentro de la base de datos y web
     public function updateRow()
