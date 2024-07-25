@@ -43,9 +43,9 @@ class Report extends FPDF
 
             // Título con el nombre del administrador
             $nombreAdministrador = getUser() ?? 'Administrador Desconocido'; // Obtener el alias del administrador desde la sesión
-            $this->setFont('Arial', 'B', 14);
-            $this->SetXY(-305, 45); // Posición X e Y (0, 15 mm desde la parte superior)
-            $this->cell(0, 10, 'Reporte de Administrador - ' . $nombreAdministrador, 0, 1, 'C');
+            $this->setFont('Arial', 'B', 11);
+            $this->SetXY(15, 45); // Posición X e Y (0, 15 mm desde la parte superior)
+            $this->cell(0, 10, 'Reporte de Administrador - ' . $nombreAdministrador, 0, 1, 'A');
         } else {
             header('location:' . self::CLIENT_URL);
         }
