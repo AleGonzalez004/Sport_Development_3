@@ -103,7 +103,7 @@ CREATE TABLE tb_targetas (
    numero_targeta INT(16) UNSIGNED NOT NULL,
    nombre_targeta VARCHAR(50) NOT NULL,
    fecha_expiracion INT(5) UNSIGNED NOT NULL,
-   cvv INT(5) UNSIGNED NOT NULL,
+   codigo_verificacion INT(5) UNSIGNED NOT NULL,
    id_cliente INT(10) UNSIGNED NOT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
