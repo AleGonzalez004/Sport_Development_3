@@ -1,17 +1,15 @@
 <?php
 // Incluir archivos necesarios
 require_once('../../helpers/comprobante.php');
-require_once('../../models/data/order_data.php');
-require_once('../../models/handler/order_handler.php');
+require_once('../../models/data/pedido_data.php');
 require_once('../../models/data/producto_data.php');
-require_once('../../models/data/categoria_data.php');
 
 // Se instancia la clase para crear el reporte.
 $pdf = new Report;
 $pdf->startReport('Comprobante de compra');
 
 // Se instancia el modelo Pedido para obtener los datos.
-$pedido = new PedidoData('localhost', 'sport', 'root', '');
+$pedido = new PedidoData;
 $clienteEmail = null; // Variable para almacenar el correo electrónico del cliente
 
 if ($dataPedidos = $pedido->readByClientAndStatus($_SESSION['idCliente'], 'Pendiente')) {
@@ -55,9 +53,10 @@ if ($dataPedidos = $pedido->readByClientAndStatus($_SESSION['idCliente'], 'Pendi
         $pdf->cell(30, 12, 'Cantidad', 0, 0, 'C', 1);
         $pdf->cell(30, 12, 'Precio (US$)', 0, 1, 'C', 1);
         
-        $detallePedido = new DetallePedidoData('localhost', 'sport', 'root', '');
-        if ($detallePedido->setPedido($rowPedido['id_pedido'])) {
+        $detallePedido = new PedidoData;
+        if ($detallePedido->setIdPedido($rowPedido['id_pedido'])) {
             if ($dataDetalles = $detallePedido->readByPedido()) {
+
                 $pdf->setFont('Arial', '', 11);
                 $pdf->setFillColor(240, 240, 240);
                 $pdf->setTextColor(0, 0, 0);
@@ -103,4 +102,3 @@ $response = curl_exec($ch);
 curl_close($ch);
 
 echo $response;
-?>

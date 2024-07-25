@@ -1,14 +1,16 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
 require_once ('../../helpers/database.php');
+
 /*
- *	Clase para manejar el comportamiento de los datos de las tablas PEDIDO y DETALLE_PEDIDO.
+ *   Clase para manejar el comportamiento de los datos de las tablas PEDIDO y DETALLE_PEDIDO.
  */
 class PedidoHandler
 {
     /*
      *   Declaración de atributos para el manejo de datos.
      */
+    private $idPedido;
     protected $id_targeta = null;
     protected $id_pedido = null;
     protected $id_detalle = null;
@@ -53,7 +55,7 @@ class PedidoHandler
             $sql = 'INSERT INTO tb_pedidos(direccion_pedido, id_cliente)
                     VALUES((SELECT direccion_cliente FROM tb_clientes WHERE id_cliente = ?), ?)';
             $params = array($_SESSION['idCliente'], $_SESSION['idCliente']);
-            // Se obtiene el ultimo valor insertado de la llave primaria en la tabla pedido.
+            // Se obtiene el último valor insertado de la llave primaria en la tabla pedido.
             if ($_SESSION['idPedido'] = Database::getLastRow($sql, $params)) {
                 return true;
             } else {
@@ -141,6 +143,7 @@ class PedidoHandler
         $params = array($this->id_detalle, $_SESSION['idPedido']);
         return Database::executeRow($sql, $params);
     }
+
     public function deleteOrder()
     {
         $sql = 'DELETE FROM tb_pedidos
@@ -166,5 +169,26 @@ class PedidoHandler
         return Database::getRows($sql, $params); // Suponiendo que getRows puede manejar múltiples filas
     }
 
+    public function readByClientAndStatus($id_cliente, $estado_pedido)
+    {
+        $sql = "SELECT p.id_pedido, p.direccion_pedido, p.fecha_registro, c.nombre_cliente, c.apellido_cliente, c.telefono_cliente, c.direccion_cliente, c.dui_cliente, c.correo_cliente
+                FROM tb_pedidos p
+                INNER JOIN tb_clientes c ON p.id_cliente = c.id_cliente
+                WHERE p.estado_pedido = ? AND p.id_cliente = ?";
+        $params = array($estado_pedido, $id_cliente);
+
+        return Database::getRows($sql, $params);
+    }
+
+    // Método para obtener los detalles de un pedido
+    public function readByPedido()
+{
+    $sql = 'SELECT dp.*, p.nombre_producto 
+            FROM tb_detalle_pedidos dp 
+            JOIN tb_productos p ON dp.id_producto = p.id_producto 
+            WHERE dp.id_pedido = ?';
+    $params = array($this->id_pedido);
+    return Database::getRows($sql, $params);
 }
 
+}

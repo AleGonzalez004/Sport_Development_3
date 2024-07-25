@@ -14,6 +14,8 @@ class PedidoData extends PedidoHandler
     /*
      *   Métodos para validar y establecer los datos.
      */
+
+    // Método para establecer el pedido
     public function setIdPedido($value)
     {
         if (Validator::validateNaturalNumber($value)) {
