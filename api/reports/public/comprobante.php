@@ -21,7 +21,7 @@ if ($dataPedidos = $pedido->readByClientAndStatus($_SESSION['idCliente'], 'Pendi
 
         // Información del cliente
         $pdf->setFont('Arial', 'B', 10);
-        $pdf->cell(0, 20, $pdf->encodeString('ID de Pedido: ' . $rowPedido['id_pedido']), 0, 1);
+        $pdf->cell(0, 15, $pdf->encodeString('ID de Pedido: ' . $rowPedido['id_pedido']), 0, 1);
         $pdf->ln(2);
 
         $pdf->setFont('Arial', '', 11);
