@@ -232,6 +232,8 @@ SELECT * FROM tb_tallas;
 
 SELECT * FROM tb_categorias;
 
+SELECT * FROM tb_targetas;
+
 SELECT * FROM tb_productos;
 
 SELECT * FROM tb_detalle_pedidos;

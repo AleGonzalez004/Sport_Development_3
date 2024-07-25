@@ -31,22 +31,29 @@ if (isset($_GET['action'])) {
                 } else {
                     $result['error'] = 'Ocurrió un problema al agregar el producto';
                 }
-                case 'createTarget':
-                    $_POST = Validator::validateForm($_POST);
-                    if (!$pedido->createTarget()) {
-                        $result['error'] = 'Ocurrió un problema al iniciar el pedido';
-                    } elseif (
-                        !$pedido->setProducto($_POST['idProducto']) or
-                        !$pedido->setCantidad($_POST['cantidadProducto'])
-                    ) {
-                        $result['error'] = $pedido->getDataError();
-                    } elseif ($pedido->createDetail()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Producto agregado correctamente';
-                    } else {
-                        $result['error'] = 'Ocurrió un problema al agregar el producto';
-                    }
                 break;
+
+            // Acción para crear una tarjeta.
+            case 'createTarget':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$pedido->createTarget(
+                        $_POST['tipo_targeta'],
+                        $_POST['tipo_uso'],
+                        $_POST['numero_targeta'],
+                        $_POST['nombre_targeta'],
+                        $_POST['fecha_expiracion'],
+                        $_POST['codigo_verificacion'],
+                        $_SESSION['idCliente']
+                    )
+                ) {
+                    $result['error'] = 'Ocurrió un problema al agregar la tarjeta';
+                } else {
+                    $result['status'] = 1;
+                    $result['message'] = 'Tarjeta agregada correctamente';
+                }
+                break;
+
             // Acción para obtener los productos agregados en el carrito de compras.
             case 'readDetail':
                 if (!$pedido->getOrder()) {
@@ -57,6 +64,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen productos en el carrito';
                 }
                 break;
+
             // Acción para actualizar la cantidad de un producto en el carrito de compras.
             case 'updateDetail':
                 $_POST = Validator::validateForm($_POST);
@@ -72,6 +80,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar la cantidad';
                 }
                 break;
+
             // Acción para remover un producto del carrito de compras.
             case 'deleteDetail':
                 if (!$pedido->setIdDetalle($_POST['idDetalle'])) {
@@ -83,6 +92,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al remover el producto';
                 }
                 break;
+
             // Acción para finalizar el carrito de compras.
             case 'finishOrder':
                 if ($pedido->finishOrder()) {
@@ -92,14 +102,27 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al iniciar el pedido';
                 }
                 break;
-                case 'deleteOrder':
-                    if ($pedido->deleteOrder()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Carrito borrado correctamente';
-                    } else {
-                        $result['error'] = 'Ocurrió un problema al borrar el Carrito';
-                    }
-                    break;
+
+            // Acción para obtener los números de las tarjetas.
+            case 'getCardNumbers':
+                $result['dataset'] = $pedido->getCardNumbers($_SESSION['idCliente']);
+                if ($result['dataset']) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Ocurrió un problema al obtener los números de las tarjetas';
+                }
+                break;
+
+            // Acción para eliminar el carrito de compras.
+            case 'deleteOrder':
+                if ($pedido->deleteOrder()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Carrito borrado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al borrar el carrito';
+                }
+                break;
+
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
@@ -122,3 +145,4 @@ if (isset($_GET['action'])) {
 } else {
     print(json_encode('Recurso no disponible'));
 }
+?>

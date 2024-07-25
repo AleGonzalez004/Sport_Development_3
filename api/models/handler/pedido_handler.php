@@ -9,6 +9,7 @@ class PedidoHandler
     /*
      *   Declaración de atributos para el manejo de datos.
      */
+    protected $id_targeta = null;
     protected $id_pedido = null;
     protected $id_detalle = null;
     protected $cliente = null;
@@ -147,12 +148,23 @@ class PedidoHandler
         $params = array('Pendiente');
         return Database::executeRow($sql, $params);
     }
-    public function createTarget()
+
+    // Método para crear una tarjeta
+    public function createTarget($tipo_targeta, $tipo_uso, $numero_targeta, $nombre_targeta, $fecha_expiracion, $codigo_verificacion, $id_cliente)
     {
-        $sql = 'INSERT INTO tb_targetas(id_targeta, tipo_targeta, tipo_uso, numero_targeta, nombre_targeta, fecha_expiracion, codigo_verificacion, id_cliente 
-        VALUES(?, (SELECT id_cliente FROM tb_clientes WHERE id_cliente = ?), ?, ?)';
-        $params = array('Pendiente');
+        $sql = 'INSERT INTO tb_targetas(tipo_targeta, tipo_uso, numero_targeta, nombre_targeta, fecha_expiracion, codigo_verificacion, id_cliente) 
+                VALUES(?, ?, ?, ?, ?, ?, ?)';
+        $params = array($tipo_targeta, $tipo_uso, $numero_targeta, $nombre_targeta, $fecha_expiracion, $codigo_verificacion, $id_cliente);
         return Database::executeRow($sql, $params);
     }
+
+    // Método para obtener los números completos de las tarjetas basado en el id_cliente
+    public function getCardNumbers($id_cliente)
+    {
+        $sql = 'SELECT numero_targeta FROM tb_targetas WHERE id_cliente = ? LIMIT 2';
+        $params = array($id_cliente);
+        return Database::getRows($sql, $params); // Suponiendo que getRows puede manejar múltiples filas
+    }
+
 }
 
