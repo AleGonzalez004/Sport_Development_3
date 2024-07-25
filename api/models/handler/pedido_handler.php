@@ -182,13 +182,13 @@ class PedidoHandler
 
     // Método para obtener los detalles de un pedido
     public function readByPedido()
-{
-    $sql = 'SELECT dp.*, p.nombre_producto 
+    {
+        $sql = 'SELECT dp.*, p.nombre_producto 
             FROM tb_detalle_pedidos dp 
             JOIN tb_productos p ON dp.id_producto = p.id_producto 
             WHERE dp.id_pedido = ?';
-    $params = array($this->id_pedido);
-    return Database::getRows($sql, $params);
-}
+        $params = array($this->id_pedido);
+        return Database::getRows($sql, $params);
+    }
 
 }

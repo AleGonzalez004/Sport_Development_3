@@ -171,7 +171,7 @@ const openUpdate = async (ID_MARCA) => {
 *   Retorno: ninguno.
 */
 const openDelete = async (ID_MARCA) => {
-    
+
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const RESPONSE = await confirmAction('¿Desea eliminar el color de forma permanente?');
     // Se verifica la respuesta del mensaje.

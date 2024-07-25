@@ -171,7 +171,7 @@ const openUpdate = async (id_genero) => {
 *   Retorno: ninguno.
 */
 const openDelete = async (id_genero) => {
-    
+
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const RESPONSE = await confirmAction('¿Desea eliminar el genero de forma permanente?');
     // Se verifica la respuesta del mensaje.

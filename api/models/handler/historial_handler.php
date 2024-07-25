@@ -4,7 +4,7 @@ require_once ('../../helpers/database.php');
 /*
  *	Clase para manejar el comportamiento de los datos de las tablas PEDIDO y DETALLE_PEDIDO.
  */
-class OrderHandler
+class HistorialHandler
 {
     /*
      *   Declaración de atributos para el manejo de datos.
@@ -81,16 +81,17 @@ class OrderHandler
 
     // Método para obtener los productos que se encuentran en el carrito de compras.
     public function readDetail()
-{
-    $sql = 'SELECT id_detalle, nombre_producto, tb_detalle_pedidos.precio_producto, tb_detalle_pedidos.cantidad_producto, tb_pedidos.fecha_registro
+    {
+        $sql = 'SELECT id_detalle, nombre_producto, tb_detalle_pedidos.precio_producto, tb_detalle_pedidos.cantidad_producto, tb_pedidos.fecha_registro, tb_pedidos.direccion_pedido
             FROM tb_detalle_pedidos
             INNER JOIN tb_pedidos USING(id_pedido)
             INNER JOIN tb_productos USING(id_producto)
             WHERE tb_pedidos.id_cliente = ?
             ORDER BY tb_pedidos.fecha_registro DESC';
-    $params = array($_SESSION['idCliente']); // Cambia esto según la lógica de tu sesión
-    return Database::getRows($sql, $params);
-}
+        $params = array($_SESSION['idCliente']); // Cambia esto según la lógica de tu sesión
+        return Database::getRows($sql, $params);
+    }
+
 
 
 

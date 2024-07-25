@@ -2,9 +2,9 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-$exceptionPath = '../../../resources/libs/PHPMailer/src/Exception.php';
-$phpMailerPath = '../../../resources/libs/PHPMailer/src/PHPMailer.php';
-$smtpPath = '../../../resources/libs/PHPMailer/src/SMTP.php';
+$exceptionPath = '../../libraries/phpmailer651/src/Exception.php';
+$phpMailerPath = '../../libraries/phpmailer651/src/PHPMailer.php';
+$smtpPath = '../../libraries/phpmailer651/src/SMTP.php';
 
 // Verifica que los archivos existen
 if (!file_exists($exceptionPath) || !file_exists($phpMailerPath) || !file_exists($smtpPath)) {
@@ -35,12 +35,12 @@ $mail = new PHPMailer(true);
 try {
     // Configuración del servidor SMTP para Gmail
     $mail->isSMTP();
-    $mail->Host       = 'smtp.gmail.com';
-    $mail->SMTPAuth   = true;
-    $mail->Username   = 'sportdevelopment7@gmail.com'; // Tu correo electrónico de Gmail
-    $mail->Password   = 'oatk qcui omre ihbn'; // Tu contraseña o contraseña de aplicación
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'sportdevelopment7@gmail.com'; // Tu correo electrónico de Gmail
+    $mail->Password = 'oatk qcui omre ihbn'; // Tu contraseña o contraseña de aplicación
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->Port       = 587;
+    $mail->Port = 587;
     //12345678_@
 
     // Remitente y destinatario
@@ -50,7 +50,7 @@ try {
     // Asunto y cuerpo del correo
     $mail->isHTML(true);
     $mail->Subject = 'Comprobante de Compra';
-    $mail->Body    = 'Adjunto encontrarás tu comprobante de compra.';
+    $mail->Body = 'Adjunto encontrarás tu comprobante de compra.';
     $mail->AltBody = 'Gracias por comprar en nuestra tienda.';
 
     // Adjuntar el archivo PDF

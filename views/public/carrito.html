@@ -13,7 +13,7 @@
 
 <body>
     <main>
-        
+
         <h4 id="mainTitle"></h4>
         <table class="table table-striped">
             <thead>
@@ -49,7 +49,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="modalTitle">Cambiar cantidad</h1>
-                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-square-fill"></i></button>
+                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal" aria-label="Close"><i
+                                class="bi bi-x-square-fill"></i></button>
                     </div>
                     <form id="itemForm">
                         <div class="modal-body row">
@@ -69,12 +70,14 @@
         </div>
 
         <!-- Modal para añadir tarjeta de pago -->
-        <div class="modal fade" id="paymentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paymentModalTitle" aria-hidden="true">
+        <div class="modal fade" id="paymentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="paymentModalTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="paymentModalTitle">Añadir tarjeta de pago</h1>
-                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-square-fill"></i></button>
+                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal" aria-label="Close"><i
+                                class="bi bi-x-square-fill"></i></button>
                     </div>
                     <form id="paymentForm" onsubmit="handlePayment(event)">
                         <div class="modal-body">
@@ -96,20 +99,24 @@
                             </div>
                             <div class="mb-3">
                                 <label for="cardNumber" class="form-label">Número de tarjeta</label>
-                                <input type="text" id="cardNumber" name="cardNumber" class="form-control" placeholder="XXXX XXXX XXXX XXXX" required oninput="formatCardNumber(this)">
+                                <input type="text" id="cardNumber" name="cardNumber" class="form-control"
+                                    placeholder="XXXX XXXX XXXX XXXX" required oninput="formatCardNumber(this)">
                             </div>
                             <div class="mb-3">
                                 <label for="cardName" class="form-label">Nombre en la tarjeta</label>
-                                <input type="text" id="cardName" name="cardName" class="form-control" placeholder="Nombre completo" required>
+                                <input type="text" id="cardName" name="cardName" class="form-control"
+                                    placeholder="Nombre completo" required>
                             </div>
                             <div class="row mb-3">
                                 <div class="col">
                                     <label for="expiryDate" class="form-label">Fecha de expiración</label>
-                                    <input type="text" id="expiryDate" name="expiryDate" class="form-control" placeholder="MM/AA" required oninput="formatExpiryDate(this)">
+                                    <input type="text" id="expiryDate" name="expiryDate" class="form-control"
+                                        placeholder="MM/AA" required oninput="formatExpiryDate(this)">
                                 </div>
                                 <div class="col">
                                     <label for="cvv" class="form-label">CVV</label>
-                                    <input type="text" id="cvv" name="cvv" class="form-control" placeholder="XXX" required oninput="formatCVV(this)">
+                                    <input type="text" id="cvv" name="cvv" class="form-control" placeholder="XXX"
+                                        required oninput="formatCVV(this)">
                                 </div>
                             </div>
                         </div>
@@ -122,12 +129,14 @@
         </div>
 
         <!-- Modal para añadir tarjeta de pago -->
-        <div class="modal fade" id="targetModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paymentModalTitle" aria-hidden="true">
+        <div class="modal fade" id="targetModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="paymentModalTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="targetModalTitle">Añadir tarjeta de pago</h1>
-                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-square-fill"></i></button>
+                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal" aria-label="Close"><i
+                                class="bi bi-x-square-fill"></i></button>
                     </div>
                     <form id="paymentForm" onsubmit="handlePayment(event)">
                         <div class="modal-body">

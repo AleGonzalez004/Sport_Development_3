@@ -120,7 +120,7 @@ const graficoPastelCategorias = async () => {
                     label: 'Porcentaje de productos por categoría',
                     data: porcentajes,
                     backgroundColor: palette,
-                    borderColor: '#ffffff', 
+                    borderColor: '#ffffff',
                     borderWidth: 1
                 }]
             },
@@ -138,9 +138,9 @@ const graficoPastelCategorias = async () => {
                 },
                 tooltips: {
                     callbacks: {
-                        label: function(tooltipItem, data) {
+                        label: function (tooltipItem, data) {
                             var dataset = data.datasets[tooltipItem.datasetIndex];
-                            var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                            var total = dataset.data.reduce(function (previousValue, currentValue, currentIndex, array) {
                                 return previousValue + currentValue;
                             });
                             var currentValue = dataset.data[tooltipItem.index];
@@ -216,7 +216,7 @@ const graficoCrecimientoClientes = async () => {
 
 const graficoEstadoPedidos = async () => {
     const DATA = await fetchData(GRAFICO_API, 'graficoPedido');
-    
+
     console.log(DATA.dataset);
 
     if (DATA.status) {
@@ -267,7 +267,7 @@ const graficoVentas = async () => {
 
         DATA.dataset.forEach(row => {
             fechas.push(row.fecha);
-            cantidades.push(row.ventas);  
+            cantidades.push(row.ventas);
         });
 
         new Chart(document.getElementById('chart5'), {
