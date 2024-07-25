@@ -20,31 +20,31 @@ class MarcasData extends MarcasHandler
             $this->id = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del genero es incorrecto';
+            $this->data_error = 'El identificador de la marca es incorrecto';
             return false;
         }
     }
 
     public function setNombre($value, $min = 2, $max = 50)
     {
-        // Verificar si el color ya existe en la base de datos
+        // Verificar si la marca ya existe en la base de datos
         $checkSql = 'SELECT * FROM tb_marcas WHERE nombre = ?';
         $checkParams = array($value);
 
         if (Database::getRow($checkSql, $checkParams)) {
-            $this->data_error = 'El color ya existe';
+            $this->data_error = 'El marca ya existe';
             return false;
         }
 
         // Validar el valor y la longitud del nombre
         if (!Validator::validateAlphabetic($value)) {
-            $this->data_error = 'El nombre del color debe ser un valor alfabético';
+            $this->data_error = 'El nombre de marca debe ser un valor alfabético';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
             $this->nombre = $value;
             return true;
         } else {
-            $this->data_error = 'El nombre del color debe tener una longitud entre ' . $min . ' y ' . $max;
+            $this->data_error = 'El nombre de marca debe tener una longitud entre ' . $min . ' y ' . $max;
             return false;
         }
     }

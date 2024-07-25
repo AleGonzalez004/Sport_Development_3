@@ -106,10 +106,10 @@ const fillTable = async (form = null) => {
                     <td></td>
                     <td></td>
                     <td>
-                <button type="button" class="btn btn-success me-2 mb-2 mb-sm-2" onclick="openUpdate(${row.ID_MARCA})">
+                <button type="button" class="btn btn-success me-2 mb-2 mb-sm-2" onclick="openUpdate(${row.id_marca})">
                             <i class="bi bi-pencil-fill"></i>
                         </button>
-                <button type="button" class="btn btn-danger me-2 mb-2 mb-sm-2" onclick="openDelete(${row.ID_MARCA})">
+                <button type="button" class="btn btn-danger me-2 mb-2 mb-sm-2" onclick="openDelete(${row.id_marca})">
                     <i class="bi bi-trash-fill"></i>
                 </button>                
                     </td>
@@ -143,11 +143,11 @@ const openCreate = () => {
 *   Parámetros: id (identificador del registro seleccionado).
 *   Retorno: ninguno.
 */
-const openUpdate = async (ID_MARCA) => {
-    console.log(ID_MARCA)
+const openUpdate = async (id) => {
+    console.log(id)
     // Se define una constante tipo objeto con los datos del registro seleccionado.
     const FORM = new FormData();
-    FORM.append('idMarca', ID_MARCA);
+    FORM.append('idMarca', id);
     // Petición para obtener los datos del registro solicitado.
     const DATA = await fetchData(MARCA_API, 'readOne', FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
@@ -159,7 +159,7 @@ const openUpdate = async (ID_MARCA) => {
         SAVE_FORM.reset();
         // Se inicializan los campos con los datos.
         const ROW = DATA.dataset;
-        ID_MARCA.value = ROW.ID_MARCA;
+        ID_MARCA.value = ROW.id_marca;
         NOMBRE_MARCA.value = ROW.nombre;
     } else {
         sweetAlert(2, DATA.error, false);
@@ -170,7 +170,7 @@ const openUpdate = async (ID_MARCA) => {
 *   Parámetros: id (identificador del registro seleccionado).
 *   Retorno: ninguno.
 */
-const openDelete = async (ID_MARCA) => {
+const openDelete = async (id) => {
 
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const RESPONSE = await confirmAction('¿Desea eliminar el color de forma permanente?');
@@ -178,7 +178,7 @@ const openDelete = async (ID_MARCA) => {
     if (RESPONSE) {
         // Se define una constante tipo objeto con los datos del registro seleccionado.
         const FORM = new FormData();
-        FORM.append('idMarca', ID_MARCA);
+        FORM.append('idMarca', id);
         // Petición para eliminar el registro seleccionado.
         const DATA = await fetchData(MARCA_API, 'deleteRow', FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.

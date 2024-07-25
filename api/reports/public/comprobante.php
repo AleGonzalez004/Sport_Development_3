@@ -41,9 +41,10 @@ if ($dataPedidos = $pedido->readByClientAndStatus($_SESSION['idCliente'], 'Pendi
         $pdf->ln(5);
 
         // Tercera fila de datos
-        $pdf->cell(90, 8, $pdf->encodeString('Correo Electrónico:'), 0, 0);
-        $pdf->cell(70, 8, $pdf->encodeString($clienteEmail), 0, 0);
-        $pdf->cell(90, 8, $pdf->encodeString('Fecha de Registro:'), 0, 0);
+        $pdf->cell(50, 8, $pdf->encodeString('Correo Electrónico:'), 0, 0);
+        $pdf->cell(50, 8, $pdf->encodeString($clienteEmail), 0, 0);
+        $pdf->ln(13);
+        $pdf->cell(50, 8, $pdf->encodeString('Fecha de Registro:'), 0, 0);
         $pdf->cell(50, 8, $pdf->encodeString($rowPedido['fecha_registro']), 0, 1);
         $pdf->ln(5);
 
