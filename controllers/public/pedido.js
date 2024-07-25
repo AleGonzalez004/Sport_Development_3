@@ -143,11 +143,9 @@ async function finishOrder() {
 
     // Se verifica la respuesta del mensaje.
     if (RESPONSE) {
-        // Primero, generamos el reporte.
-        await openReport();
-
+ 
         // Esperamos 5 segundos para asegurar que el reporte se haya abierto.
-        await new Promise(resolve => setTimeout(resolve, 5000)); // Esperar 5 segundos
+        await new Promise(resolve => setTimeout(resolve, 1000)); // Esperar 5 segundos
 
         // Luego, petición para finalizar el pedido en proceso.
         const DATA = await fetchData(ORDER_API, 'finishOrder');
@@ -165,13 +163,6 @@ async function finishOrder() {
     }
 }
 
-const openReport = async () => {
-    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
-    const PATH = new URL(`${SERVER_URL}reports/public/comprobante.php`);
-
-    // Abre la URL en una nueva pestaña para descargar el archivo.
-    window.open(PATH.href, '_blank');
-}
 
 function handleClick() {
     finishOrder();
