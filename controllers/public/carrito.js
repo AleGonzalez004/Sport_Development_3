@@ -61,17 +61,17 @@ async function readDetail() {
             // Se crean y concatenan las filas de la tabla con los datos de cada registro.
             TABLE_BODY.innerHTML += `
                 <tr>
-                    <td><img src="${SERVER_URL}images/productos/${row.imagen_producto}" height="100"></td>
-                    <td>${row.nombre_producto}</td>
-                    <td>${row.precio_producto}</td>
-                    <td>${row.cantidad_producto}</td>
-                    <td>${subtotal.toFixed(2)}</td>
-                    <td>
-                        <button type="button" onclick="openUpdate(${row.id_detalle}, ${row.cantidad_producto})" class="btn btn-dark">
-                            <i class="bi bi-plus-slash-minus"></i>
+                    <td class="py-4"><img src="${SERVER_URL}images/productos/${row.imagen_producto}" height="100"></td>
+                    <td class="py-5">${row.nombre_producto}</td>
+                    <td class="py-5">${row.precio_producto}</td>
+                    <td class="py-5">${row.cantidad_producto}</td>
+                    <td class="py-5">${subtotal.toFixed(2)}</td>
+                    <td class="py-5">
+                        <button type="button" onclick="openUpdate(${row.id_detalle}, ${row.cantidad_producto})" class="btn btn-dark p-3">
+                            <i class="bi bi-plus-slash-minus"></i>Cantidad
                         </button>
-                        <button type="button" onclick="openDelete(${row.id_detalle})" class="btn btn-dark">
-                            <i class="bi bi-cart-dash"></i>
+                        <button type="button" onclick="openDelete(${row.id_detalle})" class="btn btn-dark p-3">
+                            <i class="bi bi-cart-dash"></i>Eliminar
                         </button>
                     </td>
                 </tr>
