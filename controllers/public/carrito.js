@@ -61,6 +61,7 @@ async function readDetail() {
             // Se crean y concatenan las filas de la tabla con los datos de cada registro.
             TABLE_BODY.innerHTML += `
                 <tr>
+                    <td><img src="${SERVER_URL}images/productos/${row.imagen_producto}" height="100"></td>
                     <td>${row.nombre_producto}</td>
                     <td>${row.precio_producto}</td>
                     <td>${row.cantidad_producto}</td>

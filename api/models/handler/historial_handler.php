@@ -82,7 +82,7 @@ class HistorialHandler
     // Método para obtener los productos que se encuentran en el carrito de compras.
     public function readDetail()
     {
-        $sql = 'SELECT id_detalle, nombre_producto, tb_detalle_pedidos.precio_producto, tb_detalle_pedidos.cantidad_producto, tb_pedidos.fecha_registro, tb_pedidos.direccion_pedido
+        $sql = 'SELECT id_detalle, nombre_producto, tb_detalle_pedidos.precio_producto, tb_detalle_pedidos.cantidad_producto, tb_pedidos.fecha_registro, tb_pedidos.direccion_pedido, tb_productos.imagen_producto
             FROM tb_detalle_pedidos
             INNER JOIN tb_pedidos USING(id_pedido)
             INNER JOIN tb_productos USING(id_producto)
