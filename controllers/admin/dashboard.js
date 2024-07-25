@@ -113,7 +113,7 @@ const graficoPastelCategorias = async () => {
 
         // Llamada a la función para generar y mostrar un gráfico de pastel.
         new Chart(document.getElementById('chart2'), {
-            type: 'pie',
+            type: 'doughnut',
             data: {
                 labels: categorias,
                 datasets: [{

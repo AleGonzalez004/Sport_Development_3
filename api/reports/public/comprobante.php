@@ -25,28 +25,27 @@ if ($dataPedidos = $pedido->readByClientAndStatus($_SESSION['idCliente'], 'Pendi
         $pdf->ln(2);
 
         $pdf->setFont('Arial', '', 11);
-        $pdf->ln(10);
+        $pdf->ln(5);
         // Primera fila de datos
         $pdf->cell(30, 8, $pdf->encodeString('Nombre:'), 0, 0);
         $pdf->cell(60, 8, $pdf->encodeString($rowPedido['nombre_cliente'] . ' ' . $rowPedido['apellido_cliente']), 0, 0);
         $pdf->cell(30, 8, $pdf->encodeString('Teléfono:'), 0, 0);
         $pdf->cell(70, 8, $pdf->encodeString($rowPedido['telefono_cliente']), 0, 1);
-        $pdf->ln(10);
+        $pdf->ln(5);
 
         // Segunda fila de datos
         $pdf->cell(30, 8, $pdf->encodeString('Dirección:'), 0, 0);
         $pdf->cell(60, 8, $pdf->encodeString($rowPedido['direccion_cliente']), 0, 0);
         $pdf->cell(30, 8, $pdf->encodeString('DUI:'), 0, 0);
         $pdf->cell(70, 8, $pdf->encodeString($rowPedido['dui_cliente']), 0, 1);
-        $pdf->ln(10);
+        $pdf->ln(5);
 
         // Tercera fila de datos
         $pdf->cell(90, 8, $pdf->encodeString('Correo Electrónico:'), 0, 0);
         $pdf->cell(70, 8, $pdf->encodeString($clienteEmail), 0, 0);
-        $pdf->ln(10);
         $pdf->cell(90, 8, $pdf->encodeString('Fecha de Registro:'), 0, 0);
         $pdf->cell(50, 8, $pdf->encodeString($rowPedido['fecha_registro']), 0, 1);
-        $pdf->ln(10);
+        $pdf->ln(5);
 
         // Encabezados de productos
         $pdf->setFont('Arial', 'B', 11);

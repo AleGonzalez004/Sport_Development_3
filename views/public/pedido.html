@@ -36,15 +36,16 @@
                     <th>DIRECCION</th>
                 </tr>
             </thead>
+            <p class="text-end">
+                <button type="button" class="btn btn-dark" onclick="deleteOrder()">
+                    <i class="bi bi-cart-x-fill"></i> Finalizar pedidos
+                </button>
+            </p>
             <!-- Cuerpo de la tabla para mostrar un registro por fila -->
             <tbody id="tableBody"></tbody>
         </table>
         <!-- Párrafo para mostrar un botón que finaliza el pedido -->
-        <p class="text-end">
-            <button type="button" class="btn btn-dark" onclick="deleteOrder()">
-                <i class="bi bi-cart-x-fill"></i> Finalizar pedidos
-            </button>
-        </p>
+        
         <!-- Componente Modal para mostrar una caja de diálogo -->
         <div class="modal fade" id="itemModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="modalTitle" aria-hidden="true">
