@@ -15,20 +15,6 @@ if (isset($_GET['action'])) {
         $result['session'] = 1;
         // Se compara la acción a realizar cuando un grafico ha iniciado sesión.
         switch ($_GET['action']) {
-            case 'cantidadgraficos':
-                if ($result['dataset'] = $grafico->cantidadgrafico()) {
-                    $result['status'] = 1;
-                } else {
-                    $result['error'] = 'No hay datos disponibles';
-                }
-                break;
-            case 'cantidadgraficoPorFecha':
-                if ($result['dataset'] = $grafico->cantidadgraficoPorFecha()) {
-                    $result['status'] = 1;
-                } else {
-                    $result['error'] = 'No hay datos disponibles';
-                }
-                break;
             case 'graficoPedido':
                 if ($result['dataset'] = $grafico->graficoPedido()) {
                     $result['status'] = 1;
@@ -57,22 +43,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No hay datos disponibles';
                 }
                 break;
-            case 'cantidadClientes':
-                if ($result['dataset'] = $grafico->cantidadCliente()) {
-                    $result['status'] = 1;
-                } else {
-                    $result['error'] = 'No hay datos disponibles';
-                }
-                break;
+           
             case 'cantidadClientePorFecha':
                 if ($result['dataset'] = $grafico->cantidadClientePorFecha()) {
-                    $result['status'] = 1;
-                } else {
-                    $result['error'] = 'No hay datos disponibles';
-                }
-                break;
-            case 'graficoPedido':
-                if ($result['dataset'] = $grafico->graficoPedido()) {
                     $result['status'] = 1;
                 } else {
                     $result['error'] = 'No hay datos disponibles';

@@ -66,6 +66,7 @@ async function readDetail() {
                     <td>${row.cantidad_producto}</td>
                     <td>${subtotal.toFixed(2)}</td>
                     <td>${row.fecha_registro}</td>
+                    <td>${row.direccion_pedido}</td>
                     <td>
                     </td>
                 </tr>

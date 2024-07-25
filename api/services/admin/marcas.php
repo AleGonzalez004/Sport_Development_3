@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../../models/data/marcas_data.php');
+require_once ('../../models/data/marcas_data.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
@@ -24,20 +24,20 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No hay coincidencias';
                 }
                 break;
-                case 'createRow':
-                    $_POST = Validator::validateForm($_POST);
-                    if (! $genero->setNombre($_POST['NombreMarca'])) {
-                        $result['error'] = $ $genero->getDataError();
-                    } elseif ( $genero->createRow()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Nuevo marca agregado correctamente';
-                    } else {
-                        $result['error'] =  $genero->getDataError() ?: 'Ocurrió un problema al agregar el nuevo marca.';
-                    }
-                    break;
-                
+            case 'createRow':
+                $_POST = Validator::validateForm($_POST);
+                if (!$genero->setNombre($_POST['NombreMarca'])) {
+                    $result['error'] = $$genero->getDataError();
+                } elseif ($genero->createRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Nuevo marca agregado correctamente';
+                } else {
+                    $result['error'] = $genero->getDataError() ?: 'Ocurrió un problema al agregar el nuevo marca.';
+                }
+                break;
+
             case 'readAll':
-                if ($result['dataset'] =  $genero->readAll()) {
+                if ($result['dataset'] = $genero->readAll()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
@@ -45,9 +45,9 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readOne':
-                if (! $genero->setId($_POST['idMarca'])) {
-                    $result['error'] =  $genero->getDataError();
-                } elseif ($result['dataset'] =  $genero->readOne()) {
+                if (!$genero->setId($_POST['idMarca'])) {
+                    $result['error'] = $genero->getDataError();
+                } elseif ($result['dataset'] = $genero->readOne()) {
                     $result['status'] = 1;
                 } else {
                     $result['error'] = 'marca inexistente';
@@ -56,11 +56,11 @@ if (isset($_GET['action'])) {
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    ! $genero->setId($_POST['idMarca'])or
-                    ! $genero->setNombre($_POST['NombreMarca']) 
+                    !$genero->setId($_POST['idMarca']) or
+                    !$genero->setNombre($_POST['NombreMarca'])
                 ) {
                     $result['error'] = $genero->getDataError();
-                } elseif ( $genero->updateRow()) {
+                } elseif ($genero->updateRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Marca modificado correctamente';
                 } else {
@@ -69,27 +69,27 @@ if (isset($_GET['action'])) {
                 break;
             case 'deleteRow':
                 if (
-                    ! $genero->setid($_POST['idMarca'])
+                    !$genero->setid($_POST['idMarca'])
                 ) {
-                    $result['error'] =  $genero->getDataError();
-                } elseif ( $genero->deleteRow()) {
+                    $result['error'] = $genero->getDataError();
+                } elseif ($genero->deleteRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Marca eliminado correctamente';
                 } else {
                     $result['error'] = 'Ocurrió un problema al eliminar el marca';
                 }
                 break;
-            
+
         }
         // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
         $result['exception'] = Database::getException();
         // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
         header('Content-type: application/json; charset=utf-8');
         // Se imprime el resultado en formato JSON y se retorna al controlador.
-        print(json_encode($result));
+        print (json_encode($result));
     } else {
-        print(json_encode('Acceso denegado'));
+        print (json_encode('Acceso denegado'));
     }
 } else {
-    print(json_encode('Recurso no disponible'));
+    print (json_encode('Recurso no disponible'));
 }
