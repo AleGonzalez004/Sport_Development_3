@@ -35,11 +35,11 @@ if (isset($_GET['action'])) {
             // Acción para obtener los productos agregados en el carrito de compras.
             case 'readDetail':
                 if (!$pedido->getOrder()) {
-                    $result['error'] = 'No ha iniciado ningun pedido';
+                    $result['error'] = 'No hay nada en el hisorial';
                 } elseif ($result['dataset'] = $pedido->readDetail()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'No existen pedidos activos';
+                    $result['error'] = 'No existen historial activos';
                 }
                 break;
             // Acción para actualizar la cantidad de un producto en el carrito de compras.
