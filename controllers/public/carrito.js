@@ -103,36 +103,13 @@ document.addEventListener('DOMContentLoaded', () => {
     loadCardNumbers(); // Cargar números de tarjeta cuando el documento esté listo
 });
 
-async function loadCardNumbers() {
-    const response = await fetchData('services/public/cardHandler.php', 'getCardNumbers');
-    const selectElement = document.getElementById('cardType');
-    
-    if (response.status) {
-        response.dataset.forEach(card => {
-            const option = document.createElement('option');
-            option.value = card.id_targeta;
-            option.textContent = `${card.numero_targeta.replace(/.(?=.{4})/g, 'X')}`; // Ocultar todos menos los últimos 4 dígitos
-            selectElement.appendChild(option);
-        });
-    } else {
-        sweetAlert(2, response.error, false);
-    }
-}
-
-async function handlePayment(event) {
+function handlePayment(event) {
     event.preventDefault();
-    const formData = new FormData(document.getElementById('paymentForm'));
-    const response = await fetchData('services/public/cardHandler.php', 'createTarget', formData);
+    var modal = new bootstrap.Modal(document.getElementById('paymentModal'));
+    modal.hide();
 
-    if (response.status) {
-        sweetAlert(1, response.message, true);
-        document.getElementById('paymentModal').classList.remove('show'); // Ocultar el modal
-        finishOrder();
-    } else {
-        sweetAlert(2, response.error, false);
-    }
+    finishOrder();
 }
-
 /*
 *   Función asíncrona para mostrar un mensaje de confirmación al momento de finalizar el pedido.
 *   Parámetros: ninguno.
