@@ -1,32 +1,20 @@
 <!DOCTYPE html>
-<!-- Declaración del idioma para el documento -->
 <html lang="es">
-
 <head>
-    <!-- Título del documento -->
-    <title></title>
-    <!-- Metadatos de la página web -->
+    <title>Detalles del Producto</title>
     <meta charset="utf-8">
     <meta name="author" content="Dennis Gonzalez">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- IMPORTACIÓN DE RECURSOS EXTERNOS -->
-    <!-- Llamada al icono de la página web -->
     <link type="image/png" rel="icon" href="../../resources/img/icon.png">
-    <!-- Llamada a las hojas de estilos del framework e iconos -->
     <link type="text/css" rel="stylesheet" href="../../resources/css/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
 </head>
-
 <body>
-    <!-- Contenido principal del documento -->
     <main>
-        <!-- Título del contenido principal -->
         <h4 id="mainTitle"></h4>
-        <!-- Componente Horizontal Card para mostrar el detalle de un producto -->
         <div class="card mb-3" id="detalle">
             <div class="row">
                 <div class="col-md-4">
-                    <!-- Se muestra la imagen del producto -->
                     <img id="imagenProducto" class="img-fluid rounded-start">
                 </div>
                 <div class="col-md-8">
@@ -35,39 +23,32 @@
                         <p class="card-text" id="descripcionProducto"></p>
                         <p class="card-text">Precio US$ <b class="text-success" id="precioProducto"></b></p>
                         <p class="card-text">Existencias <b id="existenciasProducto"></b></p>
-                        <!-- Formulario para agregar el producto al carrito de compras -->
                         <form class="row" id="shoppingForm">
-                            <!-- Campo oculto para asignar el id del producto -->
                             <input type="number" class="d-none" id="idProducto" name="idProducto">
-                            <div class="col-6 mb-3">
+                            <div class="col-12 mb-3">
                                 <label for="colorProducto" class="form-label">Color</label>
                                 <select class="form-select" id="colorProducto" name="colorProducto" required>
                                     <option value="" selected disabled>Seleccione un color</option>
-                                    <!-- Opciones de colores se añadirán dinámicamente aquí -->
                                 </select>
                             </div>
-
+                            <div class="col-12 mb-3">
+                                <label for="cantidadProducto" class="form-label">Cantidad</label>
+                                <input type="number" id="cantidadProducto" name="cantidadProducto" min="1" class="form-control" placeholder="Ingrese cantidad" required>
+                            </div>
+                            <div class="col-6 py-2 text-end">
+                                <button type="submit" class="btn btn-dark w-100 py-3 btn-lg">
+                                    <i class="bi bi-cart-plus-fill"></i> Comprar <i class="bi bi-arrow-return-right"></i>
+                                </button>
+                            </div>
                         </form>
-                        <div class="col-6 mb-3">
-                            <label for="cantidadProducto" class="form-label">Cantidad</label>
-                            <input type="number" id="cantidadProducto" name="cantidadProducto" min="1"
-                                class="form-control" placeholder="Ingrese cantidad" required>
-                        </div>
-                                                   
-                        <div class="col-6 align-self-end py-2">
-                            <button type="submit" class="btn btn-dark w-100 py-3 btn-lg">
-                                <i class="bi bi-cart-plus-fill"></i> Comprar <i class="bi bi-arrow-return-right"></i>
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div>        
         <form id="commentForm">
             <div class="mb-3">      
                 <div class="mt-4">
                     <h5>Calificación del producto</h5>
-                    <!-- Calificación con estrellas -->
                     <div id="rating" class="mb-3">
                         <i class="bi bi-star" data-value="1"></i>
                         <i class="bi bi-star" data-value="2"></i>
@@ -78,26 +59,20 @@
                 </div>
                 <textarea class="form-control" id="userComment" rows="3" required></textarea>
             </div>
-            <div class="text-end"> <button type="submit" class="btn btn-dark btn-lg">Enviar comentario</button></div>
+            <div class="text-end">
+                <button type="submit" class="btn btn-dark btn-lg">Enviar comentario</button>
+            </div>
         </form>
         <hr>
-        <!-- Lista de comentarios -->
         <div id="commentsList">
             <h5>Comentarios</h5>
-            <!-- Comentarios se añadirán aquí dinámicamente -->
         </div>
     </main>    
 
-    <!-- IMPORTACIÓN DE ARCHIVOS JAVASCRIPT -->
-    <!-- Llamada al framework y librería de mensajes -->
     <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
-    <!-- Llamada al controlador general de la aplicación -->
     <script type="text/javascript" src="../../controllers/utils/components.js"></script>
-    <!-- Llamada al controlador del sitio público -->
     <script type="text/javascript" src="../../controllers/utils/public.js"></script>
-    <!-- Llamada al controlador de la página web -->
     <script type="text/javascript" src="../../controllers/public/detalle.js"></script>
 </body>
-
 </html>
