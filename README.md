@@ -69,3 +69,64 @@ Cobertura: Asegura pruebas adecuadas.
 Nombres de Pruebas: Descriptivos y en camelCase.
 
 # Libreria PhpMailer para enviar correos
+
+Snake Case
+
+Uso: Principalmente en nombres de variables y funciones.
+Formato: Todo en minúsculas, palabras separadas por guiones bajos (_).
+Ejemplo: my_variable_name, my_function_name
+
+Camel Case
+
+Uso: Común en nombres de variables y funciones en muchos lenguajes, especialmente en JavaScript y Java.
+Formato: La primera palabra en minúscula, las siguientes palabras con la primera letra en mayúscula.
+Ejemplo: myVariableName, myFunctionName
+
+Pascal Case
+
+Uso: Principalmente en nombres de clases y constructores.
+Formato: Cada palabra comienza con una letra mayúscula.
+Ejemplo: MyClassName
+
+Kebab Case
+
+Uso: Común en nombres de archivos y URLs.
+Formato: Todo en minúsculas, palabras separadas por guiones (-).
+Ejemplo: my-stylesheet.css
+
+Upper Case
+
+Uso: Constantes.
+Formato: Todo en mayúsculas, palabras separadas por guiones bajos (_).
+Ejemplo: MAX_SIZE, MAX_CONNECTIONS
+
+Lower Case
+
+Uso: A veces en nombres de paquetes y módulos.
+Formato: Todo en minúsculas.
+Ejemplo: com.example.mypackage
+Estándares específicos por lenguaje
+
+Python
+
+Variables y funciones: snake_case.
+Clases: PascalCase.
+Constantes: UPPER_CASE.
+
+JavaScript
+
+Variables y funciones: camelCase.
+Clases: PascalCase.
+Constantes: UPPER_CASE.
+
+Java
+
+Variables y funciones: camelCase.
+Clases: PascalCase.
+Constantes: UPPER_CASE.
+
+PHP
+
+Variables y funciones: camelCase o snake_case.
+Clases: PascalCase.
+Constantes: UPPER_CASE

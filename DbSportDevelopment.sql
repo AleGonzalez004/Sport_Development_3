@@ -232,7 +232,7 @@ SELECT * FROM tb_tallas;
 
 SELECT * FROM tb_categorias;
 
-SELECT * FROM tb_targetas;
+SELECT * FROM tb_tarjetas;
 
 SELECT * FROM tb_productos;
 
@@ -249,5 +249,8 @@ SELECT * FROM tb_deportes;
 SELECT * FROM tb_generos;
 
 SELECT * FROM tb_imagenes;
+
+
+
 
 
