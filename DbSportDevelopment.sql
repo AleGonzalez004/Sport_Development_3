@@ -96,12 +96,12 @@ CREATE TABLE tb_imagenes (
    id_producto INT
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE tb_targetas (
-   id_targeta INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-   tipo_targeta ENUM('Visa','MasterCard') NOT NULL,
+CREATE TABLE tb_tarjetas (
+   id_tarjeta INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+   tipo_tarjeta ENUM('Visa','MasterCard') NOT NULL,
    tipo_uso ENUM('Credito','Debito') NOT NULL,
-   numero_targeta INT(16) UNSIGNED NOT NULL,
-   nombre_targeta VARCHAR(50) NOT NULL,
+   numero_tarjeta INT(16) UNSIGNED NOT NULL,
+   nombre_tarjeta VARCHAR(50) NOT NULL,
    fecha_expiracion INT(5) UNSIGNED NOT NULL,
    codigo_verificacion INT(5) UNSIGNED NOT NULL,
    id_cliente INT(10) UNSIGNED NOT NULL

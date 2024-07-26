@@ -11,7 +11,7 @@ class PedidoHandler
      *   Declaración de atributos para el manejo de datos.
      */
     private $idPedido;
-    protected $id_targeta = null;
+    protected $id_tarjeta = null;
     protected $id_pedido = null;
     protected $id_detalle = null;
     protected $cliente = null;
@@ -170,17 +170,17 @@ class PedidoHandler
     // Método para obtener los números de tarjeta basados en el id_cliente
     public function getCardNumbers($id_cliente)
     {
-        $sql = 'SELECT id_targeta, numero_targeta FROM tb_targetas WHERE id_cliente = ?';
+        $sql = 'SELECT id_tarjeta, numero_tarjeta FROM tb_tarjetas WHERE id_cliente = ?';
         $params = array($id_cliente);
         return Database::getRows($sql, $params); // Obtiene todos los números de tarjeta del cliente
     }
 
     // Método para crear una nueva tarjeta de pago
-    public function createTarget($tipo_targeta, $tipo_uso, $numero_targeta, $nombre_targeta, $fecha_expiracion, $codigo_verificacion, $id_cliente)
+    public function createTarget($tipo_tarjeta, $tipo_uso, $numero_tarjeta, $nombre_tarjeta, $fecha_expiracion, $codigo_verificacion, $id_cliente)
     {
-        $sql = 'INSERT INTO tb_targetas(tipo_targeta, tipo_uso, numero_targeta, nombre_targeta, fecha_expiracion, codigo_verificacion, id_cliente) 
+        $sql = 'INSERT INTO tb_tarjetas(tipo_tarjeta, tipo_uso, numero_tarjeta, nombre_tarjeta, fecha_expiracion, codigo_verificacion, id_cliente) 
                 VALUES(?, ?, ?, ?, ?, ?, ?)';
-        $params = array($tipo_targeta, $tipo_uso, $numero_targeta, $nombre_targeta, $fecha_expiracion, $codigo_verificacion, $id_cliente);
+        $params = array($tipo_tarjeta, $tipo_uso, $numero_tarjeta, $nombre_tarjeta, $fecha_expiracion, $codigo_verificacion, $id_cliente);
         return Database::executeRow($sql, $params);
     }
 
