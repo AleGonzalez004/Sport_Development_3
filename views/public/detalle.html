@@ -33,45 +33,52 @@
                     <div class="card-body">
                         <h5 class="card-title" id="nombreProducto"></h5>
                         <p class="card-text" id="descripcionProducto"></p>
-                        <p class="card-text">Precio unitario (US$) <b id="precioProducto"></b></p>
+                        <p class="card-text">Precio US$ <b class="text-success" id="precioProducto"></b></p>
                         <p class="card-text">Existencias <b id="existenciasProducto"></b></p>
                         <!-- Formulario para agregar el producto al carrito de compras -->
                         <form class="row" id="shoppingForm">
                             <!-- Campo oculto para asignar el id del producto -->
                             <input type="number" class="d-none" id="idProducto" name="idProducto">
-                            <div class="col-6">
-                                <input type="number" id="cantidadProducto" name="cantidadProducto" min="1"
-                                    class="form-control" placeholder="Ingrese cantidad" required>
+                            <div class="col-6 mb-3">
+                                <label for="colorProducto" class="form-label">Color</label>
+                                <select class="form-select" id="colorProducto" name="colorProducto" required>
+                                    <option value="" selected disabled>Seleccione un color</option>
+                                    <!-- Opciones de colores se añadirán dinámicamente aquí -->
+                                </select>
                             </div>
-                            <div class="col-6 align-self-end">
-                                <button type="submit" class="btn btn-dark">
-                                    <i class="bi bi-cart-plus-fill"></i> Comprar
-                                </button>
-                            </div>
-                        </form>
 
-                        <!-- Sección de calificación y comentarios -->
-                        <div class="mt-4">
-                            <h5>Calificación del producto</h5>
-                            <!-- Calificación con estrellas -->
-                            <div id="rating" class="mb-3">
-                                <i class="bi bi-star" data-value="1"></i>
-                                <i class="bi bi-star" data-value="2"></i>
-                                <i class="bi bi-star" data-value="3"></i>
-                                <i class="bi bi-star" data-value="4"></i>
-                                <i class="bi bi-star" data-value="5"></i>
-                            </div>
+                        </form>
+                        <div class="col-6 mb-3">
+                            <label for="cantidadProducto" class="form-label">Cantidad</label>
+                            <input type="number" id="cantidadProducto" name="cantidadProducto" min="1"
+                                class="form-control" placeholder="Ingrese cantidad" required>
+                        </div>
+                                                   
+                        <div class="col-6 align-self-end py-2">
+                            <button type="submit" class="btn btn-dark w-100 py-3 btn-lg">
+                                <i class="bi bi-cart-plus-fill"></i> Comprar <i class="bi bi-arrow-return-right"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <form id="commentForm">
-            <div class="mb-3">
-                <label for="userComment" class="form-label">Deja un comentario</label>
+            <div class="mb-3">      
+                <div class="mt-4">
+                    <h5>Calificación del producto</h5>
+                    <!-- Calificación con estrellas -->
+                    <div id="rating" class="mb-3">
+                        <i class="bi bi-star" data-value="1"></i>
+                        <i class="bi bi-star" data-value="2"></i>
+                        <i class="bi bi-star" data-value="3"></i>
+                        <i class="bi bi-star" data-value="4"></i>
+                        <i class="bi bi-star" data-value="5"></i>
+                    </div>
+                </div>
                 <textarea class="form-control" id="userComment" rows="3" required></textarea>
             </div>
-            <button type="submit" class="btn btn-dark">Enviar comentario</button>
+            <div class="text-end"> <button type="submit" class="btn btn-dark btn-lg">Enviar comentario</button></div>
         </form>
         <hr>
         <!-- Lista de comentarios -->
@@ -79,7 +86,7 @@
             <h5>Comentarios</h5>
             <!-- Comentarios se añadirán aquí dinámicamente -->
         </div>
-    </main>
+    </main>    
 
     <!-- IMPORTACIÓN DE ARCHIVOS JAVASCRIPT -->
     <!-- Llamada al framework y librería de mensajes -->

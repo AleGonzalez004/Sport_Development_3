@@ -88,3 +88,18 @@ SHOPPING_FORM.addEventListener('submit', async (event) => {
         sweetAlert(3, DATA.error, true, 'login.html');
     }
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const colorSelect = document.getElementById('colorProducto');
+
+    // Supongamos que estos colores se obtienen de una base de datos o API
+    const colores = ['Rojo', 'Azul', 'Verde', 'Negro', 'Blanco', 'Amarillo'];
+
+    // Añadir opciones al combobox de colores
+    colores.forEach(color => {
+        const option = document.createElement('option');
+        option.value = color.toLowerCase();
+        option.textContent = color;
+        colorSelect.appendChild(option);
+    });
+});

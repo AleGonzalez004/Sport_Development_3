@@ -30,11 +30,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <h5 class="card-title">${row.nombre_producto}</h5>
                         </div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Precio unitario (US$) ${row.precio_producto}</li>
+                            <li class="list-group-item">Precio (US$) ${row.precio_producto}</li>
                             <li class="list-group-item">Existencias ${row.existencias_producto}</li>
                         </ul>
                         <div class="card-body text-center">
-                            <a href="detalle.html?id=${row.id_producto}" class="btn btn-dark">Ver detalle</a>
+                            <a href="detalle.html?id=${row.id_producto}" class="btn btn-dark py-3">Agregar a carrito</a>
                         </div>
                     </div>
                 </div>
