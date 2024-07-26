@@ -53,7 +53,15 @@ if (isset($_GET['action'])) {
                     $result['message'] = 'Tarjeta agregada correctamente';
                 }
                 break;
-
+                // Acción para obtener los números de las tarjetas.
+            case 'getCardNumbers':
+                $result['dataset'] = $pedido->getCardNumbers($_SESSION['idCliente']);
+                if ($result['dataset']) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Ocurrió un problema al obtener los números de las tarjetas';
+                }
+                break;
             // Acción para obtener los productos agregados en el carrito de compras.
             case 'readDetail':
                 if (!$pedido->getOrder()) {
@@ -112,17 +120,6 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al iniciar el pedido';
                 }
                 break;
-
-            // Acción para obtener los números de las tarjetas.
-            case 'getCardNumbers':
-                $result['dataset'] = $pedido->getCardNumbers($_SESSION['idCliente']);
-                if ($result['dataset']) {
-                    $result['status'] = 1;
-                } else {
-                    $result['error'] = 'Ocurrió un problema al obtener los números de las tarjetas';
-                }
-                break;
-
             // Acción para eliminar el carrito de compras.
             case 'deleteOrder':
                 if ($pedido->deleteOrder()) {
