@@ -35,7 +35,7 @@ if (isset($_GET['action'])) {
             // Acción para obtener los productos agregados en el carrito de compras.
             case 'readDetail':
                 if (!$pedido->getOrder()) {
-                    $result['error'] = 'No hay nada en el hisorial';
+                    $result['error'] = 'No hay nada en el historial';
                 } elseif ($result['dataset'] = $pedido->readDetail()) {
                     $result['status'] = 1;
                 } else {
