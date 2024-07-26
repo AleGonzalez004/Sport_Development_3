@@ -69,6 +69,9 @@ async function readDetail() {
                     <td>${row.fecha_registro}</td>
                     <td>${row.direccion_pedido}</td>
                     <td>
+                    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#trackingModal">
+                        <i class="bi bi-truck"></i> Rastrear Pedido
+                    </button>
                     </td>
                 </tr>
             `;
@@ -80,24 +83,23 @@ async function readDetail() {
     }
 }
  // Inicialización del mapa en el modal
- document.getElementById('trackingModal').addEventListener('shown.bs.modal', function () {
-    var map = L.map('map').setView([13.7104, -89.2151], 12); // Coordenadas cerca del Instituto Técnico Ricaldone
+        document.getElementById('trackingModal').addEventListener('shown.bs.modal', function () {
+            var map = L.map('map').setView([13.7104, -89.2151], 12); // Coordenadas cerca del Instituto Técnico Ricaldone
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
 
-    var startPoint = L.latLng(13.7104, -89.2151); // Instituto Técnico Ricaldone
-    var endPoint = L.latLng(13.7010, -89.1922);  // Soyapango
+            var startPoint = L.latLng(13.7104, -89.2151); // Instituto Técnico Ricaldone
+            var endPoint = L.latLng(13.7010, -89.1922);  // Soyapango
 
-    // Añadir los marcadores
-    L.marker(startPoint).addTo(map).bindPopup('Instituto Técnico Ricaldone');
-    L.marker(endPoint).addTo(map).bindPopup('Soyapango');
+            // Añadir los marcadores
+            L.marker(startPoint).addTo(map).bindPopup('Instituto Técnico Ricaldone');
+            L.marker(endPoint).addTo(map).bindPopup('Soyapango');
 
-    // Dibujar la línea entre los puntos
-    L.polyline([startPoint, endPoint], { color: 'blue' }).addTo(map);
-});
-
+            // Dibujar la línea entre los puntos
+            L.polyline([startPoint, endPoint], { color: 'blue' }).addTo(map);
+        });
 /*
 *   Función para abrir la caja de diálogo con el formulario de cambiar cantidad de producto.
 *   Parámetros: id (identificador del producto) y quantity (cantidad actual del producto).

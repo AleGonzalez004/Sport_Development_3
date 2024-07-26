@@ -167,20 +167,21 @@ class PedidoHandler
     }
 
     // Método para crear una tarjeta
+    // Método para obtener los números de tarjeta basados en el id_cliente
+    public function getCardNumbers($id_cliente)
+    {
+        $sql = 'SELECT id_targeta, numero_targeta FROM tb_targetas WHERE id_cliente = ?';
+        $params = array($id_cliente);
+        return Database::getRows($sql, $params); // Obtiene todos los números de tarjeta del cliente
+    }
+
+    // Método para crear una nueva tarjeta de pago
     public function createTarget($tipo_targeta, $tipo_uso, $numero_targeta, $nombre_targeta, $fecha_expiracion, $codigo_verificacion, $id_cliente)
     {
         $sql = 'INSERT INTO tb_targetas(tipo_targeta, tipo_uso, numero_targeta, nombre_targeta, fecha_expiracion, codigo_verificacion, id_cliente) 
                 VALUES(?, ?, ?, ?, ?, ?, ?)';
         $params = array($tipo_targeta, $tipo_uso, $numero_targeta, $nombre_targeta, $fecha_expiracion, $codigo_verificacion, $id_cliente);
         return Database::executeRow($sql, $params);
-    }
-
-    // Método para obtener los números completos de las tarjetas basado en el id_cliente
-    public function getCardNumbers($id_cliente)
-    {
-        $sql = 'SELECT numero_targeta FROM tb_targetas WHERE id_cliente = ? LIMIT 2';
-        $params = array($id_cliente);
-        return Database::getRows($sql, $params); // Suponiendo que getRows puede manejar múltiples filas
     }
 
     public function readByClientAndStatus($id_cliente, $estado_pedido)

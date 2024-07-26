@@ -63,12 +63,12 @@ async function readDetail() {
             // Se crean y concatenan las filas de la tabla con los datos de cada registro.
             TABLE_BODY.innerHTML += `
                 <tr>
-                    <td class="py-4"><img src="${SERVER_URL}images/productos/${row.imagen_producto}" height="100"></td>
-                    <td class="py-5">${row.nombre_producto}</td>
-                    <td class="py-5">${row.precio_producto}</td>
-                    <td class="py-5">${row.cantidad_producto}</td>
-                    <td class="py-5">${subtotal.toFixed(2)}</td>
-                    <td class="py-5">
+                    <td><img src="${SERVER_URL}images/productos/${row.imagen_producto}" height="100"></td>
+                    <td>${row.nombre_producto}</td>
+                    <td>${row.precio_producto}</td>
+                    <td>${row.cantidad_producto}</td>
+                    <td>${subtotal.toFixed(2)}</td>
+                    <td class="text-center">
                         <button type="button" onclick="openUpdate(${row.id_detalle}, ${row.cantidad_producto})" class="btn btn-dark p-3">
                             <i class="bi bi-plus-slash-minus"></i>Cantidad
                         </button>
@@ -99,12 +99,38 @@ function openUpdate(id, quantity) {
     document.getElementById('cantidadProducto').value = quantity;
 }
 
-function handlePayment(event) {
-    event.preventDefault();
-    var modal = new bootstrap.Modal(document.getElementById('paymentModal'));
-    modal.hide();
+document.addEventListener('DOMContentLoaded', () => {
+    loadCardNumbers(); // Cargar números de tarjeta cuando el documento esté listo
+});
 
-    finishOrder();
+async function loadCardNumbers() {
+    const response = await fetchData('services/public/cardHandler.php', 'getCardNumbers');
+    const selectElement = document.getElementById('cardType');
+    
+    if (response.status) {
+        response.dataset.forEach(card => {
+            const option = document.createElement('option');
+            option.value = card.id_targeta;
+            option.textContent = `${card.numero_targeta.replace(/.(?=.{4})/g, 'X')}`; // Ocultar todos menos los últimos 4 dígitos
+            selectElement.appendChild(option);
+        });
+    } else {
+        sweetAlert(2, response.error, false);
+    }
+}
+
+async function handlePayment(event) {
+    event.preventDefault();
+    const formData = new FormData(document.getElementById('paymentForm'));
+    const response = await fetchData('services/public/cardHandler.php', 'createTarget', formData);
+
+    if (response.status) {
+        sweetAlert(1, response.message, true);
+        document.getElementById('paymentModal').classList.remove('show'); // Ocultar el modal
+        finishOrder();
+    } else {
+        sweetAlert(2, response.error, false);
+    }
 }
 
 /*
