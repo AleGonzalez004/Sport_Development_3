@@ -135,6 +135,20 @@ class PedidoHandler
         return Database::executeRow($sql, $params);
     }
 
+// Método para obtener las existencias del producto
+    public function getProductStock($idDetalle)
+    {
+        $sql = 'SELECT p.existencias_producto
+                FROM tb_detalle_pedidos dp
+                JOIN tb_productos p ON dp.id_producto = p.id_producto
+                WHERE dp.id_detalle = ?';
+        $params = array($idDetalle);
+        $result = Database::getRow($sql, $params);
+        return $result ? $result['existencias_producto'] : false;
+    }
+
+
+
     // Método para eliminar un producto que se encuentra en el carrito de compras.
     public function deleteDetail()
     {

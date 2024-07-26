@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     readDetail();
 });
 
-// Método del evento para cuando se envía el formulario de cambiar cantidad de producto.
 ITEM_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
@@ -34,9 +33,12 @@ ITEM_FORM.addEventListener('submit', async (event) => {
         // Se muestra un mensaje de éxito.
         sweetAlert(1, DATA.message, true);
     } else {
+        // Mostrar mensaje de error específico
         sweetAlert(2, DATA.error, false);
     }
 });
+
+
 
 /*
 *   Función para obtener el detalle del carrito de compras.

@@ -68,19 +68,29 @@ if (isset($_GET['action'])) {
             // Acción para actualizar la cantidad de un producto en el carrito de compras.
             case 'updateDetail':
                 $_POST = Validator::validateForm($_POST);
+                
+                // Validar datos recibidos
                 if (
                     !$pedido->setIdDetalle($_POST['idDetalle']) or
                     !$pedido->setCantidad($_POST['cantidadProducto'])
                 ) {
                     $result['error'] = $pedido->getDataError();
-                } elseif ($pedido->updateDetail()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Cantidad modificada correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar la cantidad';
+                    // Validar si la cantidad no supera las existencias
+                    $productoExistencias = $pedido->getProductStock($_POST['idDetalle']);
+                    if ($productoExistencias === false) {
+                        $result['error'] = 'Error al obtener las existencias del producto.';
+                    } elseif ($_POST['cantidadProducto'] > $productoExistencias) {
+                        $result['error'] = 'La cantidad solicitada excede las existencias disponibles.';
+                    } elseif ($pedido->updateDetail()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Cantidad modificada correctamente';
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al modificar la cantidad';
+                    }
                 }
                 break;
-
+            
             // Acción para remover un producto del carrito de compras.
             case 'deleteDetail':
                 if (!$pedido->setIdDetalle($_POST['idDetalle'])) {
