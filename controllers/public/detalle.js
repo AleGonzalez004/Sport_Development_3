@@ -36,30 +36,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Se limpia el contenido cuando no hay datos para mostrar.
         document.getElementById('detalle').innerHTML = '';
     }
-    const stars = document.querySelectorAll('#rating .bi-star');
-    stars.forEach(star => {
-        star.addEventListener('click', (e) => {
-            const value = e.target.getAttribute('data-value');
-            stars.forEach(s => s.classList.remove('bi-star-fill', 'text-warning'));
-            for (let i = 0; i < value; i++) {
-                stars[i].classList.add('bi-star-fill', 'text-warning');
-            }
-        });
-    });
-
-    // Manejo del envío de comentarios
-    const commentForm = document.getElementById('commentForm');
-    const commentsList = document.getElementById('commentsList');
-
-    commentForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const userComment = document.getElementById('userComment').value;
-        const commentElement = document.createElement('div');
-        commentElement.classList.add('mb-2');
-        commentElement.innerHTML = `<p>${userComment}</p>`;
-        commentsList.appendChild(commentElement);
-        commentForm.reset();
-    });
 });
 
 // Método del evento para cuando se envía el formulario de agregar un producto al carrito.
@@ -102,4 +78,29 @@ document.addEventListener('DOMContentLoaded', function() {
         option.textContent = color;
         colorSelect.appendChild(option);
     });
+});
+
+const stars = document.querySelectorAll('#rating .bi-star');
+stars.forEach(star => {
+    star.addEventListener('click', (e) => {
+        const value = e.target.getAttribute('data-value');
+        stars.forEach(s => s.classList.remove('bi-star-fill', 'text-warning'));
+        for (let i = 0; i < value; i++) {
+            stars[i].classList.add('bi-star-fill', 'text-warning');
+        }
+    });
+});
+
+// Manejo del envío de comentarios
+const commentForm = document.getElementById('commentForm');
+const commentsList = document.getElementById('commentsList');
+
+commentForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const userComment = document.getElementById('userComment').value;
+    const commentElement = document.createElement('div');
+    commentElement.classList.add('mb-2');
+    commentElement.innerHTML = `<p>${userComment}</p>`;
+    commentsList.appendChild(commentElement);
+    commentForm.reset();
 });

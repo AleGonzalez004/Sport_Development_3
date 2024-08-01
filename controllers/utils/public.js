@@ -42,8 +42,14 @@ const loadTemplate = async () => {
                                     <a class="nav-link text-white" href="carrito.html"><i class="bi bi-cart"></i> Carrito</a>
                                     <a class="nav-link text-white" href="pedido.html"><i class="bi bi-truck"></i> Pedidos</a>
                                     <a class="nav-link text-white" href="historial.html"><i class="bi bi-hourglass-split"></i> Historial</a>
-                                    <a class="nav-link text-white" href="perfil.html"><i class="bi bi-person"></i> Editar Perfil</a>
-                                    <a class="nav-link text-white" href="#" onclick="logOut()"><i class="bi bi-box-arrow-left"></i> Cerrar sesión</a>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle text-white" href="#" data-bs-toggle="dropdown" aria-expanded="false">Cuenta: <b>${DATA.username}</b></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="nav-link text-white" href="perfil.html"><i class="bi bi-person"></i> Editar Perfil</a></li>
+                                            <li><hr class="dropdown-divider text-dark"></li>
+                                            <li> <a class="nav-link text-white" href="#" onclick="logOut()"><i class="bi bi-box-arrow-left"></i> Cerrar sesión</a></li>
+                                        </ul>
+                                    </li>
                                 </div>
                             </div>
                         </div>
