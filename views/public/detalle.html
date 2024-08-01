@@ -50,27 +50,26 @@
             </div>
         </div>
              
-        <form id="commentForm">
-            <div class="mb-3">      
-                <div class="mt-4">
-                    <h5>Calificación del producto</h5>
-                    <div id="rating" class="mb-3">
-                        <i class="bi bi-star" data-value="1"></i>
-                        <i class="bi bi-star" data-value="2"></i>
-                        <i class="bi bi-star" data-value="3"></i>
-                        <i class="bi bi-star" data-value="4"></i>
-                        <i class="bi bi-star" data-value="5"></i>
-                    </div>
+        <div class="container mt-5">
+            <h1>Comentarios del Producto</h1>
+            <form id="commentForm">
+                <div class="mb-3">
+                    <label for="rating" class="form-label">Calificación del producto (1-5)</label>
+                    <input type="number" class="form-control" id="rating" min="1" max="5" step="1" required>
                 </div>
-                <textarea class="form-control" id="userComment" rows="3" required></textarea>
+                <div class="mb-3">
+                    <label for="userComment" class="form-label">Comentario</label>
+                    <textarea class="form-control" id="userComment" rows="3" required></textarea>
+                </div>
+                <div class="text-end">
+                    <button type="submit" class="btn btn-dark btn-lg">Enviar comentario</button>
+                </div>
+            </form>
+            <hr>
+            <div id="commentsList">
+                <h5>Comentarios</h5>
+                <ul id="comments"></ul>
             </div>
-            <div class="text-end">
-                <button type="submit" class="btn btn-dark btn-lg">Enviar comentario</button>
-            </div>
-        </form>
-        <hr>
-        <div id="commentsList">
-            <h5>Comentarios</h5>
         </div>
     </main>    
 

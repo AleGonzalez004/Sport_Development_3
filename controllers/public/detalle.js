@@ -80,27 +80,68 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-const stars = document.querySelectorAll('#rating .bi-star');
-stars.forEach(star => {
-    star.addEventListener('click', (e) => {
-        const value = e.target.getAttribute('data-value');
-        stars.forEach(s => s.classList.remove('bi-star-fill', 'text-warning'));
-        for (let i = 0; i < value; i++) {
-            stars[i].classList.add('bi-star-fill', 'text-warning');
+// Obtener el nombre del usuario de la API y agregarlo al comentario
+let username = '';
+
+const getUserData = async () => {
+    const DATA = await fetchData(USER_API, 'getUser');
+    if (DATA.session) {
+        username = DATA.username;
+        // Inicializar las estrellas vacías
+        updateStars('0');
+    } else {
+        console.error('Usuario no autenticado.');
+    }
+};
+
+function updateStars(rating) {
+    const starsContainer = document.getElementById('stars');
+    starsContainer.innerHTML = ''; // Limpiar estrellas existentes
+    for (let i = 1; i <= 5; i++) {
+        const star = document.createElement('span');
+        star.className = 'bi bi-star';
+        if (i <= rating) {
+            star.classList.add('active');
         }
-    });
+        starsContainer.appendChild(star);
+    }
+}
+
+document.getElementById('rating').addEventListener('input', function(event) {
+    // Asegurarse de que solo se permita un número del 1 al 5
+    let value = event.target.value;
+    if (/^[1-5]$/.test(value)) {
+        updateStars(value);
+    } else {
+        event.target.value = value.slice(0, -1); // Eliminar el último carácter si no es válido
+    }
 });
 
-// Manejo del envío de comentarios
-const commentForm = document.getElementById('commentForm');
-const commentsList = document.getElementById('commentsList');
+document.getElementById('commentForm').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-commentForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const userComment = document.getElementById('userComment').value;
-    const commentElement = document.createElement('div');
-    commentElement.classList.add('mb-2');
-    commentElement.innerHTML = `<p>${userComment}</p>`;
-    commentsList.appendChild(commentElement);
-    commentForm.reset();
+    // Obtener los valores del formulario
+    const rating = document.getElementById('rating').value;
+    const comment = document.getElementById('userComment').value;
+
+    // Validar que la calificación sea un único número del 1 al 5
+    if (!/^[1-5]$/.test(rating)) {
+        alert('La calificación debe ser un único número del 1 al 5.');
+        return;
+    }
+
+    // Crear un nuevo elemento de lista para el comentario
+    const commentItem = document.createElement('li');
+    
+    commentItem.innerHTML = ` <img src="../../resources/img/user.png" width="50"><b>Usuario: ${username}</b> <div class="stars">Calificación: ${'⭐'.repeat(rating)}</div> Comentario: ${comment}`;
+
+    // Agregar el comentario a la lista de comentarios
+    document.getElementById('comments').appendChild(commentItem);
+
+    // Limpiar el formulario
+    document.getElementById('commentForm').reset();
+    updateStars(''); // Limpiar estrellas
 });
+
+// Inicializar la carga de datos del usuario
+getUserData();
