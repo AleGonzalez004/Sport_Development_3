@@ -13,9 +13,9 @@
     <main>
         <h4 id="mainTitle"></h4>
         <div class="card mb-3" id="detalle">
-            <div class="row">
+            <div class="row g-0">
                 <div class="col-md-4">
-                    <img id="imagenProducto" class="img-fluid rounded-start">
+                    <img id="imagenProducto" class="img-fluid rounded-start" alt="Imagen del producto">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
@@ -23,20 +23,24 @@
                         <p class="card-text" id="descripcionProducto"></p>
                         <p class="card-text">Precio US$ <b class="text-success" id="precioProducto"></b></p>
                         <p class="card-text">Existencias <b id="existenciasProducto"></b></p>
-                        <form class="row" id="shoppingForm">
+                        
+                        <form class="row gx-3 gy-2 mx-auto" id="shoppingForm">
                             <input type="number" class="d-none" id="idProducto" name="idProducto">
-                            <div class="col-12 mb-3">
+                            
+                            <div class="col-12 mb-2">
                                 <label for="colorProducto" class="form-label">Color</label>
                                 <select class="form-select" id="colorProducto" name="colorProducto" required>
                                     <option value="" selected disabled>Seleccione un color</option>
                                 </select>
                             </div>
-                            <div class="col-12 mb-3">
+                            
+                            <div class="col-12 mb-2">
                                 <label for="cantidadProducto" class="form-label">Cantidad</label>
                                 <input type="number" id="cantidadProducto" name="cantidadProducto" min="1" class="form-control" placeholder="Ingrese cantidad" required>
                             </div>
-                            <div class="col-6 py-2 text-end">
-                                <button type="submit" class="btn btn-dark w-100 py-3 btn-lg">
+                            
+                            <div class="col-12 d-flex justify-content-end py-5">
+                                <button type="submit" class="btn btn-dark py-3 btn-lg">
                                     <i class="bi bi-cart-plus-fill"></i> Comprar <i class="bi bi-arrow-return-right"></i>
                                 </button>
                             </div>
@@ -44,7 +48,8 @@
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
+             
         <form id="commentForm">
             <div class="mb-3">      
                 <div class="mt-4">
