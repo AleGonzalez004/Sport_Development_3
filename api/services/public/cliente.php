@@ -46,9 +46,9 @@ if (isset($_GET['action'])) {
                     if (
                         !$cliente->setNombre($_POST['nombreCliente']) or
                         !$cliente->setApellido($_POST['apellidoCliente']) or
-                        !$cliente->setCorreo($_POST['correoCliente']) or
+                        !$cliente->setCorreoEdit($_POST['correoCliente']) or
                         !$cliente->setTelefono($_POST['telefonoCliente']) or
-                        !$cliente->setDui($_POST['duiCliente']) or
+                        !$cliente->setDUIEdit($_POST['duiCliente']) or
                         !$cliente->setDireccion($_POST['direccionCliente']) or
                         !$cliente->setNacimiento($_POST['nacimientoCliente'])
                     ) {
@@ -56,7 +56,7 @@ if (isset($_GET['action'])) {
                     } elseif ($cliente->editProfile()) {
                         $result['status'] = 1;
                         $result['message'] = 'Perfil modificado correctamente';
-                        $_SESSION['aliascli$cliente'] = $_POST['aliasCliente'];
+                        $_SESSION['correoCliente'] = $_POST['correoCliente'];
                     } else {
                         $result['error'] = 'Ocurrió un problema al modificar el perfil';
                     }
