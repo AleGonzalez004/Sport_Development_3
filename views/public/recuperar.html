@@ -30,9 +30,52 @@
                 <input type="email" id="correo" name="correo" class="form-control py-2" required>
             </div>
             <div class="text-center">
-                <button type="submit" class="btn btn-dark px-4"><i class="bi bi-send-fill"></i> Enviar</button>
+                <button type="submit" class="btn btn-dark px-5"><i class="bi bi-send-fill"></i> Enviar</button>
             </div>
         </form>
+
+         <!-- Contenedor con enlace para abrir la caja de diálogo del formulario de cambiar constraseña -->
+         <div class="text-center">
+            <button type="button" class="btn btn-dark px-3" onclick="openPassword()">
+                <i class="bi bi-shield-lock"></i> Colocar Codigo
+            </button>
+        </div>
+        <!-- Componente Modal para mostrar el formulario de cambio de contraseña -->
+        <div class="modal fade" id="passwordModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="modalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <!-- Contenido del componente Modal -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalTitle">Cambiar contraseña</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <!-- Formulario para actualizar contraseña -->
+                    <form id="passwordForm">
+                        <div class="modal-body row g-3">
+                            <div class="col-sm-12 col-md-6 offset-md-3">
+                                <label for="claveActual" class="form-label">Codigo</label>
+                                <input id="claveActual" type="password" name="claveActual" class="form-control"
+                                    required>
+                            </div>
+                            <div class="col-12 text-center">
+                                <span>CONTRASEÑA NUEVA</span>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="claveNueva" class="form-label">Contraseña</label>
+                                <input id="claveNueva" type="password" name="claveNueva" class="form-control" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="confirmarClave" class="form-label">Confirmar contraseña</label>
+                                <input id="confirmarClave" type="password" name="confirmarClave" class="form-control"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-dark">Cancelar</button>
+                            <button type="submit" class="btn btn-dark">Guardar</button>
+                        </div>
+                    </form>
     </main>
     <!-- IMPORTACIÓN DE ARCHIVOS JAVASCRIPT -->
     <!-- Llamada al framework y librería de mensajes -->
