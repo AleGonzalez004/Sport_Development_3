@@ -43,13 +43,6 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al crear el cliente';
                 }
                 break;
-            case 'readProfile':
-                    if ($result['dataset'] = $cliente->readProfile()) {
-                        $result['status'] = 1;
-                    } else {
-                        $result['error'] = 'Ocurrió un problema al leer el perfil';
-                    }
-                break;
             case 'readAll':
                 if ($result['dataset'] = $cliente->readAll()) {
                     $result['status'] = 1;
@@ -131,7 +124,6 @@ if (isset($_GET['action'])) {
                     'http' => array('header' => 'Content-type: application/x-www-form-urlencoded\r\n', 'method' => 'POST', 'content' => http_build_query($data)),
                     'ssl' => array('verify_peer' => false, 'verify_peer_name' => false)
                 );
-
                 $url = 'https://www.google.com/recaptcha/api/siteverify';
                 $context = stream_context_create($options);
                 $response = file_get_contents($url, false, $context);

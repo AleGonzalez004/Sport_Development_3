@@ -26,6 +26,13 @@ if (isset($_GET['action'])) {
                     $result['name'] ='No se pudo obtener el usuario';
                 }
                 break;
+            case 'readProfile':
+                    if ($result['dataset'] = $cliente->readProfile()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al leer el perfil';
+                    }
+            break;
             case 'logOut':
                 if (session_destroy()) {
                     $result['status'] = 1;
