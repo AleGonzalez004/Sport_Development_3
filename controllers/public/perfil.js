@@ -24,13 +24,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (DATA.status) {
         // Se inicializan los campos del formulario con los datos del usuario que ha iniciado sesión.
         const ROW = DATA.dataset;
-        NOMBRE_CLIENTE.value = ROW.nombre;
-        APELLIDO_CLIENTE.value = ROW.apellido;
-        DUI_CLIENTE.value = ROW.DUI_CLIENTE;
-        CORREO_CLIENTE.value = ROW.CORREO_CLIENTE;
-        TELEFONO_CLIENTE.value = ROW.TELEFONO_CLIENTE;
-        DIRECCION_CLIENTE.value = ROW.DIRECCION_CLIENTE;
-        NACIMIENTO_CLIENTE.value = ROW.NACIMIENTO_CLIENTE;
+        NOMBRE_CLIENTE.value = ROW.nombre_cliente;
+        APELLIDO_CLIENTE.value = ROW.apellido_cliente;
+        DUI_CLIENTE.value = ROW.dui_cliente;
+        CORREO_CLIENTE.value = ROW.correo_cliente;
+        TELEFONO_CLIENTE.value = ROW.telefono_cliente;
+        DIRECCION_CLIENTE.value = ROW.direccion_cliente;
+        NACIMIENTO_CLIENTE.value = ROW.nacimiento_cliente;
     } else {
         sweetAlert(2, DATA.error, null);
     }

@@ -34,6 +34,41 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al cerrar la sesión';
                 }
                 break;
+            case 'editProfile':
+                    $_POST = Validator::validateForm($_POST);
+                    if (
+                        !$cliente->setNombre($_POST['nombreCliente']) or
+                        !$cliente->setApellido($_POST['apellidoCliente']) or
+                        !$cliente->setCorreo($_POST['correoCliente']) or
+                        !$cliente->setTelefono($_POST['telefonoCliente']) or
+                        !$cliente->setDui($_POST['duiCliente']) or
+                        !$cliente->setDireccion($_POST['direccionCliente']) or
+                        !$cliente->setNacimiento($_POST['nacimientoCliente'])
+                    ) {
+                        $result['error'] = $cliente->getDataError();
+                    } elseif ($cliente->editProfile()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Perfil modificado correctamente';
+                        $_SESSION['aliascli$cliente'] = $_POST['aliasCliente'];
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al modificar el perfil';
+                    }
+                break;
+            case 'changePassword':
+                    $_POST = Validator::validateForm($_POST);
+                    if (!$cliente->checkPassword($_POST['claveActual'])) {
+                        $result['error'] = 'Contraseña actual incorrecta';
+                    } elseif ($_POST['claveNueva'] != $_POST['confirmarClave']) {
+                        $result['error'] = 'Confirmación de contraseña diferente';
+                    } elseif (!$cliente->setClave($_POST['claveNueva'])) {
+                        $result['error'] = $cliente->getDataError();
+                    } elseif ($cliente->changePassword()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Contraseña cambiada correctamente';
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
+                    }
+                break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }

@@ -250,6 +250,11 @@ SELECT * FROM tb_generos;
 
 SELECT * FROM tb_imagenes;
 
+SELECT * FROM tb_detalle_pedidos;
+
+SELECT * FROM tb_pedidos;
+
+
 
 
 

@@ -43,6 +43,13 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al crear el cliente';
                 }
                 break;
+            case 'readProfile':
+                    if ($result['dataset'] = $cliente->readProfile()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al leer el perfil';
+                    }
+                break;
             case 'readAll':
                 if ($result['dataset'] = $cliente->readAll()) {
                     $result['status'] = 1;

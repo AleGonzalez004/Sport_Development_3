@@ -50,6 +50,20 @@ class ClienteHandler
             return false;
         }
     }
+    public function checkPassword($password)
+    {
+        $sql = 'SELECT clave_cliente
+                FROM tb_clientes
+                WHERE id_cliente = ?';
+        $params = array($_SESSION['idCliente']);
+        $data = Database::getRow($sql, $params);
+        // Se verifica si la contraseña coincide con el hash almacenado en la base de datos.
+        if (password_verify($password, $data['clave_cliente'])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public function changePassword()
     {
@@ -67,6 +81,15 @@ class ClienteHandler
                 WHERE id_cliente = ?';
         $params = array($this->nombre, $this->apellido, $this->correo, $this->dui, $this->telefono, $this->nacimiento, $this->direccion, $this->id);
         return Database::executeRow($sql, $params);
+    }
+
+    public function readProfile()
+    {
+        $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_cliente, dui_cliente, telefono_cliente, nacimiento_cliente, direccion_cliente
+                FROM tb_clientes
+                WHERE id_cliente = ?';
+        $params = array($_SESSION['idCliente']);
+        return Database::getRow($sql, $params);
     }
 
     public function changeStatus()
