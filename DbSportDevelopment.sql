@@ -22,7 +22,8 @@ CREATE TABLE tb_clientes (
   nacimiento_cliente DATE NOT NULL,
   clave_cliente VARCHAR(100) NOT NULL,
   estado_cliente TINYINT(1) NOT NULL DEFAULT 1,
-  fecha_registro DATE NOT NULL DEFAULT CURRENT_TIMESTAMP()
+  fecha_registro DATE NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+  codigo_recuperacion VARCHAR(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE tb_tallas (
