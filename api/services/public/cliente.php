@@ -167,6 +167,27 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'La cuenta ha sido desactivada';
                 }
                 break;
+                case 'readOneCorreo':
+                    // Obtener el correo electrónico desde la solicitud (por ejemplo, a través de GET o POST)
+                    $correo = isset($_GET['correo']) ? $_GET['correo'] : (isset($_POST['correo']) ? $_POST['correo'] : null);
+                    if ($correo) {
+                        // Llamar al método para obtener los detalles del cliente usando el correo electrónico proporcionado
+                        $clienteData = $cliente->readOneCorreo($correo);
+                
+                        if ($clienteData) {
+                            $result['status'] = 1;
+                            $result['username'] = $correo;
+                            $result['name'] = $clienteData;
+                        } else {
+                            $result['error'] = 'No se encontró un cliente con este correo electrónico';
+                            $result['name'] = 'No se pudo obtener el usuario';
+                        }
+                    } else {
+                        $result['error'] = 'Correo electrónico no proporcionado';
+                        $result['name'] = 'No se pudo obtener el usuario';
+                    }
+                    break;
+                
             default:
                 $result['error'] = 'Acción no disponible fuera de la sesión';
         }

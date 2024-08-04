@@ -168,7 +168,7 @@ class ClienteHandler
 
     public function readOneCorreo($correo)
     {
-        $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_cliente, dui_cliente, telefono_cliente, nacimiento_cliente, direccion_cliente, estado_cliente
+        $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_cliente, dui_cliente, telefono_cliente, nacimiento_cliente, direccion_cliente, estado_cliente, codigo_recuperacion
                 FROM tb_clientes
                 WHERE correo_cliente = ?';
         $params = array($correo);

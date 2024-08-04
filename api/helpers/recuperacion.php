@@ -11,16 +11,14 @@ require __DIR__ . '/../../api/helpers/database.php';
 $cliente = new ClienteData;
 $clienteEmail = null; // Variable para almacenar el correo electrónico del cliente
 
-
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $clienteEmail = $_POST['clienteEmail'];
-    $clientEmail = urldecode($_GET['clienteEmail']);
 
-    // Generar código de recuperación
-    $recoveryCode = rand(100000, 999999);
+    // Generar código de recuperación de 6 dígitos
+    $recoveryCode = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
 
     // Guardar el código en la base de datos
     try {
@@ -61,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Remitente y destinatario
         $mail->setFrom('sportdevelopment7@gmail.com', 'Sport Development');
-        $mail->addAddress($email);
+        $mail->addAddress($clienteEmail); // Correo electrónico del cliente
 
         // Asunto y cuerpo del correo
         $mail->isHTML(true);
