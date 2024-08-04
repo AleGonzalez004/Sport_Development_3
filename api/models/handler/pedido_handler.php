@@ -147,6 +147,19 @@ class PedidoHandler
         return $result ? $result['existencias_producto'] : false;
     }
 
+    public function checkProductExistencias($productoId)
+{
+    $sql = 'SELECT existencias_producto FROM tb_productos WHERE id_producto = ?';
+    $params = array($productoId);
+    $result = Database::getRow($sql, $params);
+    
+    if ($result) {
+        return $result['existencias_producto'];
+    } else {
+        return 0; // Producto no encontrado o sin existencias
+    }
+}
+
 
 
     // Método para eliminar un producto que se encuentra en el carrito de compras.

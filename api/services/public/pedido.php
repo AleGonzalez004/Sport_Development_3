@@ -17,21 +17,35 @@ if (isset($_GET['action'])) {
         switch ($_GET['action']) {
             // Acción para agregar un producto al carrito de compras.
             case 'createDetail':
+                // Validar y sanitizar datos del formulario
                 $_POST = Validator::validateForm($_POST);
+            
+                // Comenzar el pedido
                 if (!$pedido->startOrder()) {
                     $result['error'] = 'Ocurrió un problema al iniciar el pedido';
                 } elseif (
-                    !$pedido->setProducto($_POST['idProducto']) or
+                    !$pedido->setProducto($_POST['idProducto']) ||
                     !$pedido->setCantidad($_POST['cantidadProducto'])
                 ) {
                     $result['error'] = $pedido->getDataError();
-                } elseif ($pedido->createDetail()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Producto agregado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al agregar el producto';
+                    // Verificar existencias del producto
+                    $productoId = $_POST['idProducto'];
+                    $cantidadProducto = $_POST['cantidadProducto'];
+            
+                    // Asumir que existe un método para verificar existencias
+                    $existencias = $pedido->checkProductExistencias($productoId);
+            
+                    if ($cantidadProducto > $existencias) {
+                        $result['error'] = 'No hay suficientes existencias del producto';
+                    } elseif ($pedido->createDetail()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Producto agregado correctamente';
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al agregar el producto';
+                    }
                 }
-                break;
+                break;            
 
             // Acción para crear una tarjeta.
             case 'createTarget':
