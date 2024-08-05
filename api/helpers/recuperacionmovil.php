@@ -26,10 +26,16 @@ if (!$clienteEmail) {
 }
 
 try {
-    $mail = new PHPMailer(true);
+    $mail = new PHPMailer(true); // Crear una instancia de PHPMailer
+
     $mail->isSMTP();
-    $mail->SMTPDebug = 0; 
-    $mail->Debugoutput = 'html';
+    $mail->Host = 'smtp.gmail.com'; // Servidor SMTP de Gmail
+    $mail->Port = 587; // Puerto para TLS
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Usa TLS
+    $mail->SMTPAuth = true;
+    $mail->Username = 'sportdevelopment7@gmail.com'; // Tu correo electrónico de Gmail
+    $mail->Password = 'oatk qcui omre ihbn'; // Tu contraseña o contraseña de aplicación
+    $mail->SMTPDebug = 2; // Cambia a 2 para obtener más detalles de depuración
 
     $mail->setFrom('sportdevelopment7@gmail.com', 'Sport Development');
     $mail->addAddress($clienteEmail);
