@@ -64,6 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Asunto y cuerpo del correo
             $mail->isHTML(true);
+            $mail->CharSet = 'UTF-8'; // Establecer la codificación a UTF-8
             $mail->Subject = 'Código de Recuperación de Contraseña';
             $mail->Body = "Tu código de recuperación es: <strong>$recoveryCode</strong>. Este código vence en 1 hora.";
             $mail->AltBody = "Tu código de recuperación es: $recoveryCode. Este código vence en 1 hora.";
@@ -122,4 +123,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $response['message'] = 'Datos insuficientes.';
     echo json_encode($response);
 }
-?>
