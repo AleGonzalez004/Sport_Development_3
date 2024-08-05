@@ -50,6 +50,7 @@ CREATE TABLE tb_productos(
   id_administrador INT(10) UNSIGNED NOT NULL,
   fecha_registro DATE NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   calificacion_producto ENUM ('1', '2', '3', '4', '5') NOT NULL,
+  calificacion_promedio ENUM ('1', '2', '3', '4', '5') NOT NULL,
   comentario_producto VARCHAR(255) NOT NULL,
   fecha_valoracion DATE NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   estado_comentario BOOLEAN NOT NULL
