@@ -9,27 +9,57 @@ document.addEventListener('DOMContentLoaded', async () => {
     MAIN_TITLE.textContent = 'Recupera contraseña';
 });
 
-// Método del evento para cuando se envía el formulario de inicio de sesión.
-LOGIN_FORM.addEventListener('submit', async (event) => {
-    // Se evita recargar la página web después de enviar el formulario.
-    event.preventDefault();
-    // Constante tipo objeto con los datos del formulario.
-    const FORM = new FormData(LOGIN_FORM);
-    try {
-        // Petición para iniciar sesión.
-        const DATA = await fetchData(USER_API, 'logIn', FORM);
-        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-        if (DATA.status) {
-            sweetAlert(1, DATA.message, true, 'index.html');
-        } else {
-            // Validación adicional: si los datos de inicio de sesión son incorrectos, se muestra un mensaje de error
-            sweetAlert(2, 'Datos de inicio de sesión incorrectos', false);
-        }
-    } catch (error) {
-        // Manejo del error
-        sweetAlert(2, 'Cuenta no registrada', false);
-        console.error(error);
-    }
+document.addEventListener('DOMContentLoaded', function () {
+    // Manejar el envío del formulario de recuperación
+    document.getElementById('recoveryForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Evitar el envío normal del formulario
+
+        let formData = new FormData(this);
+
+        fetch('../../api/helpers/recuperacion.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status) {
+                swal('Éxito', data.message, 'success');
+            } else {
+                swal('Error', data.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            swal('Error', 'Hubo un problema al procesar la solicitud.', 'error');
+        });
+    });
+
+    // Manejar el envío del formulario de cambio de contraseña en el modal
+    document.getElementById('passwordChangeForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Evitar el envío normal del formulario
+
+        let formData = new FormData(this);
+
+        fetch('../../api/helpers/recuperacion.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status) {
+                swal('Éxito', data.message, 'success').then(() => {
+                    // Redirigir al usuario a la página de inicio de sesión
+                    window.location.href = '../../path/to/login.html'; // Cambia esta ruta a la URL de tu página de inicio de sesión
+                });
+            } else {
+                swal('Error', data.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            swal('Error', 'Hubo un problema al procesar la solicitud.', 'error');
+        });
+    });
 });
 
 /*

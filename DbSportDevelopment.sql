@@ -23,7 +23,8 @@ CREATE TABLE tb_clientes (
   clave_cliente VARCHAR(100) NOT NULL,
   estado_cliente TINYINT(1) NOT NULL DEFAULT 1,
   fecha_registro DATE NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-  codigo_recuperacion VARCHAR(6) NOT NULL
+  codigo_recuperacion VARCHAR(6) NOT NULL,
+  fecha_expiracion_codigo DATETIME NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE tb_tallas (
@@ -170,24 +171,6 @@ INSERT INTO tb_generos (nombre) VALUES
 ('Unisex'),
 ('Niños'),
 ('Niñas');
-
-DELIMITER //
-
-CREATE TRIGGER before_insert_tb_clientes
-BEFORE INSERT ON tb_clientes
-FOR EACH ROW
-BEGIN
-  DECLARE code_recuperacion VARCHAR(6);
-
-  -- Generar un código de recuperación aleatorio de 6 caracteres
-  SET code_recuperacion = SUBSTRING(MD5(RAND()), 1, 6);
-
-  -- Asignar el código de recuperación al nuevo registro
-  SET NEW.codigo_recuperacion = code_recuperacion;
-END; //
-
-DELIMITER ;
-
 
 SELECT * FROM tb_administradores;
 

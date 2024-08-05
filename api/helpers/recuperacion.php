@@ -9,17 +9,43 @@ require __DIR__ . '/../../api/helpers/database.php';
 
 header('Content-Type: application/json');
 
+// Función para generar un código aleatorio
+function generateRecoveryCode($length = 6) {
+    $characters = '0123456789';
+    $charactersLength = strlen($characters);
+    $code = '';
+    for ($i = 0; $i < $length; $i++) {
+        $code .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $code;
+}
+
 // Verificar el método de solicitud
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $response = ['status' => false, 'message' => ''];
+
     // Obtener el correo electrónico del cliente y otros datos
     $clienteEmail = $_POST['clienteEmail'] ?? null;
     $code = $_POST['code'] ?? null;
     $newPassword = $_POST['newPassword'] ?? null;
     $confirmPassword = $_POST['confirmPassword'] ?? null;
 
-    // Verificar si se envió un correo electrónico
+    // Enviar el código de recuperación al correo electrónico
     if ($clienteEmail && !$code) {
-        // Enviar el correo electrónico con el mensaje de "Hola"
+        // Generar un código de recuperación
+        $recoveryCode = generateRecoveryCode();
+        $expirationDate = date('Y-m-d H:i:s', strtotime('+1 hour')); // El código vence en 1 hora
+
+        // Actualizar el código de recuperación y la fecha de expiración en la base de datos
+        $query = "UPDATE tb_clientes SET codigo_recuperacion = ?, fecha_expiracion_codigo = ? WHERE correo_cliente = ?";
+        $values = [$recoveryCode, $expirationDate, $clienteEmail];
+        if (!Database::executeRow($query, $values)) {
+            $response['message'] = 'Error al actualizar el código de recuperación.';
+            echo json_encode($response);
+            exit;
+        }
+
+        // Enviar el código de recuperación por correo electrónico
         $mail = new PHPMailer(true);
 
         try {
@@ -38,16 +64,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Asunto y cuerpo del correo
             $mail->isHTML(true);
-            $mail->Subject = 'Saludos desde Sport Development';
-            $mail->Body = 'Hola, este es un mensaje de prueba desde Sport Development.';
-            $mail->AltBody = 'Hola, este es un mensaje de prueba desde Sport Development.';
+            $mail->Subject = 'Código de Recuperación de Contraseña';
+            $mail->Body = "Tu código de recuperación es: <strong>$recoveryCode</strong>. Este código vence en 1 hora.";
+            $mail->AltBody = "Tu código de recuperación es: $recoveryCode. Este código vence en 1 hora.";
 
             // Enviar el correo
             $mail->send();
-            echo json_encode(['status' => true, 'message' => 'Correo electrónico enviado con éxito.']);
+            $response['status'] = true;
+            $response['message'] = 'Código de recuperación enviado con éxito.';
         } catch (Exception $e) {
-            echo json_encode(['status' => false, 'error' => 'No se pudo enviar el correo. Error: ' . $mail->ErrorInfo]);
+            $response['message'] = 'No se pudo enviar el correo. Error: ' . $mail->ErrorInfo;
         }
+
+        echo json_encode($response);
         exit;
     }
 
@@ -55,31 +84,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($code && $newPassword && $confirmPassword) {
         // Verificar si las contraseñas coinciden
         if ($newPassword !== $confirmPassword) {
-            echo json_encode(['status' => false, 'error' => 'Las contraseñas no coinciden.']);
+            $response['message'] = 'Las contraseñas no coinciden.';
+            echo json_encode($response);
+            exit;
+        }
+
+        // Verificar si el código de recuperación es válido y no ha expirado
+        $query = "SELECT id_cliente FROM tb_clientes WHERE codigo_recuperacion = ? AND fecha_expiracion_codigo >= NOW()";
+        $clienteId = Database::getRow($query, [$code]);
+        if (!$clienteId) {
+            $response['message'] = 'Código de recuperación inválido o expirado.';
+            echo json_encode($response);
             exit;
         }
 
         // Actualizar la contraseña en la base de datos
         try {
-            $query = "UPDATE tb_clientes SET contrasena_cliente = ? WHERE codigo_recuperacion = ?";
-            $values = [password_hash($newPassword, PASSWORD_BCRYPT), $code];
-            if (!Database::executeRow($query, $values)) {
-                echo json_encode(['status' => false, 'error' => 'Error al actualizar la contraseña.']);
+            $queryUpdatePassword = "UPDATE tb_clientes SET clave_cliente = ?, codigo_recuperacion = NULL, fecha_expiracion_codigo = NULL WHERE id_cliente = ?";
+            $values = [password_hash($newPassword, PASSWORD_BCRYPT), $clienteId['id_cliente']];
+            if (!Database::executeRow($queryUpdatePassword, $values)) {
+                $response['message'] = 'Error al actualizar la contraseña.';
+                echo json_encode($response);
                 exit;
             }
 
-            // Limpiar el código de recuperación después de usarlo
-            $queryClearCode = "UPDATE tb_clientes SET codigo_recuperacion = NULL WHERE codigo_recuperacion = ?";
-            Database::executeRow($queryClearCode, [$code]);
-
-            echo json_encode(['status' => true, 'message' => 'Contraseña actualizada con éxito.']);
+            $response['status'] = true;
+            $response['message'] = 'Contraseña actualizada con éxito.';
         } catch (Exception $e) {
-            echo json_encode(['status' => false, 'error' => 'Error de base de datos: ' . $e->getMessage()]);
+            $response['message'] = 'Error de base de datos: ' . $e->getMessage();
         }
+
+        echo json_encode($response);
         exit;
     }
 
     // Si no se proporciona ningún dato válido
-    echo json_encode(['status' => false, 'error' => 'Datos insuficientes.']);
+    $response['message'] = 'Datos insuficientes.';
+    echo json_encode($response);
 }
 ?>
