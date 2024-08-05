@@ -10,9 +10,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Manejar el envío del formulario de recuperación
     document.getElementById('recoveryForm').addEventListener('submit', function (event) {
-        event.preventDefault(); // Evitar el envío normal del formulario
+        event.preventDefault(); 
 
         let formData = new FormData(this);
 
@@ -34,9 +33,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Manejar el envío del formulario de cambio de contraseña en el modal
     document.getElementById('passwordChangeForm').addEventListener('submit', function (event) {
-        event.preventDefault(); // Evitar el envío normal del formulario
+        event.preventDefault();
 
         let formData = new FormData(this);
 
@@ -48,8 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
             if (data.status) {
                 swal('Éxito', data.message, 'success').then(() => {
-                    // Redirigir al usuario a la página de inicio de sesión
-                    window.location.href = '../../path/to/login.html'; // Cambia esta ruta a la URL de tu página de inicio de sesión
+                    window.location.href = '../../views/public/login.html'; 
                 });
             } else {
                 swal('Error', data.message, 'error');
