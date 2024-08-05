@@ -2,10 +2,10 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require __DIR__ . '/../../api/libraries/phpmailer651/src/Exception.php';
-require __DIR__ . '/../../api/libraries/phpmailer651/src/PHPMailer.php';
-require __DIR__ . '/../../api/libraries/phpmailer651/src/SMTP.php';
-require __DIR__ . '/../../api/helpers/database.php';
+require_once '/../../api/libraries/phpmailer651/src/Exception.php';
+require_once '/../../api/libraries/phpmailer651/src/PHPMailer.php';
+require_once '/../../api/libraries/phpmailer651/src/SMTP.php';
+require_once '/../../api/helpers/database.php';
 
 header('Content-Type: application/json');
 
