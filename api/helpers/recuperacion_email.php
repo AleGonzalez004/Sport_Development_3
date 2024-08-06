@@ -25,12 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $response = ['status' => false, 'message' => ''];
 
     $clienteEmail = $_POST['clienteEmail'] ?? null;
-    $code = $_POST['code'] ?? null;
-    $newPassword = $_POST['newPassword'] ?? null;
-    $confirmPassword = $_POST['confirmPassword'] ?? null;
 
-    // Enviar el código de recuperación al correo electrónico
-    if ($clienteEmail && !$code) {
+    if ($clienteEmail) {
         // Generar un código de recuperación
         $recoveryCode = generateRecoveryCode();
         $expirationDate = date('Y-m-d H:i:s', strtotime('+1 hour')); // El código vence en 1 hora
@@ -76,41 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Verificar si se envió el código y las contraseñas
-    if ($code && $newPassword && $confirmPassword) {
-        if ($newPassword !== $confirmPassword) {
-            $response['message'] = 'Las contraseñas no coinciden.';
-            echo json_encode($response);
-            exit;
-        }
-
-        $query = "SELECT id_cliente FROM tb_clientes WHERE codigo_recuperacion = ? AND fecha_expiracion_codigo >= NOW()";
-        $clienteId = Database::getRow($query, [$code]);
-        if (!$clienteId) {
-            $response['message'] = 'Código de recuperación inválido o expirado.';
-            echo json_encode($response);
-            exit;
-        }
-
-        try {
-            $queryUpdatePassword = "UPDATE tb_clientes SET clave_cliente = ?, codigo_recuperacion = NULL, fecha_expiracion_codigo = NULL WHERE id_cliente = ?";
-            $values = [password_hash($newPassword, PASSWORD_BCRYPT), $clienteId['id_cliente']];
-            if (!Database::executeRow($queryUpdatePassword, $values)) {
-                $response['message'] = 'Error al actualizar la contraseña.';
-                echo json_encode($response);
-                exit;
-            }
-
-            $response['status'] = true;
-            $response['message'] = 'Contraseña actualizada con éxito.';
-        } catch (Exception $e) {
-            $response['message'] = 'Error de base de datos: ' . $e->getMessage();
-        }
-
-        echo json_encode($response);
-        exit;
-    }
-
-    $response['message'] = 'Datos insuficientes.';
+    $response['message'] = 'Correo electrónico no proporcionado.';
     echo json_encode($response);
 }
