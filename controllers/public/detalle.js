@@ -132,8 +132,16 @@ document.getElementById('commentForm').addEventListener('submit', function(event
 
     // Crear un nuevo elemento de lista para el comentario
     const commentItem = document.createElement('li');
+    commentItem.className = 'mb-4 border rounded'; // Clases de Bootstrap para espaciado y estilo
     
-    commentItem.innerHTML = ` <img src="../../resources/img/user.png" width="50"><b>Usuario: ${username}</b> <div class="stars">Calificación: ${'⭐'.repeat(rating)}</div> Comentario: ${comment}`;
+    commentItem.innerHTML = `
+        <div class="d-flex align-items-center mb-2 p-2">
+            <img src="../../resources/img/user.png" width="50" alt="Usuario" class="rounded-circle me-2">
+            <b class="me-2">Usuario: ${username}</b>
+            <div class="text-warning">Calificación: ${'⭐'.repeat(rating)}</div>
+        </div>
+        <div class="p-2">Comentario: ${comment}</div>
+    `;
 
     // Agregar el comentario a la lista de comentarios
     document.getElementById('comments').appendChild(commentItem);
@@ -145,3 +153,4 @@ document.getElementById('commentForm').addEventListener('submit', function(event
 
 // Inicializar la carga de datos del usuario
 getUserData();
+
