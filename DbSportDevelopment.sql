@@ -54,7 +54,7 @@ CREATE TABLE tb_productos(
   calificacion_promedio ENUM ('1', '2', '3', '4', '5') NOT NULL,
   comentario_producto VARCHAR(255) NOT NULL,
   fecha_valoracion DATE NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-  estado_comentario BOOLEAN NOT NULL
+  estado_comentario  TINYINT(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE tb_detalle_pedidos (
@@ -116,7 +116,7 @@ INSERT INTO tb_categorias (id_categoria, nombre, imagen, descripcion) VALUES
 (1, 'Futbol', 'CategoriaFutbol.png', 'Todos los productos relacionados con el fútbol'),
 (2, 'Baloncesto', 'CategoriaBaloncesto.png', 'Todos los productos relacionados con el baloncesto'),
 (3, 'Voleibol', 'CategoriaVoleibol.png', 'Todos los productos relacionados con el voleibol'),
-(4, 'Sneackers', 'CategoriaZapatos.png', 'Todos los sneackers');
+(4, 'Sneackers', 'CategoriaZapatos.png', 'Todos los productos relacionados con sneackers');
 
 INSERT INTO tb_productos (id_producto, nombre_producto, descripcion_producto, precio_producto, existencias_producto, imagen_producto, id_categoria, estado_producto, id_administrador, fecha_registro) 
 VALUES 
