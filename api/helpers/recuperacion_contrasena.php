@@ -11,6 +11,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newPassword = $_POST['newPassword'] ?? null;
     $confirmPassword = $_POST['confirmPassword'] ?? null;
 
+    // Depurar datos recibidos
+    error_log("Datos recibidos: " . json_encode($_POST));
+
     if ($code && $newPassword && $confirmPassword) {
         if ($newPassword !== $confirmPassword) {
             $response['message'] = 'Las contraseñas no coinciden.';
