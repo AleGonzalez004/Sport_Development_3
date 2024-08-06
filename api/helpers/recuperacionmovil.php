@@ -7,60 +7,110 @@ require __DIR__ . '/../../api/libraries/phpmailer651/src/PHPMailer.php';
 require __DIR__ . '/../../api/libraries/phpmailer651/src/SMTP.php';
 require __DIR__ . '/../../api/helpers/database.php';
 
-header('Content-type: application/json; charset=UTF-8');
-header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method, Authorization");
-header("Access-Control-Allow-Methods: GET,PUT,POST,DELETE,PATCH,OPTIONS");
-header("Allow: GET, POST, OPTIONS, PUT, DELETE");
+header('Content-Type: application/json');
 
-$method = $_SERVER['REQUEST_METHOD'];
-if ($method == "OPTIONS") {
-    die();
-}
-
-$clienteEmail = $_POST['clienteEmail'] ?? null;
-
-if (!$clienteEmail) {
-    echo json_encode(array("status" => 0, "info" => "El email del cliente no está proporcionado."));
-    exit;
-}
-
-try {
-    $mail = new PHPMailer(true); // Crear una instancia de PHPMailer
-
-    $mail->isSMTP();
-    $mail->Host = 'smtp.gmail.com'; // Servidor SMTP de Gmail
-    $mail->Port = 587; // Puerto para TLS
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Usa TLS
-    $mail->SMTPAuth = true;
-    $mail->Username = 'sportdevelopment7@gmail.com'; // Tu correo electrónico de Gmail
-    $mail->Password = 'oatk qcui omre ihbn'; // Tu contraseña o contraseña de aplicación
-    $mail->SMTPDebug = 2; // Cambia a 2 para obtener más detalles de depuración
-
-    $mail->setFrom('sportdevelopment7@gmail.com', 'Sport Development');
-    $mail->addAddress($clienteEmail);
-
-    $mail->Subject = 'Saludos desde Sport Development';
-    $mail->isHTML(true);
-    $mail->CharSet = 'utf-8';
-
-    $html = "<html>
-        <body>
-            <p>Hola,</p>
-            <p>Este es un mensaje de prueba desde Sport Development.</p>
-        </body>
-    </html>";
-
-    $mail->msgHTML($html);
-
-    if (!$mail->send()) {
-        $json = array("status" => 0, "info" => "Correo no se pudo enviar.<br>" . $mail->ErrorInfo);
-    } else {
-        $json = array("status" => 1, "info" => "Correo enviado.");
+// Función para generar un código aleatorio
+function generateRecoveryCode($length = 6) {
+    $characters = '0123456789';
+    $charactersLength = strlen($characters);
+    $code = '';
+    for ($i = 0; $i < $length; $i++) {
+        $code .= $characters[rand(0, $charactersLength - 1)];
     }
-} catch (Exception $e) {
-    $json = array("status" => 0, "info" => "Error: " . $e->getMessage());
+    return $code;
 }
 
-echo json_encode($json);
-?>
+// Verificar el método de solicitud
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $response = ['status' => false, 'message' => ''];
+
+    $clienteEmail = $_POST['clienteEmail'] ?? null;
+    $code = $_POST['code'] ?? null;
+    $newPassword = $_POST['newPassword'] ?? null;
+    $confirmPassword = $_POST['confirmPassword'] ?? null;
+
+    // Enviar el código de recuperación al correo electrónico
+    if ($clienteEmail && !$code) {
+        // Generar un código de recuperación
+        $recoveryCode = generateRecoveryCode();
+        $expirationDate = date('Y-m-d H:i:s', strtotime('+1 hour')); // El código vence en 1 hora
+
+        // Actualizar el código de recuperación y la fecha de expiración en la base de datos
+        $query = "UPDATE tb_clientes SET codigo_recuperacion = ?, fecha_expiracion_codigo = ? WHERE correo_cliente = ?";
+        $values = [$recoveryCode, $expirationDate, $clienteEmail];
+        if (!Database::executeRow($query, $values)) {
+            $response['message'] = 'Error al actualizar el código de recuperación.';
+            echo json_encode($response);
+            exit;
+        }
+
+        // Enviar el código de recuperación por correo electrónico
+        $mail = new PHPMailer(true);
+
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'sportdevelopment7@gmail.com'; // Tu correo electrónico de Gmail
+            $mail->Password = 'oatk qcui omre ihbn'; // Tu contraseña o contraseña de aplicación
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+
+            $mail->setFrom('sportdevelopment7@gmail.com', 'Sport Development');
+            $mail->addAddress($clienteEmail); // Correo electrónico del cliente
+
+            $mail->isHTML(true);
+            $mail->CharSet = 'UTF-8';
+            $mail->Subject = 'Código de Recuperación de Contraseña';
+            $mail->Body = "Tu código de recuperación es: <strong>$recoveryCode</strong>. Este código vence en 1 hora.";
+            $mail->AltBody = "Tu código de recuperación es: $recoveryCode. Este código vence en 1 hora.";
+
+            $mail->send();
+            $response['status'] = true;
+            $response['message'] = 'Código de recuperación enviado con éxito.';
+        } catch (Exception $e) {
+            $response['message'] = 'No se pudo enviar el correo. Error: ' . $mail->ErrorInfo;
+        }
+
+        echo json_encode($response);
+        exit;
+    }
+
+    // Verificar si se envió el código y las contraseñas
+    if ($code && $newPassword && $confirmPassword) {
+        if ($newPassword !== $confirmPassword) {
+            $response['message'] = 'Las contraseñas no coinciden.';
+            echo json_encode($response);
+            exit;
+        }
+
+        $query = "SELECT id_cliente FROM tb_clientes WHERE codigo_recuperacion = ? AND fecha_expiracion_codigo >= NOW()";
+        $clienteId = Database::getRow($query, [$code]);
+        if (!$clienteId) {
+            $response['message'] = 'Código de recuperación inválido o expirado.';
+            echo json_encode($response);
+            exit;
+        }
+
+        try {
+            $queryUpdatePassword = "UPDATE tb_clientes SET clave_cliente = ?, codigo_recuperacion = NULL, fecha_expiracion_codigo = NULL WHERE id_cliente = ?";
+            $values = [password_hash($newPassword, PASSWORD_BCRYPT), $clienteId['id_cliente']];
+            if (!Database::executeRow($queryUpdatePassword, $values)) {
+                $response['message'] = 'Error al actualizar la contraseña.';
+                echo json_encode($response);
+                exit;
+            }
+
+            $response['status'] = true;
+            $response['message'] = 'Contraseña actualizada con éxito.';
+        } catch (Exception $e) {
+            $response['message'] = 'Error de base de datos: ' . $e->getMessage();
+        }
+
+        echo json_encode($response);
+        exit;
+    }
+
+    $response['message'] = 'Datos insuficientes.';
+    echo json_encode($response);
+}
