@@ -117,27 +117,20 @@ async function displayComments(idProducto) {
             // Itera sobre los comentarios y muestra cada uno
             COMMENTS_DATA.dataset.forEach(comment => {
                 const commentElement = document.createElement('div');
-                commentElement.classList.add('comment');
-
-                // Mostrar el nombre y apellido del cliente en el comentario
-                const commentHeader = document.createElement('h5');
-                commentHeader.textContent = `Cliente: ${comment.nombre_cliente} ${comment.apellido_cliente}`;
-                commentElement.appendChild(commentHeader);
-
-                const ratingElement = document.createElement('p');
-                ratingElement.classList.add('comment-rating');
-                ratingElement.textContent = `Calificación: ${comment.calificacion_producto}`;
-                commentElement.appendChild(ratingElement);
-
-                const textElement = document.createElement('p');
-                textElement.textContent = `Comentario: ${comment.comentario_producto}`;
-                commentElement.appendChild(textElement);
-
-                const dateElement = document.createElement('p');
-                dateElement.classList.add('comment-date');
-                dateElement.textContent = `Fecha: ${new Date(comment.fecha_valoracion).toLocaleDateString()}`;
-                commentElement.appendChild(dateElement);
-
+                commentElement.classList.add('card', 'mb-3');
+                commentElement.innerHTML = `
+                    <div class="card-body">
+                        <h5 class="card-title">${comment.nombre_cliente} ${comment.apellido_cliente}</h5>
+                        <div class="d-flex align-items-center">
+                            <div class="d-inline-flex" style="font-size: 1.5rem; color: black;">
+                                ${'★'.repeat(Math.round(comment.calificacion_producto))}${'☆'.repeat(5 - Math.round(comment.calificacion_producto))}
+                            </div>
+                            <span class="ms-2">${comment.calificacion_producto} / 5</span>
+                        </div>
+                        <p class="card-text mt-2">Comentario: ${comment.comentario_producto}</p>
+                        <p class="text-muted mb-0">Fecha: ${new Date(comment.fecha_valoracion).toLocaleDateString()}</p>
+                    </div>
+                `;
                 commentsContainer.appendChild(commentElement);
             });
         } else {
@@ -147,6 +140,9 @@ async function displayComments(idProducto) {
         console.error('Error al obtener los comentarios:', error);
     }
 }
+
+
+
 
 
 
