@@ -102,6 +102,7 @@ ADD_COMMENT_FORM.addEventListener('submit', async (event) => {
     }
 });
 
+
 async function displayComments(idProducto) {
     const FORM = new FormData();
     FORM.append('idProducto', idProducto);
@@ -140,6 +141,49 @@ async function displayComments(idProducto) {
         console.error('Error al obtener los comentarios:', error);
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const ratingStars = document.getElementById('ratingStars');
+    const ratingInput = document.getElementById('commentCalificacion');
+    
+    // Crear las estrellas interactivas
+    for (let i = 1; i <= 5; i++) {
+        const star = document.createElement('span');
+        star.textContent = '★';
+        star.style.cursor = 'pointer';
+        star.style.fontSize = '2rem'; // Tamaño de las estrellas
+        star.style.color = 'black'; // Color de las estrellas
+        star.dataset.value = i; // Valor de la estrella
+
+        star.addEventListener('mouseover', () => {
+            highlightStars(i);
+        });
+
+        star.addEventListener('mouseout', () => {
+            highlightStars(parseInt(ratingInput.value) || 0);
+        });
+
+        star.addEventListener('click', () => {
+            ratingInput.value = i;
+            highlightStars(i);
+        });
+
+        ratingStars.appendChild(star);
+    }
+
+    function highlightStars(count) {
+        const stars = ratingStars.querySelectorAll('span');
+        stars.forEach(star => {
+            if (parseInt(star.dataset.value) <= count) {
+                star.style.color = 'black'; // Estrellas llenas
+            } else {
+                star.style.color = 'lightgrey'; // Estrellas vacías
+            }
+        });
+    }
+});
+
+
 
 
 

@@ -71,23 +71,25 @@
         <!-- Formulario para agregar comentarios -->
         <div id="addCommentSection">
             <h5>Agregar Comentario</h5>
+            <!-- Formulario para agregar un comentario -->
+            <!-- Formulario para agregar un comentario -->
             <form id="addCommentForm">
-                <input type="hidden" id="commentIdProducto" name="idProducto" value="">
-                <div class="mb-3">
+                <input type="hidden" id="commentIdProducto" name="idProducto">
+                <div class="form-group mb-3">
                     <label for="commentCalificacion" class="form-label">Calificación</label>
-                    <input type="number" id="commentCalificacion" name="calificacionProducto" min="1" max="5"
-                        class="form-control" placeholder="Ingrese calificación" required>
+                    <div id="ratingStars" class="d-inline-flex" style="font-size: 2rem; color: black;">
+                        <!-- Estrellas dinámicas generadas con JavaScript -->
+                    </div>
+                    <input type="hidden" id="commentCalificacion" name="calificacion" value="0">
                 </div>
-                <div class="mb-3">
+                <div class="form-group mb-3">
                     <label for="commentText" class="form-label">Comentario</label>
-                    <textarea id="commentText" name="comentarioProducto" class="form-control" rows="3"
-                        placeholder="Ingrese comentario" required></textarea>
+                    <textarea id="commentText" name="comentario_producto" class="form-control" rows="3"></textarea>
                 </div>
                 <button type="submit" class="btn btn-dark">Agregar Comentario</button>
             </form>
+
         </div>
-
-
         <!-- Sección de Comentarios -->
         <div class="container mt-4">
             <h5>Comentarios del Producto</h5>
