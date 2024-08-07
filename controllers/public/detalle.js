@@ -9,6 +9,11 @@ const SHOPPING_FORM = document.getElementById('shoppingForm');
 const CANTIDAD_INPUT = document.getElementById('cantidadProducto');
 // Constante para establecer el campo de existencias del producto.
 const EXISTENCIAS_INPUT = document.getElementById('existenciasProducto');
+// Constante para establecer el formulario de agregar comentarios.
+const ADD_COMMENT_FORM = document.getElementById('addCommentForm');
+const COMMENT_ID_PRODUCTO_INPUT = document.getElementById('commentIdProducto');
+const COMMENT_CALIFICACION_INPUT = document.getElementById('commentCalificacion');
+const COMMENT_TEXT_INPUT = document.getElementById('commentText');
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
@@ -33,50 +38,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('precioProducto').textContent = DATA.dataset.precio_producto;
         EXISTENCIAS_INPUT.textContent = DATA.dataset.existencias_producto;
         document.getElementById('idProducto').value = DATA.dataset.id_producto;
+        COMMENT_ID_PRODUCTO_INPUT.value = DATA.dataset.id_producto; // Establecer el ID del producto en el formulario de comentarios
 
         // Ahora solicitamos los comentarios del producto.
-        const COMMENTS_DATA = await fetchData(PRODUCTO_API, 'readComments', FORM);
-
-        // Se comprueba si la respuesta para los comentarios es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-        if (COMMENTS_DATA.status) {
-            const commentsContainer = document.getElementById('commentsContainer'); // Contenedor donde se mostrarán los comentarios.
-            commentsContainer.innerHTML = ''; // Limpiar contenedor antes de agregar nuevos comentarios.
-
-            // Iterar sobre los comentarios y mostrarlos.
-            COMMENTS_DATA.dataset.forEach(comment => {
-                // Crear elementos HTML para cada comentario.
-                const commentElement = document.createElement('div');
-                commentElement.classList.add('comment');
-
-                const ratingElement = document.createElement('p');
-                ratingElement.classList.add('comment-rating');
-                ratingElement.textContent = `Calificación: ${comment.calificacion_producto}`;
-                commentElement.appendChild(ratingElement);
-
-                const textElement = document.createElement('p');
-                textElement.textContent = `Comentario: ${comment.comentario_producto}`;
-                commentElement.appendChild(textElement);
-
-                const dateElement = document.createElement('p');
-                dateElement.classList.add('comment-date');
-                dateElement.textContent = `Fecha: ${new Date(comment.fecha_valoracion).toLocaleDateString()}`;
-                commentElement.appendChild(dateElement);
-
-                // Agregar el comentario al contenedor.
-                commentsContainer.appendChild(commentElement);
-            });
-        } else {
-            // Se presenta un mensaje de error cuando no existen comentarios.
-            document.getElementById('commentsContainer').innerHTML = `<p>${COMMENTS_DATA.error}</p>`;
-        }
+        await displayComments(DATA.dataset.id_producto);
     } else {
         // Se presenta un mensaje de error cuando no existen datos del producto.
         document.getElementById('mainTitle').textContent = DATA.error;
         document.getElementById('detalle').innerHTML = '';
     }
 });
-
-
 
 // Método del evento para cuando se envía el formulario de agregar un producto al carrito.
 SHOPPING_FORM.addEventListener('submit', async (event) => {
@@ -105,3 +76,65 @@ SHOPPING_FORM.addEventListener('submit', async (event) => {
     }
 });
 
+// Método del evento para cuando se envía el formulario de agregar un comentario.
+ADD_COMMENT_FORM.addEventListener('submit', async (event) => {
+    // Se evita recargar la página web después de enviar el formulario.
+    event.preventDefault();
+
+    // Constante tipo objeto con los datos del formulario.
+    const FORM = new FormData(ADD_COMMENT_FORM);
+
+    // Petición para agregar el comentario.
+    const DATA = await fetchData(PRODUCTO_API, 'addComment', FORM);
+
+    // Se comprueba si la respuesta es satisfactoria.
+    if (DATA.status) {
+        sweetAlert(1, DATA.message, false);
+
+        // Limpiar el formulario.
+        ADD_COMMENT_FORM.reset();
+
+        // Mostrar los comentarios actualizados.
+        await displayComments(DATA.dataset.idProducto);
+    } else {
+        sweetAlert(2, DATA.error, false);
+    }
+});
+
+// Función para mostrar los comentarios del producto.
+async function displayComments(idProducto) {
+    const FORM = new FormData();
+    FORM.append('idProducto', idProducto);
+
+    const COMMENTS_DATA = await fetchData(PRODUCTO_API, 'readComments', FORM);
+
+    // Se comprueba si la respuesta para los comentarios es satisfactoria.
+    if (COMMENTS_DATA.status) {
+        const commentsContainer = document.getElementById('commentsContainer');
+        commentsContainer.innerHTML = '';
+
+        // Iterar sobre los comentarios y mostrarlos.
+        COMMENTS_DATA.dataset.forEach(comment => {
+            const commentElement = document.createElement('div');
+            commentElement.classList.add('comment');
+
+            const ratingElement = document.createElement('p');
+            ratingElement.classList.add('comment-rating');
+            ratingElement.textContent = `Calificación: ${comment.calificacion_producto}`;
+            commentElement.appendChild(ratingElement);
+
+            const textElement = document.createElement('p');
+            textElement.textContent = `Comentario: ${comment.comentario_producto}`;
+            commentElement.appendChild(textElement);
+
+            const dateElement = document.createElement('p');
+            dateElement.classList.add('comment-date');
+            dateElement.textContent = `Fecha: ${new Date(comment.fecha_valoracion).toLocaleDateString()}`;
+            commentElement.appendChild(dateElement);
+
+            commentsContainer.appendChild(commentElement);
+        });
+    } else {
+        document.getElementById('commentsContainer').innerHTML = `<p>${COMMENTS_DATA.error}</p>`;
+    }
+}

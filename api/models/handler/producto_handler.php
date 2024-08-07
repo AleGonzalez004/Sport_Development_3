@@ -116,8 +116,30 @@ class ProductoHandler
                 FROM tb_comentarios AS c
                 INNER JOIN tb_productos AS p ON c.id_producto = p.id_producto
                 WHERE c.id_producto = ?';
-        
+
         $params = array($this->id);
         return Database::getRows($sql, $params);
-    }    
+    }
+
+    public function addComments($idProducto, $calificacionProducto, $comentarioProducto)
+    {
+        // Obtén el ID del cliente de la sesión
+        session_start();
+        if (!isset($_SESSION['idCliente'])) {
+            return ['status' => 0, 'error' => 'No hay sesión de cliente iniciada.'];
+        }
+
+        $idCliente = $_SESSION['idCliente'];
+
+        // Consulta SQL para insertar un nuevo comentario
+        $sql = 'INSERT INTO tb_comentarios (id_producto, id_cliente, calificacion_producto, comentario_producto, fecha_valoracion, estado_comentario)
+            VALUES (?, ?, ?, ?, NOW(), ?)';
+
+        // Parámeteros para la consulta
+        $params = array($idProducto, $idCliente, $calificacionProducto, $comentarioProducto, 1); // El estado del comentario puede ser '1' para activo, ajusta según tus necesidades.
+
+        // Ejecuta la consulta y retorna el resultado
+        return Database::executeRow($sql, $params);
+    }
+
 }

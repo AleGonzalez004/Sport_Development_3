@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <title>Detalles del Producto</title>
     <meta charset="utf-8">
@@ -16,18 +17,22 @@
             margin-bottom: 10px;
             background-color: #f9f9f9;
         }
+
         .comment p {
             margin: 0;
         }
+
         .comment-rating {
             font-weight: bold;
         }
+
         .comment-date {
             font-size: 0.9em;
             color: #888;
         }
     </style>
 </head>
+
 <body>
     <main>
         <h4 id="mainTitle"></h4>
@@ -42,18 +47,20 @@
                         <p class="card-text" id="descripcionProducto"></p>
                         <p class="card-text">Precio US$ <b class="text-success" id="precioProducto"></b></p>
                         <p class="card-text">Existencias <b id="existenciasProducto"></b></p>
-                        
+
                         <form class="row gx-3 gy-2 mx-auto" id="shoppingForm">
                             <input type="number" class="d-none" id="idProducto" name="idProducto">
-                            
+
                             <div class="col-12 mb-2">
                                 <label for="cantidadProducto" class="form-label">Cantidad</label>
-                                <input type="number" id="cantidadProducto" name="cantidadProducto" min="1" class="form-control" placeholder="Ingrese cantidad" required>
+                                <input type="number" id="cantidadProducto" name="cantidadProducto" min="1"
+                                    class="form-control" placeholder="Ingrese cantidad" required>
                             </div>
-                            
+
                             <div class="col-12 d-flex justify-content-end py-5">
                                 <button type="submit" class="btn btn-dark py-3 btn-lg">
-                                    <i class="bi bi-cart-plus-fill"></i> Comprar <i class="bi bi-arrow-return-right"></i>
+                                    <i class="bi bi-cart-plus-fill"></i> Comprar <i
+                                        class="bi bi-arrow-return-right"></i>
                                 </button>
                             </div>
                         </form>
@@ -61,13 +68,32 @@
                 </div>
             </div>
         </div>
+        <!-- Formulario para agregar comentarios -->
+        <div id="addCommentSection">
+            <h5>Agregar Comentario</h5>
+            <form id="addCommentForm">
+                <input type="hidden" id="commentIdProducto" name="idProducto" value="">
+                <div class="mb-3">
+                    <label for="commentCalificacion" class="form-label">Calificación</label>
+                    <input type="number" id="commentCalificacion" name="calificacionProducto" min="1" max="5"
+                        class="form-control" placeholder="Ingrese calificación" required>
+                </div>
+                <div class="mb-3">
+                    <label for="commentText" class="form-label">Comentario</label>
+                    <textarea id="commentText" name="comentarioProducto" class="form-control" rows="3"
+                        placeholder="Ingrese comentario" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-dark">Agregar Comentario</button>
+            </form>
+        </div>
+
 
         <!-- Sección de Comentarios -->
         <div class="container mt-4">
             <h5>Comentarios del Producto</h5>
             <div id="commentsContainer"></div>
         </div>
-    </main>    
+    </main>
 
     <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
@@ -75,4 +101,5 @@
     <script type="text/javascript" src="../../controllers/utils/public.js"></script>
     <script type="text/javascript" src="../../controllers/public/detalle.js"></script>
 </body>
+
 </html>

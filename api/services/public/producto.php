@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../../models/data/producto_data.php');
+require_once ('../../models/data/producto_data.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
@@ -28,16 +28,27 @@ if (isset($_GET['action'])) {
                 $result['error'] = 'Producto inexistente';
             }
             break;
-            case 'readComments':
-                // Se encarga de leer los comentarios de un producto específico
-                if (!$producto->setId($_POST['idProducto'])) {
-                    $result['error'] = $producto->getDataError();
-                } elseif ($result['dataset'] = $producto->readComments()) {
-                    $result['status'] = 1;
-                } else {
-                    $result['error'] = 'No se encontraron comentarios para este producto';
-                }
-                break;
+        case 'readComments':
+            // Se encarga de leer los comentarios de un producto específico
+            if (!$producto->setId($_POST['idProducto'])) {
+                $result['error'] = $producto->getDataError();
+            } elseif ($result['dataset'] = $producto->readComments()) {
+                $result['status'] = 1;
+            } else {
+                $result['error'] = 'No se encontraron comentarios para este producto';
+            }
+            break;
+        case 'addComment':
+            // Se encarga de agregar un comentario a un producto específico
+            if (!isset($_POST['idProducto'], $_POST['calificacionProducto'], $_POST['comentarioProducto'])) {
+                $result['error'] = 'Faltan datos para agregar el comentario';
+            } elseif ($producto->addComments($_POST['idProducto'], $_POST['calificacionProducto'], $_POST['comentarioProducto'])) {
+                $result['status'] = 1;
+                $result['message'] = 'Comentario agregado exitosamente';
+            } else {
+                $result['error'] = 'No se pudo agregar el comentario';
+            }
+            break;
         default:
             $result['error'] = 'Acción no disponible';
     }
@@ -46,7 +57,7 @@ if (isset($_GET['action'])) {
     // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
     header('Content-type: application/json; charset=utf-8');
     // Se imprime el resultado en formato JSON y se retorna al controlador.
-    print(json_encode($result));
+    print (json_encode($result));
 } else {
-    print(json_encode('Recurso no disponible'));
+    print (json_encode('Recurso no disponible'));
 }
