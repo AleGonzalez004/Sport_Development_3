@@ -43,10 +43,27 @@ if (isset($_GET['action'])) {
             if (!isset($_POST['idProducto'], $_POST['calificacion'], $_POST['comentario_producto'])) {
                 $result['error'] = 'Faltan datos para agregar el comentario';
             } elseif ($producto->addComments($_POST['idProducto'], $_POST['calificacion'], $_POST['comentario_producto'])) {
-                $result['status'] = 1;
-                $result['message'] = 'Comentario agregado exitosamente';
+                // Calcular el promedio de calificaciones después de agregar el comentario
+                $promedio = $producto->averageRating();
+                if ($promedio !== null) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Comentario agregado exitosamente y calificación promedio actualizada';
+                } else {
+                    $result['error'] = 'Comentario agregado pero no se pudo calcular el promedio';
+                }
             } else {
                 $result['error'] = 'No se pudo agregar el comentario';
+            }
+            break;
+        case 'averageRating':
+            // Se encarga de leer la calificación promedio de un producto específico
+            if (!$producto->setId($_POST['idProducto'])) {
+                $result['error'] = $producto->getDataError();
+            } elseif (($promedio = $producto->averageRating()) !== false) {
+                $result['status'] = 1;
+                $result['dataset'] = array('promedio' => $promedio);
+            } else {
+                $result['error'] = 'No se pudo calcular el promedio';
             }
             break;
         default:

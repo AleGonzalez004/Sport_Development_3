@@ -146,4 +146,38 @@ class ProductoHandler
         return Database::executeRow($sql, $params);
     }
 
+    public function averageRating()
+    {
+        // SQL para obtener el promedio de calificaciones del producto.
+        $sql = 'SELECT AVG(CAST(c.calificacion_producto AS UNSIGNED)) AS calificacion_promedio
+                FROM tb_comentarios AS c
+                WHERE c.id_producto = ?';
+    
+        $params = array($this->id);
+        $result = Database::getRow($sql, $params);
+    
+        if ($result) {
+            // Obtener el promedio calculado.
+            $promedio = $result['calificacion_promedio'];
+            // Redondear el promedio al entero más cercano.
+            $promedioRedondeado = round($promedio);
+    
+            // Actualizar el campo de calificación promedio del producto.
+            $this->updateAverageRating($promedioRedondeado);
+    
+            return $promedioRedondeado;
+        } else {
+            return null; // No hay comentarios para el producto.
+        }
+    }
+    
+    private function updateAverageRating($calificacionPromedio)
+    {
+        $sql = 'UPDATE tb_productos
+                SET calificacion_promedio = ?
+                WHERE id_producto = ?';
+        $params = array($calificacionPromedio, $this->id);
+        return Database::executeRow($sql, $params);
+    }
+    
 }

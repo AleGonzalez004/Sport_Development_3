@@ -15,7 +15,6 @@ const COMMENT_ID_PRODUCTO_INPUT = document.getElementById('commentIdProducto');
 const COMMENT_CALIFICACION_INPUT = document.getElementById('commentCalificacion');
 const COMMENT_TEXT_INPUT = document.getElementById('commentText');
 
-// Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
     // Llamada a la función para mostrar el encabezado y pie del documento.
     loadTemplate();
@@ -40,6 +39,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('idProducto').value = DATA.dataset.id_producto;
         COMMENT_ID_PRODUCTO_INPUT.value = DATA.dataset.id_producto; // Establecer el ID del producto en el formulario de comentarios
 
+        // Mostrar la calificación promedio
+        await displayAverageRating(DATA.dataset.id_producto);
+
         // Ahora solicitamos los comentarios del producto.
         await displayComments(DATA.dataset.id_producto);
     } else {
@@ -48,6 +50,40 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('detalle').innerHTML = '';
     }
 });
+
+async function displayAverageRating(idProducto) {
+    const FORM = new FormData();
+    FORM.append('idProducto', idProducto);
+
+    try {
+        const AVG_RATING_DATA = await fetchData(PRODUCTO_API, 'averageRating', FORM);
+
+        // Verifica si la respuesta es satisfactoria
+        if (AVG_RATING_DATA.status) {
+            const averageRatingContainer = document.getElementById('averageRatingStars');
+            const averageRatingValue = document.getElementById('averageRatingValue');
+
+            averageRatingContainer.innerHTML = ''; // Limpiar el contenedor de estrellas
+            const averageRating = parseFloat(AVG_RATING_DATA.dataset.promedio);
+
+            // Mostrar estrellas para la calificación promedio
+            for (let i = 1; i <= 5; i++) {
+                const star = document.createElement('span');
+                star.textContent = '★';
+                star.style.fontSize = '2rem'; // Tamaño de las estrellas
+                star.style.color = (i <= averageRating) ? 'black' : 'lightgrey'; // Color según la calificación
+                averageRatingContainer.appendChild(star);
+            }
+
+            averageRatingValue.textContent = `${averageRating.toFixed(1)} / 5`;
+        } else {
+            document.getElementById('averageRatingContainer').innerHTML = `<p>${AVG_RATING_DATA.error}</p>`;
+        }
+    } catch (error) {
+        console.error('Error al obtener la calificación promedio:', error);
+    }
+}
+
 
 // Método del evento para cuando se envía el formulario de agregar un producto al carrito.
 SHOPPING_FORM.addEventListener('submit', async (event) => {
