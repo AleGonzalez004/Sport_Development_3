@@ -111,35 +111,62 @@ class ProductoHandler
     }
 
     public function readComments()
-    {
-        $sql = 'SELECT c.id_comentario, c.id_producto, c.id_cliente, c.calificacion_producto, c.comentario_producto, c.fecha_valoracion, c.estado_comentario
-                FROM tb_comentarios AS c
-                INNER JOIN tb_productos AS p ON c.id_producto = p.id_producto
-                WHERE c.id_producto = ?';
+{
+    $sql = 'SELECT c.id_comentario, c.id_producto, c.id_cliente, 
+                   c.calificacion_producto, c.comentario_producto, 
+                   c.fecha_valoracion, c.estado_comentario,
+                   cl.nombre_cliente, cl.apellido_cliente
+            FROM tb_comentarios AS c
+            INNER JOIN tb_productos AS p ON c.id_producto = p.id_producto
+            INNER JOIN tb_clientes AS cl ON c.id_cliente = cl.id_cliente
+            WHERE c.id_producto = ?';
 
-        $params = array($this->id);
-        return Database::getRows($sql, $params);
-    }
+    $params = array($this->id);
+    return Database::getRows($sql, $params);
+}
+
 
     public function addComments($idProducto, $calificacionProducto, $comentarioProducto)
-    {
-        // Obtén el ID del cliente de la sesión
-        session_start();
-        if (!isset($_SESSION['idCliente'])) {
-            return ['status' => 0, 'error' => 'No hay sesión de cliente iniciada.'];
-        }
-
-        $idCliente = $_SESSION['idCliente'];
-
-        // Consulta SQL para insertar un nuevo comentario
-        $sql = 'INSERT INTO tb_comentarios (id_producto, id_cliente, calificacion_producto, comentario_producto, fecha_valoracion, estado_comentario)
-            VALUES (?, ?, ?, ?, NOW(), ?)';
-
-        // Parámeteros para la consulta
-        $params = array($idProducto, $idCliente, $calificacionProducto, $comentarioProducto, 1); // El estado del comentario puede ser '1' para activo, ajusta según tus necesidades.
-
-        // Ejecuta la consulta y retorna el resultado
-        return Database::executeRow($sql, $params);
+{
+    // Obtén el ID del cliente de la sesión
+    session_start();
+    if (!isset($_SESSION['idCliente'])) {
+        return ['status' => 0, 'error' => 'No hay sesión de cliente iniciada.'];
     }
+
+    $idCliente = $_SESSION['idCliente'];
+
+    // Consulta SQL para insertar un nuevo comentario
+    $sql = 'INSERT INTO tb_comentarios (id_producto, id_cliente, calificacion_producto, comentario_producto, fecha_valoracion, estado_comentario)
+        VALUES (?, ?, ?, ?, NOW(), ?)';
+
+    // Parámeteros para la consulta
+    $params = array($idProducto, $idCliente, $calificacionProducto, $comentarioProducto, 1); // El estado del comentario puede ser '1' para activo, ajusta según tus necesidades.
+
+    // Ejecuta la consulta de inserción
+    $insertResult = Database::executeRow($sql, $params);
+    
+    // Verifica si la inserción fue exitosa
+    if ($insertResult['status']) {
+        // Consulta para obtener el nombre y apellido del cliente
+        $sqlClient = 'SELECT nombre_cliente, apellido_cliente FROM tb_clientes WHERE id_cliente = ?';
+        $clientParams = array($idCliente);
+        $clientData = Database::getRow($sqlClient, $clientParams);
+        
+        if ($clientData) {
+            // Devuelve los datos del comentario y del cliente
+            return [
+                'status' => 1,
+                'message' => 'Comentario agregado exitosamente.',
+                'cliente' => $clientData // Incluye la información del cliente
+            ];
+        } else {
+            return ['status' => 0, 'error' => 'No se pudo obtener la información del cliente.'];
+        }
+    } else {
+        return $insertResult; // Devuelve el error de la inserción si ocurrió uno
+    }
+}
+
 
 }

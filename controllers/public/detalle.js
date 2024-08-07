@@ -76,6 +76,7 @@ SHOPPING_FORM.addEventListener('submit', async (event) => {
     }
 });
 
+
 // Método del evento para cuando se envía el formulario de agregar un comentario.
 ADD_COMMENT_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
@@ -94,47 +95,59 @@ ADD_COMMENT_FORM.addEventListener('submit', async (event) => {
         // Limpiar el formulario.
         ADD_COMMENT_FORM.reset();
 
-        // Mostrar los comentarios actualizados.
-        await displayComments(DATA.dataset.idProducto);
+        // Recargar la página para mostrar los comentarios actualizados.
+        location.reload();
     } else {
         sweetAlert(2, DATA.error, false);
     }
 });
 
-// Función para mostrar los comentarios del producto.
 async function displayComments(idProducto) {
     const FORM = new FormData();
     FORM.append('idProducto', idProducto);
 
-    const COMMENTS_DATA = await fetchData(PRODUCTO_API, 'readComments', FORM);
+    try {
+        const COMMENTS_DATA = await fetchData(PRODUCTO_API, 'readComments', FORM);
 
-    // Se comprueba si la respuesta para los comentarios es satisfactoria.
-    if (COMMENTS_DATA.status) {
-        const commentsContainer = document.getElementById('commentsContainer');
-        commentsContainer.innerHTML = '';
+        // Verifica si la respuesta es satisfactoria
+        if (COMMENTS_DATA.status) {
+            const commentsContainer = document.getElementById('commentsContainer');
+            commentsContainer.innerHTML = '';
 
-        // Iterar sobre los comentarios y mostrarlos.
-        COMMENTS_DATA.dataset.forEach(comment => {
-            const commentElement = document.createElement('div');
-            commentElement.classList.add('comment');
+            // Itera sobre los comentarios y muestra cada uno
+            COMMENTS_DATA.dataset.forEach(comment => {
+                const commentElement = document.createElement('div');
+                commentElement.classList.add('comment');
 
-            const ratingElement = document.createElement('p');
-            ratingElement.classList.add('comment-rating');
-            ratingElement.textContent = `Calificación: ${comment.calificacion_producto}`;
-            commentElement.appendChild(ratingElement);
+                // Mostrar el nombre y apellido del cliente en el comentario
+                const commentHeader = document.createElement('h5');
+                commentHeader.textContent = `Cliente: ${comment.nombre_cliente} ${comment.apellido_cliente}`;
+                commentElement.appendChild(commentHeader);
 
-            const textElement = document.createElement('p');
-            textElement.textContent = `Comentario: ${comment.comentario_producto}`;
-            commentElement.appendChild(textElement);
+                const ratingElement = document.createElement('p');
+                ratingElement.classList.add('comment-rating');
+                ratingElement.textContent = `Calificación: ${comment.calificacion_producto}`;
+                commentElement.appendChild(ratingElement);
 
-            const dateElement = document.createElement('p');
-            dateElement.classList.add('comment-date');
-            dateElement.textContent = `Fecha: ${new Date(comment.fecha_valoracion).toLocaleDateString()}`;
-            commentElement.appendChild(dateElement);
+                const textElement = document.createElement('p');
+                textElement.textContent = `Comentario: ${comment.comentario_producto}`;
+                commentElement.appendChild(textElement);
 
-            commentsContainer.appendChild(commentElement);
-        });
-    } else {
-        document.getElementById('commentsContainer').innerHTML = `<p>${COMMENTS_DATA.error}</p>`;
+                const dateElement = document.createElement('p');
+                dateElement.classList.add('comment-date');
+                dateElement.textContent = `Fecha: ${new Date(comment.fecha_valoracion).toLocaleDateString()}`;
+                commentElement.appendChild(dateElement);
+
+                commentsContainer.appendChild(commentElement);
+            });
+        } else {
+            document.getElementById('commentsContainer').innerHTML = `<p>${COMMENTS_DATA.error}</p>`;
+        }
+    } catch (error) {
+        console.error('Error al obtener los comentarios:', error);
     }
 }
+
+
+
+
