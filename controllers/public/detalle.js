@@ -65,17 +65,3 @@ SHOPPING_FORM.addEventListener('submit', async (event) => {
     }
 });
 
-
-let username = '';
-
-const getUserData = async () => {
-    const DATA = await fetchData(USER_API, 'getUser');
-    if (DATA.session) {
-        username = DATA.username;
-    } else {
-        console.error('Usuario no autenticado.');
-    }
-};
-
-getUserData();
-
