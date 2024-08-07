@@ -112,16 +112,12 @@ class ProductoHandler
 
     public function readComments()
     {
-        // Consulta SQL para seleccionar comentarios de un producto específico
         $sql = 'SELECT c.id_comentario, c.id_producto, c.id_cliente, c.calificacion_producto, c.comentario_producto, c.fecha_valoracion, c.estado_comentario
                 FROM tb_comentarios AS c
                 INNER JOIN tb_productos AS p ON c.id_producto = p.id_producto
                 WHERE c.id_producto = ?';
         
-        // Parámetro para la consulta: ID del producto
         $params = array($this->id);
-    
-        // Ejecutar la consulta y retornar los resultados
         return Database::getRows($sql, $params);
     }    
 }
