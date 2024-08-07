@@ -49,20 +49,25 @@ CREATE TABLE tb_productos(
   id_categoria INT(10) UNSIGNED NOT NULL,
   estado_producto TINYINT(1) NOT NULL,
   id_administrador INT(10) UNSIGNED NOT NULL,
-  fecha_registro DATE NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-  calificacion_producto ENUM ('1', '2', '3', '4', '5') NOT NULL,
   calificacion_promedio ENUM ('1', '2', '3', '4', '5') NOT NULL,
+  fecha_registro DATE NOT NULL DEFAULT CURRENT_TIMESTAMP()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE tb_comentarios (
+  id_comentario INT(10) AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  id_producto INT(10) UNSIGNED NOT NULL,
+  id_cliente INT(10) UNSIGNED NOT NULL,
+  calificacion_producto ENUM ('1', '2', '3', '4', '5') NOT NULL,
   comentario_producto VARCHAR(255) NOT NULL,
   fecha_valoracion DATE NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   estado_comentario  TINYINT(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+);
 
 CREATE TABLE tb_detalle_pedidos (
   id_detalle INT(10) AUTO_INCREMENT PRIMARY KEY NOT NULL,
   id_producto INT(10) UNSIGNED NOT NULL,
   cantidad_producto SMALLINT(6) UNSIGNED NOT NULL,
   precio_producto DECIMAL(5,2) UNSIGNED NOT NULL,
-
   id_pedido INT(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -137,6 +142,15 @@ VALUES
 (15, 'Sneackers Deportivos', 'Zapatos deportivos de alta calidad.', 89.99, 50, 'img3.png', 4, 1, 1, '2024-05-30'),
 (16, 'Sneackers Deportivos', 'Zapatos deportivos de alta calidad.', 89.99, 50, 'img4.png', 4, 1, 1, '2024-05-30');
 
+INSERT INTO tb_comentarios (id_producto, id_cliente, calificacion_producto, comentario_producto, fecha_valoracion, estado_comentario)
+VALUES 
+(1, 1, '5', 'Excelente producto, muy satisfecho con la compra.', '2024-08-01', 1),
+(1, 1, '4', 'Buen producto, aunque el envío se retrasó un poco.', '2024-08-02', 1),
+(1, 1, '3', 'El producto está bien, pero esperaba mejor calidad.', '2024-08-03', 1),
+(1, 1, '2', 'No estoy contento con la compra, el producto no cumplió mis expectativas.', '2024-08-04', 1),
+(1, 1, '1', 'Muy mal producto, no lo recomiendo.', '2024-08-05', 1);
+
+
 INSERT INTO tb_tallas (nombre) VALUES
 ('XS'),
 ('S'),
@@ -172,6 +186,7 @@ INSERT INTO tb_generos (nombre) VALUES
 ('Niños'),
 ('Niñas');
 
+
 SELECT * FROM tb_administradores;
 
 SELECT * FROM tb_clientes;
@@ -201,6 +216,8 @@ SELECT * FROM tb_imagenes;
 SELECT * FROM tb_detalle_pedidos;
 
 SELECT * FROM tb_pedidos;
+
+SELECT * FROM tb_comentarios;
 
 
 
