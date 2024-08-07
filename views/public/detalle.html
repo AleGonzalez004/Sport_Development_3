@@ -45,15 +45,16 @@
                     <div class="card-body">
                         <h5 class="card-title" id="nombreProducto"></h5>
                         <p class="card-text" id="descripcionProducto"></p>
+                        <div id="averageRatingContainer" class="py-3">
+                            <p class="d-inline">Calificación:</p>
+                            <div id="averageRatingStars" class="d-inline"></div>
+                            <span id="averageRatingValue" class="ms-2"></span>
+                        </div>
                         <p class="card-text">Precio US$ <b class="text-success" id="precioProducto"></b></p>
                         <p class="card-text">Existencias <b id="existenciasProducto"></b></p>
-                    
+                      
                         <form class="row gx-3 gy-2 mx-auto" id="shoppingForm">
-                            <div id="averageRatingContainer">
-                                <p class="d-inline">Calificación:</p>
-                                <div id="averageRatingStars" class="d-inline"></div>
-                                <span id="averageRatingValue" class="ms-2"></span>
-                            </div>
+                            
                             <input type="number" class="d-none" id="idProducto" name="idProducto">
 
                             <div class="col-12 mb-2">
