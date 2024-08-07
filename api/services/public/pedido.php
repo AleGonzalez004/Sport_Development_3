@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../../models/data/pedido_data.php');
+require_once ('../../models/data/pedido_data.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
@@ -19,7 +19,7 @@ if (isset($_GET['action'])) {
             case 'createDetail':
                 // Validar y sanitizar datos del formulario
                 $_POST = Validator::validateForm($_POST);
-            
+
                 // Comenzar el pedido
                 if (!$pedido->startOrder()) {
                     $result['error'] = 'Ocurrió un problema al iniciar el pedido';
@@ -32,10 +32,10 @@ if (isset($_GET['action'])) {
                     // Verificar existencias del producto
                     $productoId = $_POST['idProducto'];
                     $cantidadProducto = $_POST['cantidadProducto'];
-            
+
                     // Asumir que existe un método para verificar existencias
                     $existencias = $pedido->checkProductExistencias($productoId);
-            
+
                     if ($cantidadProducto > $existencias) {
                         $result['error'] = 'No hay suficientes existencias del producto';
                     } elseif ($pedido->createDetail()) {
@@ -45,7 +45,7 @@ if (isset($_GET['action'])) {
                         $result['error'] = 'Ocurrió un problema al agregar el producto';
                     }
                 }
-                break;            
+                break;
 
             // Acción para crear una tarjeta.
             case 'createTarget':
@@ -67,7 +67,7 @@ if (isset($_GET['action'])) {
                     $result['message'] = 'Tarjeta agregada correctamente';
                 }
                 break;
-                // Acción para obtener los números de las tarjetas.
+            // Acción para obtener los números de las tarjetas.
             case 'getCardNumbers':
                 $result['dataset'] = $pedido->getCardNumbers($_SESSION['idCliente']);
                 if ($result['dataset']) {
@@ -86,11 +86,10 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen productos en el carrito';
                 }
                 break;
-
             // Acción para actualizar la cantidad de un producto en el carrito de compras.
             case 'updateDetail':
                 $_POST = Validator::validateForm($_POST);
-                
+
                 // Validar datos recibidos
                 if (
                     !$pedido->setIdDetalle($_POST['idDetalle']) or
@@ -98,21 +97,44 @@ if (isset($_GET['action'])) {
                 ) {
                     $result['error'] = $pedido->getDataError();
                 } else {
-                    // Validar si la cantidad no supera las existencias
-                    $productoExistencias = $pedido->getProductStock($_POST['idDetalle']);
-                    if ($productoExistencias === false) {
-                        $result['error'] = 'Error al obtener las existencias del producto.';
-                    } elseif ($_POST['cantidadProducto'] > $productoExistencias) {
-                        $result['error'] = 'La cantidad solicitada excede las existencias disponibles.';
-                    } elseif ($pedido->updateDetail()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Cantidad modificada correctamente';
+                    // Obtener las existencias actuales del producto
+                    $sqlGetProduct = 'SELECT id_producto, cantidad_producto FROM tb_detalle_pedidos WHERE id_detalle = ? AND id_pedido = ?';
+                    $paramsGetProduct = array($_POST['idDetalle'], $_SESSION['idPedido']);
+                    $currentDetail = Database::getRow($sqlGetProduct, $paramsGetProduct);
+
+                    if (!$currentDetail) {
+                        $result['error'] = 'Detalle del pedido no encontrado.';
                     } else {
-                        $result['error'] = 'Ocurrió un problema al modificar la cantidad';
+                        $idProducto = $currentDetail['id_producto'];
+                        $cantidadAnterior = $currentDetail['cantidad_producto'];
+
+                        // Obtener existencias actuales del producto
+                        $sqlGetStock = 'SELECT existencias_producto FROM tb_productos WHERE id_producto = ?';
+                        $paramsGetStock = array($idProducto);
+                        $productStock = Database::getRow($sqlGetStock, $paramsGetStock);
+
+                        if (!$productStock) {
+                            $result['error'] = 'Error al obtener las existencias del producto.';
+                        } else {
+                            $existencias = $productStock['existencias_producto'];
+                            $diferenciaCantidad = $_POST['cantidadProducto'] - $cantidadAnterior;
+
+                            // Validar si la cantidad solicitada no excede las existencias
+                            if ($diferenciaCantidad > 0 && $diferenciaCantidad > $existencias) {
+                                $result['error'] = 'La cantidad solicitada excede las existencias disponibles.';
+                            } else {
+                                // Actualizar el detalle
+                                if ($pedido->updateDetail()) {
+                                    $result['status'] = 1;
+                                    $result['message'] = 'Cantidad modificada correctamente';
+                                } else {
+                                    $result['error'] = 'Ocurrió un problema al modificar la cantidad';
+                                }
+                            }
+                        }
                     }
                 }
                 break;
-            
             // Acción para remover un producto del carrito de compras.
             case 'deleteDetail':
                 if (!$pedido->setIdDetalle($_POST['idDetalle'])) {
@@ -162,8 +184,8 @@ if (isset($_GET['action'])) {
     // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
     header('Content-type: application/json; charset=utf-8');
     // Se imprime el resultado en formato JSON y se retorna al controlador.
-    print(json_encode($result));
+    print (json_encode($result));
 } else {
-    print(json_encode('Recurso no disponible'));
+    print (json_encode('Recurso no disponible'));
 }
 
