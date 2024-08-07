@@ -67,12 +67,42 @@ class PedidoHandler
     // Método para agregar un producto al carrito de compras.
     public function createDetail()
     {
-        // Se realiza una subconsulta para obtener el precio del producto.
-        $sql = 'INSERT INTO tb_detalle_pedidos(id_producto, precio_producto, cantidad_producto, id_pedido)
-                VALUES(?, (SELECT precio_producto FROM tb_productos WHERE id_producto = ?), ?, ?)';
-        $params = array($this->producto, $this->producto, $this->cantidad, $_SESSION['idPedido']);
-        return Database::executeRow($sql, $params);
+
+        try {
+            // Verificar si la cantidad solicitada es menor o igual a las existencias disponibles
+            $sqlCheckStock = 'SELECT existencias_producto FROM tb_productos WHERE id_producto = ?';
+            $paramsCheckStock = array($this->producto);
+            $result = Database::getRow($sqlCheckStock, $paramsCheckStock);
+    
+            if (!$result) {
+                throw new Exception("Producto no encontrado.");
+            }
+    
+            $existenciasDisponibles = $result['existencias_producto'];
+    
+            if ($this->cantidad > $existenciasDisponibles) {
+                throw new Exception("La cantidad solicitada excede las existencias disponibles.");
+            }
+    
+            // Actualizar las existencias del producto
+            $sqlUpdateStock = 'UPDATE tb_productos SET existencias_producto = existencias_producto - ? WHERE id_producto = ?';
+            $paramsUpdateStock = array($this->cantidad, $this->producto);
+            Database::executeRow($sqlUpdateStock, $paramsUpdateStock);
+    
+            // Insertar el detalle del pedido
+            $sqlInsertDetail = 'INSERT INTO tb_detalle_pedidos (id_producto, precio_producto, cantidad_producto, id_pedido)
+                                VALUES (?, (SELECT precio_producto FROM tb_productos WHERE id_producto = ?), ?, ?)';
+            $paramsInsertDetail = array($this->producto, $this->producto, $this->cantidad, $_SESSION['idPedido']);
+            Database::executeRow($sqlInsertDetail, $paramsInsertDetail);
+
+            
+            return true;
+        } catch (Exception $e) {
+            // Revertir la transacción en caso de error
+            throw $e;
+        }
     }
+    
 
     // Método para obtener los productos que se encuentran en el carrito de compras.
     public function readDetail()
@@ -94,46 +124,61 @@ class PedidoHandler
             SET estado_pedido = ?
             WHERE id_pedido = ?';
         $params = array($this->estado, $_SESSION['idPedido']);
-
+    
+        // Actualizar el estado del pedido a 'Entregado'
         if (Database::executeRow($sql, $params)) {
-            // Si la actualización del estado del pedido es exitosa, proceder a actualizar las existencias de los productos.
-
-            // Seleccionar todos los detalles de pedidos para el pedido finalizado.
-            $sql = 'SELECT id_producto, cantidad_producto
-                FROM tb_detalle_pedidos
-                WHERE id_pedido = ?';
-            $params = array($_SESSION['idPedido']);
-
-            // Obtener todos los detalles del pedido finalizado.
-            $result = Database::getRows($sql, $params);
-
-            if ($result) {
-                // Recorrer cada detalle de pedido y actualizar las existencias del producto.
-                foreach ($result as $row) {
-                    $sql = 'UPDATE tb_productos
-                        SET existencias_producto = existencias_producto - ?
-                        WHERE id_producto = ?';
-                    $params = array($row['cantidad_producto'], $row['id_producto']);
-                    Database::executeRow($sql, $params);
-                }
-                return true;
-            } else {
-                return false;
-            }
+            return true;
         } else {
             return false;
         }
     }
+    
 
     // Método para actualizar la cantidad de un producto agregado al carrito de compras.
     public function updateDetail()
     {
-        $sql = 'UPDATE tb_detalle_pedidos
-                SET cantidad_producto = ?
-                WHERE id_detalle = ? AND id_pedido = ?';
-        $params = array($this->cantidad, $this->id_detalle, $_SESSION['idPedido']);
-        return Database::executeRow($sql, $params);
+    
+        try {
+            // Obtener la cantidad anterior del producto en el carrito
+            $sqlGetPreviousQuantity = 'SELECT cantidad_producto, id_producto FROM tb_detalle_pedidos WHERE id_detalle = ? AND id_pedido = ?';
+            $paramsGetPreviousQuantity = array($this->id_detalle, $_SESSION['idPedido']);
+            $result = Database::getRow($sqlGetPreviousQuantity, $paramsGetPreviousQuantity);
+    
+            if (!$result) {
+                throw new Exception("Detalle del pedido no encontrado.");
+            }
+    
+            $cantidadAnterior = $result['cantidad_producto'];
+            $idProducto = $result['id_producto'];
+    
+            // Calcular la diferencia en la cantidad
+            $diferenciaCantidad = $this->cantidad - $cantidadAnterior;
+    
+            // Actualizar las existencias del producto
+            if ($diferenciaCantidad > 0) {
+                // Si la cantidad ha aumentado, disminuir las existencias
+                $sqlUpdateStockDecrease = 'UPDATE tb_productos SET existencias_producto = existencias_producto - ? WHERE id_producto = ?';
+                $paramsUpdateStockDecrease = array($diferenciaCantidad, $idProducto);
+                Database::executeRow($sqlUpdateStockDecrease, $paramsUpdateStockDecrease);
+            } elseif ($diferenciaCantidad < 0) {
+                // Si la cantidad ha disminuido, aumentar las existencias
+                $sqlUpdateStockIncrease = 'UPDATE tb_productos SET existencias_producto = existencias_producto + ? WHERE id_producto = ?';
+                $paramsUpdateStockIncrease = array(abs($diferenciaCantidad), $idProducto);
+                Database::executeRow($sqlUpdateStockIncrease, $paramsUpdateStockIncrease);
+            }
+    
+            // Actualizar el detalle del pedido con la nueva cantidad
+            $sqlUpdateDetail = 'UPDATE tb_detalle_pedidos SET cantidad_producto = ? WHERE id_detalle = ? AND id_pedido = ?';
+            $paramsUpdateDetail = array($this->cantidad, $this->id_detalle, $_SESSION['idPedido']);
+            Database::executeRow($sqlUpdateDetail, $paramsUpdateDetail);
+    
+            return true;
+        } catch (Exception $e) {
+
+            throw $e;
+        }
     }
+    
 
 // Método para obtener las existencias del producto
     public function getProductStock($idDetalle)
@@ -165,12 +210,35 @@ class PedidoHandler
     // Método para eliminar un producto que se encuentra en el carrito de compras.
     public function deleteDetail()
     {
-        $sql = 'DELETE FROM tb_detalle_pedidos
-                WHERE id_detalle = ? AND id_pedido = ?';
-        $params = array($this->id_detalle, $_SESSION['idPedido']);
-        return Database::executeRow($sql, $params);
+        try {
+            // Obtener la cantidad del producto en el detalle del pedido
+            $sqlGetQuantity = 'SELECT cantidad_producto, id_producto FROM tb_detalle_pedidos WHERE id_detalle = ? AND id_pedido = ?';
+            $paramsGetQuantity = array($this->id_detalle, $_SESSION['idPedido']);
+            $result = Database::getRow($sqlGetQuantity, $paramsGetQuantity);
+    
+            if (!$result) {
+                throw new Exception("Detalle del pedido no encontrado.");
+            }
+    
+            $cantidadProducto = $result['cantidad_producto'];
+            $idProducto = $result['id_producto'];
+    
+            // Actualizar las existencias del producto
+            $sqlUpdateStock = 'UPDATE tb_productos SET existencias_producto = existencias_producto + ? WHERE id_producto = ?';
+            $paramsUpdateStock = array($cantidadProducto, $idProducto);
+            Database::executeRow($sqlUpdateStock, $paramsUpdateStock);
+    
+            // Eliminar el detalle del pedido
+            $sqlDeleteDetail = 'DELETE FROM tb_detalle_pedidos WHERE id_detalle = ? AND id_pedido = ?';
+            $paramsDeleteDetail = array($this->id_detalle, $_SESSION['idPedido']);
+            Database::executeRow($sqlDeleteDetail, $paramsDeleteDetail);
+    
+            return true;
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
-
+    
     public function deleteOrder()
     {
         $sql = 'DELETE FROM tb_pedidos
