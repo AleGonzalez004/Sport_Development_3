@@ -181,7 +181,7 @@ async function displayComments(idProducto) {
 document.addEventListener('DOMContentLoaded', () => {
     const ratingStars = document.getElementById('ratingStars');
     const ratingInput = document.getElementById('commentCalificacion');
-    
+
     // Crear las estrellas interactivas
     for (let i = 1; i <= 5; i++) {
         const star = document.createElement('span');

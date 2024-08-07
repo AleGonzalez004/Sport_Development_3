@@ -120,7 +120,7 @@ class ProductoHandler
                 INNER JOIN tb_productos AS p ON c.id_producto = p.id_producto
                 INNER JOIN tb_clientes AS cl ON c.id_cliente = cl.id_cliente
                 WHERE c.id_producto = ?';
-    
+
         $params = array($this->id);
         return Database::getRows($sql, $params);
     }
@@ -152,25 +152,25 @@ class ProductoHandler
         $sql = 'SELECT AVG(CAST(c.calificacion_producto AS UNSIGNED)) AS calificacion_promedio
                 FROM tb_comentarios AS c
                 WHERE c.id_producto = ?';
-    
+
         $params = array($this->id);
         $result = Database::getRow($sql, $params);
-    
+
         if ($result) {
             // Obtener el promedio calculado.
             $promedio = $result['calificacion_promedio'];
             // Redondear el promedio al entero más cercano.
             $promedioRedondeado = round($promedio);
-    
+
             // Actualizar el campo de calificación promedio del producto.
             $this->updateAverageRating($promedioRedondeado);
-    
+
             return $promedioRedondeado;
         } else {
             return null; // No hay comentarios para el producto.
         }
     }
-    
+
     private function updateAverageRating($calificacionPromedio)
     {
         $sql = 'UPDATE tb_productos
@@ -179,5 +179,5 @@ class ProductoHandler
         $params = array($calificacionPromedio, $this->id);
         return Database::executeRow($sql, $params);
     }
-    
+
 }
