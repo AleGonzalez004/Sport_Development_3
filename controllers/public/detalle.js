@@ -50,7 +50,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('detalle').innerHTML = '';
     }
 });
-
 async function displayAverageRating(idProducto) {
     const FORM = new FormData();
     FORM.append('idProducto', idProducto);
@@ -70,7 +69,7 @@ async function displayAverageRating(idProducto) {
             for (let i = 1; i <= 5; i++) {
                 const star = document.createElement('span');
                 star.textContent = '★';
-                star.style.fontSize = '2rem'; // Tamaño de las estrellas
+                star.style.fontSize = '1.5rem'; // Tamaño de las estrellas
                 star.style.color = (i <= averageRating) ? 'black' : 'lightgrey'; // Color según la calificación
                 averageRatingContainer.appendChild(star);
             }
@@ -83,6 +82,7 @@ async function displayAverageRating(idProducto) {
         console.error('Error al obtener la calificación promedio:', error);
     }
 }
+
 
 
 // Método del evento para cuando se envía el formulario de agregar un producto al carrito.
