@@ -30,8 +30,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Correo de usuario indefinido';
                     $result['name'] = 'No se pudo obtener el usuario';
                 }
-                break;
-            
+                break; 
             case 'readProfile':
                     if ($result['dataset'] = $cliente->readProfile()) {
                         $result['status'] = 1;

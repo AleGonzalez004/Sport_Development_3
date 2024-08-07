@@ -28,6 +28,16 @@ if (isset($_GET['action'])) {
                 $result['error'] = 'Producto inexistente';
             }
             break;
+            case 'readComments':
+                // Se encarga de leer los comentarios de un producto específico
+                if (!$producto->setId($_POST['idProducto'])) {
+                    $result['error'] = $producto->getDataError();
+                } elseif ($result['dataset'] = $producto->readComments()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No se encontraron comentarios para este producto';
+                }
+                break;
         default:
             $result['error'] = 'Acción no disponible';
     }
