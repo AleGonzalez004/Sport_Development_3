@@ -50,9 +50,10 @@ if (isset($_GET['action'])) {
                 if ($response['status'] === 1) {
                     // Calcula el promedio de calificaciones después de agregar el comentario
                     $promedio = $producto->averageRating();
+                    $result['message'] = 'Comentario agregado exitosamente';
                     if ($promedio !== null) {
                         $result['status'] = 1;
-                        $result['message'] = 'Comentario agregado exitosamente y calificación promedio actualizada';
+                        $result['message'] = 'Comentario agregado exitosamente';
                         $result['averageRating'] = $promedio; // Opcional: incluir el promedio en la respuesta
                     } else {
                         $result['error'] = 'Comentario agregado pero no se pudo calcular el promedio';
