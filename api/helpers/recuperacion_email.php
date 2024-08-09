@@ -1,4 +1,5 @@
 <?php
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -10,7 +11,8 @@ require __DIR__ . '/../../api/helpers/database.php';
 header('Content-Type: application/json');
 
 // Función para generar un código aleatorio
-function generateRecoveryCode($length = 6) {
+function generateRecoveryCode($length = 6)
+{
     $characters = '0123456789';
     $charactersLength = strlen($characters);
     $code = '';
