@@ -38,6 +38,17 @@ if (isset($_GET['action'])) {
                         $result['error'] = 'Ocurrió un problema al leer el perfil';
                     }
             break;
+            case 'readProfilemovil':
+                if (isset($_SESSION['correoCliente'])) {
+                    $result['status'] = 1;
+                    $result['username'] = $_SESSION['correoCliente'];
+                    $result['name'] = $cliente->readOneCorreo($_SESSION['correoCliente']);
+                   }
+                   else {
+                    $result['error'] = 'Correo de usuario indefinido';
+                    $result['name'] ='No se pudo obtener el usuario';
+                }
+                break;
             case 'logOut':
                 if (session_destroy()) {
                     $result['status'] = 1;
