@@ -9,28 +9,7 @@
     <link type="image/png" rel="icon" href="../../resources/img/icon.png">
     <link type="text/css" rel="stylesheet" href="../../resources/css/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
-    <style>
-        .comment {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 10px;
-            margin-bottom: 10px;
-            background-color: #f9f9f9;
-        }
-
-        .comment p {
-            margin: 0;
-        }
-
-        .comment-rating {
-            font-weight: bold;
-        }
-
-        .comment-date {
-            font-size: 0.9em;
-            color: #888;
-        }
-    </style>
+   
 </head>
 
 <body>
@@ -78,7 +57,6 @@
         <div id="addCommentSection">
             <h5>Agregar Comentario</h5>
             <!-- Formulario para agregar un comentario -->
-            <!-- Formulario para agregar un comentario -->
             <form id="addCommentForm">
                 <input type="hidden" id="commentIdProducto" name="idProducto">
                 <div class="form-group mb-3">
@@ -92,7 +70,7 @@
                     <label for="commentText" class="form-label">Comentario</label>
                     <textarea id="commentText" name="comentario_producto" class="form-control" rows="3"></textarea>
                 </div>
-                <button type="submit" class="btn btn-dark">Agregar Comentario</button>
+                <div class="col-12 d-flex justify-content-end"><button type="submit" class="btn btn-dark py-3 btn-lg">Agregar Comentario</button></div>
             </form>
 
         </div>
