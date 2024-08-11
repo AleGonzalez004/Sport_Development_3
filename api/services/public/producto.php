@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo.
-require_once ('../../models/data/producto_data.php');
+require_once('../../models/data/producto_data.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
@@ -64,6 +64,32 @@ if (isset($_GET['action'])) {
                 }
             }
             break;
+        case 'addCommentmovil':
+            // Verifica si todos los datos necesarios están presentes
+            if (!isset($_POST['idProducto'], $_POST['calificacion'], $_POST['comentario_producto'])) {
+                $result['error'] = 'Faltan datos para agregar el comentario';
+            } else {
+                // Llama al método addComments para agregar el comentario
+                $response = $producto->addComments($_POST['idProducto'], $_POST['calificacion'], $_POST['comentario_producto']);
+
+                // Verifica si la respuesta indica que el comentario se agregó exitosamente
+                if ($response['status'] === 1) {
+                    // Calcula el promedio de calificaciones después de agregar el comentario
+                    $promedio = $producto->averageRating();
+                    $result['message'] = 'Comentario agregado exitosamente';
+                    if ($promedio !== null) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Comentario agregado exitosamente';
+                        $result['averageRating'] = $promedio; // Opcional: incluir el promedio en la respuesta
+                    } else {
+                        $result['error'] = 'Comentario agregado pero no se pudo calcular el promedio';
+                    }
+                } else {
+                    // Si la respuesta del método addComments indica un error, se muestra el mensaje de error
+                    $result['error'] = 'Debes iniciar sesion para añadir comentarios';
+                }
+            }
+            break;
         case 'averageRating':
             // Se encarga de leer la calificación promedio de un producto específico
             if (!$producto->setId($_POST['idProducto'])) {
@@ -83,7 +109,7 @@ if (isset($_GET['action'])) {
     // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
     header('Content-type: application/json; charset=utf-8');
     // Se imprime el resultado en formato JSON y se retorna al controlador.
-    print (json_encode($result));
+    print(json_encode($result));
 } else {
-    print (json_encode('Recurso no disponible'));
+    print(json_encode('Recurso no disponible'));
 }
