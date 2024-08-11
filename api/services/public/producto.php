@@ -46,8 +46,8 @@ if (isset($_GET['action'])) {
                 // Llama al método addComments para agregar el comentario
                 $response = $producto->addComments($_POST['idProducto'], $_POST['calificacion'], $_POST['comentario_producto']);
 
-                // Verifica si la respuesta indica que el comentario se agregó exitosamente
-                if ($response['status'] === 1) {
+                if (isset($_SESSION['idCliente'])) {
+                    $result['session'] = 1;
                     // Calcula el promedio de calificaciones después de agregar el comentario
                     $promedio = $producto->averageRating();
                     $result['message'] = 'Comentario agregado exitosamente';

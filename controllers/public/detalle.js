@@ -123,21 +123,20 @@ ADD_COMMENT_FORM.addEventListener('submit', async (event) => {
 
     // Petición para agregar el comentario.
     const DATA = await fetchData(PRODUCTO_API, 'addComment', FORM);
-      // Limpiar el formulario.
-      ADD_COMMENT_FORM.reset();
+    // Limpiar el formulario.
+    ADD_COMMENT_FORM.reset();
 
-      // Recargar la página para mostrar los comentarios actualizados.
-      location.reload();
 
-    // Se comprueba si la respuesta es satisfactoria.
     if (DATA.status) {
         sweetAlert(1, DATA.message, false);
-
-      
-    } else {
+        location.reload();
+    } else if (DATA.session) {
         sweetAlert(2, DATA.error, false);
+    } else {
+        sweetAlert(3, DATA.error, true);
     }
 });
+
 
 
 async function displayComments(idProducto) {
