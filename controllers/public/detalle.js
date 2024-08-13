@@ -126,7 +126,6 @@ ADD_COMMENT_FORM.addEventListener('submit', async (event) => {
     // Limpiar el formulario.
     ADD_COMMENT_FORM.reset();
 
-
     if (DATA.status) {
         sweetAlert(1, DATA.message, false);
         location.reload();
