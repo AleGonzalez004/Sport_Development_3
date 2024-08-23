@@ -245,9 +245,3 @@ SELECT * FROM tb_detalle_pedidos;
 SELECT * FROM tb_pedidos;
 
 SELECT * FROM tb_comentarios;
-
-
-
-
-
-

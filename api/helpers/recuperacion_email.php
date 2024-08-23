@@ -29,6 +29,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $clienteEmail = $_POST['clienteEmail'] ?? null;
 
     if ($clienteEmail) {
+        // Verificar si el correo electrónico existe en la base de datos
+        $queryCheckEmail = "SELECT correo_cliente FROM tb_clientes WHERE correo_cliente = ?";
+        $emailExists = Database::getRow($queryCheckEmail, [$clienteEmail]);
+
+        if (!$emailExists) {
+            $response['message'] = 'Correo electrónico no registrado.';
+            echo json_encode($response);
+            exit;
+        }
+
         // Generar un código de recuperación
         $recoveryCode = generateRecoveryCode();
         $expirationDate = date('Y-m-d H:i:s', strtotime('+1 hour')); // El código vence en 1 hora
