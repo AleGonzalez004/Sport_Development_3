@@ -213,7 +213,6 @@ INSERT INTO tb_generos (nombre) VALUES
 ('Niños'),
 ('Niñas');
 
-
 SELECT * FROM tb_administradores;
 
 SELECT * FROM tb_clientes;

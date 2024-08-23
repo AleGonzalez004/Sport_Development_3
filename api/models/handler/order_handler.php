@@ -82,14 +82,21 @@ class OrderHandler
     // Método para obtener los productos que se encuentran en el carrito de compras.
     public function readDetail()
 {
-    $sql = 'SELECT id_detalle, nombre_producto, tb_detalle_pedidos.precio_producto, tb_detalle_pedidos.cantidad_producto, tb_productos.imagen_producto, tb_pedidos.fecha_registro, tb_pedidos.direccion_pedido
+    $this->estado = 'Encamino';
+    $sql = 'SELECT id_detalle, nombre_producto, tb_detalle_pedidos.precio_producto, 
+                   tb_detalle_pedidos.cantidad_producto, tb_productos.imagen_producto, 
+                   tb_pedidos.fecha_registro, tb_pedidos.direccion_pedido
             FROM tb_detalle_pedidos
             INNER JOIN tb_pedidos USING(id_pedido)
             INNER JOIN tb_productos USING(id_producto)
-            WHERE estado_pedido = "EnCamino"';
-    return Database::getRows($sql);
+            WHERE id_pedido IN (
+                SELECT id_pedido 
+                FROM tb_pedidos 
+                WHERE estado_pedido = ? AND id_cliente = ?
+            )';
+    $params = array($this->estado, $_SESSION['idCliente']);
+    return Database::getRows($sql, $params);
 }
-
 
     // Método para finalizar un pedido por parte del cliente.
     public function finishOrder()
