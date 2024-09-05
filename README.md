@@ -12,7 +12,7 @@ https://github.com/AleGonzalez004/Sport_Development_3
 
 Etiquetas PHP: Usa solo <?php.
 Codificación: Usa UTF-8 sin BOM.
-Nombres: Clases en PascalCase, métodos en camelCase, constantes en MAYÚSCULAS_CON_GUIONES.
+Nombres: clases en PascalCase, métodos en camelCase, constantes en MAYÚSCULAS_CON_GUIONES.
 
 2-PSR-2: Guía de Estilo de Codificación
 
